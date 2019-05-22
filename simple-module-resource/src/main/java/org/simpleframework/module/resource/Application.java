@@ -17,9 +17,9 @@ import org.simpleframework.module.common.DependencyTreeScanner;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.MapContext;
 
-public class DependencyApplication {
+public class Application {
 
-   public static DependencyManager start(int port, Class<?>... modules) throws Exception {
+   public static void start(int port, Class<?>... modules) throws Exception {
       List<Extractor> extractors = new LinkedList<>();
       DependencyTreeScanner dependencyScanner = new DependencyTreeScanner(modules);
       DependencyManager manager = new ComponentManager();
@@ -49,8 +49,6 @@ public class DependencyApplication {
             }
          }
       }
-      manager.resolveAll(ComponentListener.class)
-         .forEach(listener -> listener.onReady());
-      return manager;
+      manager.resolveAll(ComponentListener.class).forEach(ComponentListener::onReady);
    }
 }
