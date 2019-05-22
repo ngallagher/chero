@@ -1,5 +1,3 @@
-![Tern](https://raw.githubusercontent.com/tern-lang/tern-site/master/tern-lang.org/img/logo-small.png)
-
 This provides a basic template for a service. It includes dependency injection and a web framework with
 support for HTTP and WebSocket communication. The dependency injection system is built on the 
 ultra fast [Class Graph](https://github.com/classgraph/classgraph) project and the web 
