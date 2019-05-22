@@ -14,11 +14,8 @@ public class DependencyGraph {
    private final ClassGraph graph;
    
    public DependencyGraph(Set<String> packages, String[] patterns) {
+      this.graph = new ClassGraph().enableAllInfo().whitelistPackages(patterns);
       this.status = new HashMap<>();
-      this.graph = new ClassGraph()
-         .enableAllInfo()
-         .whitelistPackages(patterns)
-         .whitelistPaths("..");
       this.packages = packages;
    }
 
