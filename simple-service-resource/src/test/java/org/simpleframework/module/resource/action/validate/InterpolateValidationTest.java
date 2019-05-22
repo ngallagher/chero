@@ -2,12 +2,12 @@ package org.simpleframework.module.resource.action.validate;
 
 import java.util.Iterator;
 
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.ContextValidation;
-import org.simpleframework.module.context.Validation;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
+import org.simpleframework.service.context.Context;
+import org.simpleframework.service.context.ContextValidation;
+import org.simpleframework.service.context.Validation;
+import org.simpleframework.service.resource.action.ActionContextBuilder;
 
 import junit.framework.TestCase;
 

@@ -1,11 +1,11 @@
 package org.simpleframework.module.resource.action.context;
 
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Interpolator;
-import org.simpleframework.module.context.Model;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
+import org.simpleframework.service.context.Context;
+import org.simpleframework.service.context.Interpolator;
+import org.simpleframework.service.context.Model;
+import org.simpleframework.service.resource.action.ActionContextBuilder;
 
 import junit.framework.TestCase;
 

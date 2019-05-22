@@ -2,8 +2,8 @@ package org.simpleframework.module.resource.action.build;
 
 import java.util.Map;
 
-import org.simpleframework.module.resource.action.build.MethodMatcher;
-import org.simpleframework.module.resource.annotation.GET;
+import org.simpleframework.service.resource.action.build.MethodMatcher;
+import org.simpleframework.service.resource.annotation.GET;
 
 import junit.framework.TestCase;
 
