@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.simpleframework.http.socket.service.Service;
 import org.simpleframework.module.DependencyManager;
+import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.action.ActionMatcher;
-import org.simpleframework.module.resource.server.ResourceServer;
-import org.simpleframework.module.resource.server.ResourceServerBuilder;
+import org.simpleframework.module.resource.container.ResourceServer;
+import org.simpleframework.module.resource.container.ResourceServerBuilder;
 import org.simpleframework.module.resource.template.StringTemplateEngine;
 import org.simpleframework.module.resource.template.TemplateEngine;
 
@@ -27,10 +28,10 @@ public class ResourceManager {
             ThreadPool.class);
    }
 
-   public static void register(DependencyManager context, int port) {
+   public static void register(DependencyManager context, DependencyTree tree, int port) {
       context.register(context);
       
-      ActionMatcher matcher = ActionAssembler.assemble(context);
+      ActionMatcher matcher = ActionAssembler.assemble(context, tree);
       List<ResourceMatcher> matchers = context.resolveAll(ResourceMatcher.class);
       List<Service> services = context.resolveAll(Service.class);
       

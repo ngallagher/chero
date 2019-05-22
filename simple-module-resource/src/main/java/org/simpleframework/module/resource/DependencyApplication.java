@@ -12,6 +12,7 @@ import org.simpleframework.module.build.DependencyScanner;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ValueExtractor;
 import org.simpleframework.module.common.ComponentListener;
+import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.common.DependencyTreeScanner;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.MapContext;
@@ -27,10 +28,11 @@ public class DependencyApplication {
       Extractor extractor = new ValueExtractor();
       
       Class<?>[] types = ResourceManager.getResources().stream().toArray(Class[]::new);
-      Queue<Class> queue = dependencyScanner.scan(types);
+      DependencyTree tree = dependencyScanner.scan(types);
+      Queue<Class> queue = tree.getOrder();
       
       extractors.add(extractor);
-      ResourceManager.register(manager, port);
+      ResourceManager.register(manager, tree, port);
       
       while(!queue.isEmpty()) {
          Class type = queue.poll();

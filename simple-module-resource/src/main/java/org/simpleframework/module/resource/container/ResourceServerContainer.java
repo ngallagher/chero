@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.server;
+package org.simpleframework.module.resource.container;
 
 import static org.simpleframework.http.Method.CONNECT;
 import static org.simpleframework.http.Protocol.DATE;

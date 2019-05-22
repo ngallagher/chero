@@ -3,7 +3,6 @@ package org.simpleframework.module.common;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,7 +21,7 @@ public class DependencyTreeScanner {
       this.builder = new DependencyPathBuilder(modules);
    }
    
-   public Queue<Class> scan(Class<?>... internal) {
+   public DependencyTree scan(Class<?>... internal) {
       DependencyPath path = builder.create();
       Set<String> names = Arrays.asList(internal)
             .stream()
@@ -53,7 +52,7 @@ public class DependencyTreeScanner {
             }
          }
       }
-      return ready;
+      return new DependencyTree(path, ready);
    }
    
    private Set<ClassInfo> getChildren(ClassInfo info, DependencyPath path, Set<String> names) {

@@ -1,8 +1,5 @@
 package org.simpleframework.module.resource.action;
 
-import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +8,7 @@ import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.build.ComponentFinder;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ModelExtractor;
+import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
@@ -33,43 +31,12 @@ import org.simpleframework.module.resource.action.write.StringWriter;
 import org.simpleframework.module.resource.annotation.Intercept;
 import org.simpleframework.module.resource.annotation.Path;
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
-
 public class ActionAssembler {
    
-   public static Set<Class> classesWithAnnotation(Class<? extends Annotation> annotation) {
-      Set<Class> types = new HashSet<Class>();
-      Iterator<ClassInfo> iterator = new ClassGraph()
-            .enableAllInfo()
-            //.disableDirScanning()
-            .whitelistPackages("org.ternlang.*")
-            .whitelistPaths("..")
-            //.verbose()
-            .scan()
-            .getAllClasses()
-            .iterator();
-      
-     String name = annotation.getName();  
-     while(iterator.hasNext()) {
-        ClassInfo info = iterator.next();
-        
-        if(info.hasAnnotation(name)) {
-           Class type = info.loadClass();
-           types.add(type);
-        }
-     }
-     return types;
-   }
-   
-   public static ActionMatcher assemble(DependencyManager source) {
-      //ResourceClassScanner resourceScanner = new ResourceClassScanner();
-      //Set<Class> interceptors = resourceScanner.scan(Intercept.class);
-      //Set<Class> services = resourceScanner.scan(Path.class);
-      
-      Set<Class> interceptors = classesWithAnnotation(Intercept.class);
-      Set<Class> services = classesWithAnnotation(Path.class);
-      
+   public static ActionMatcher assemble(DependencyManager source, DependencyTree tree) {
+      Set<Class> interceptors = tree.getTypes(Intercept.class);
+      Set<Class> services = tree.getTypes(Path.class);
+
       List<Extractor> extractors = new LinkedList<Extractor>();
       List<BodyWriter> builders = new LinkedList<BodyWriter>();
       ComponentFinder interceptorFinder = new ComponentFinder(interceptors);
