@@ -35,7 +35,16 @@ public class MailService {
 		this.client = client;
 	}
 }
+```
 
+A module is a class with the ```@Module``` annotation. They form the basis of the dependency injection
+framework by constraining the components that form the basis of the application. The basic constraint is
+that no component or module may exist outside the package the module it is declared in. In addition to
+applying constraints to the scope of the application that act as factories that may provide components
+via methods with the ```@Provides`` annotation. All other components are those classes with the ```@Component```
+annotation.
+
+```java
 @Path("/login")
 public class LoginResource {
 
