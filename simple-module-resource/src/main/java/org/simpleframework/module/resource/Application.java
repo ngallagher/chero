@@ -12,6 +12,8 @@ import org.simpleframework.module.build.DependencyScanner;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ValueExtractor;
 import org.simpleframework.module.common.ComponentListener;
+import org.simpleframework.module.common.DependencyPath;
+import org.simpleframework.module.common.DependencyPathBuilder;
 import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.common.DependencyTreeScanner;
 import org.simpleframework.module.context.Context;
@@ -21,18 +23,19 @@ public class Application {
 
    public static void start(int port, Class<?>... modules) throws Exception {
       List<Extractor> extractors = new LinkedList<>();
-      DependencyTreeScanner dependencyScanner = new DependencyTreeScanner(modules);
       DependencyManager manager = new ComponentManager();
       DependencyScanner scanner = new DependencyScanner(manager, extractors);
       Context context = new MapContext();
       Extractor extractor = new ValueExtractor();
-      
-      Class<?>[] types = ResourceManager.getResources().stream().toArray(Class[]::new);
+      DependencyPathBuilder dependencyBuilder = new DependencyPathBuilder(modules);
+      DependencyPath path = dependencyBuilder.create();
+      ResourceManager resourceManager = new ResourceManager(manager, path, port);
+      Class[] types = resourceManager.create();
+      DependencyTreeScanner dependencyScanner = new DependencyTreeScanner(path);      
       DependencyTree tree = dependencyScanner.scan(types);
       Queue<Class> queue = tree.getOrder();
       
       extractors.add(extractor);
-      ResourceManager.register(manager, tree, port);
       
       while(!queue.isEmpty()) {
          Class type = queue.poll();

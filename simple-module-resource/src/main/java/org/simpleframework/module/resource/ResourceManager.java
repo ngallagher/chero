@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.simpleframework.http.socket.service.Service;
 import org.simpleframework.module.DependencyManager;
-import org.simpleframework.module.common.DependencyTree;
+import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.action.ActionMatcher;
@@ -16,22 +16,20 @@ import org.simpleframework.module.resource.template.TemplateEngine;
 
 public class ResourceManager {
    
-   public static List<Class> getResources() {
-      return Arrays.asList(ContentTypeResolver.class,
-            SubscriptionRouter.class,
-            ResourceSystem.class,
-            ResourceServerBuilder.class,
-            ResourceServer.class,
-            FileManager.class,
-            FileResolver.class,
-            TemplateEngine.class,
-            ThreadPool.class);
+   private final ActionAssembler assembler;
+   private final DependencyManager context;
+   private final int port;
+   
+   public ResourceManager(DependencyManager context, DependencyPath path, int port) {
+      this.assembler = new ActionAssembler(context, path);
+      this.context = context;
+      this.port = port;
    }
 
-   public static void register(DependencyManager context, DependencyTree tree, int port) {
+   public Class[] create() {
       context.register(context);
       
-      ActionMatcher matcher = ActionAssembler.assemble(context, tree);
+      ActionMatcher matcher = assembler.assemble();
       List<ResourceMatcher> matchers = context.resolveAll(ResourceMatcher.class);
       List<Service> services = context.resolveAll(Service.class);
       
@@ -45,14 +43,14 @@ public class ResourceManager {
       FileManager manager = new FileManager();
       FileResolver fileResolver = new FileResolver(manager);
       TemplateEngine engine = new StringTemplateEngine(fileResolver);
-
-      context.register(pool);
-      context.register(engine);
-      context.register(fileResolver);
-      context.register(manager);
-      context.register(resolver);
-      context.register(matcher);
-      context.register(system);
-      context.register(server);
+      
+      return Arrays.asList(pool, engine, fileResolver, manager, resolver, matcher, system, server)
+            .stream()
+            .map(object -> {
+               Class<?> type = object.getClass();
+               context.register(object);
+               return type;
+            })
+            .toArray(Class[]::new);
    }
 }

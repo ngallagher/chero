@@ -8,7 +8,7 @@ import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.build.ComponentFinder;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ModelExtractor;
-import org.simpleframework.module.common.DependencyTree;
+import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
@@ -33,9 +33,17 @@ import org.simpleframework.module.resource.annotation.Path;
 
 public class ActionAssembler {
    
-   public static ActionMatcher assemble(DependencyManager source, DependencyTree tree) {
-      Set<Class> interceptors = tree.getTypes(Intercept.class);
-      Set<Class> services = tree.getTypes(Path.class);
+   private final DependencyManager source;
+   private final DependencyPath path;
+   
+   public ActionAssembler(DependencyManager source, DependencyPath path) {
+      this.source = source;
+      this.path = path;
+   }
+   
+   public ActionMatcher assemble() {
+      Set<Class> interceptors = path.getTypes(Intercept.class);
+      Set<Class> services = path.getTypes(Path.class);
 
       List<Extractor> extractors = new LinkedList<Extractor>();
       List<BodyWriter> builders = new LinkedList<BodyWriter>();

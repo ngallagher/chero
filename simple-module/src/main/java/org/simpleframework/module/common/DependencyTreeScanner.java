@@ -15,14 +15,13 @@ import io.github.classgraph.MethodParameterInfo;
 
 public class DependencyTreeScanner {
    
-   private final DependencyPathBuilder builder;
+   private final DependencyPath path;
 
-   public DependencyTreeScanner(Class<?>... modules) {
-      this.builder = new DependencyPathBuilder(modules);
+   public DependencyTreeScanner(DependencyPath path) {
+      this.path = path;
    }
    
    public DependencyTree scan(Class<?>... internal) {
-      DependencyPath path = builder.create();
       Set<String> names = Arrays.asList(internal)
             .stream()
             .map(Class::getName)

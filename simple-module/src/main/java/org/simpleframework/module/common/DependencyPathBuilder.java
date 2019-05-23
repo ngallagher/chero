@@ -1,9 +1,12 @@
 package org.simpleframework.module.common;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Module;
@@ -59,6 +62,24 @@ public class DependencyPathBuilder {
          this.modules = new HashMap<>();
          this.objects = new HashMap<>();
          this.predicate = predicate;
+      }
+      
+      @Override
+      public Set<Class> getTypes(Class<? extends Annotation> type) {
+         String name = type.getName();
+         return getObjects()
+               .values()
+               .stream()
+               .filter(info -> {
+                  String qualifier = info.getName();
+               
+                  if(predicate.test(qualifier)) {
+                     return info.hasAnnotation(name);
+                  }
+                  return false;
+               })
+               .map(ClassInfo::loadClass)
+               .collect(Collectors.toSet());
       }
 
       @Override
