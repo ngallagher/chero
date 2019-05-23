@@ -5,6 +5,15 @@ support for HTTP and WebSocket communication. The dependency injection system is
 ultra fast [Class Graph](https://github.com/classgraph/classgraph) project and the web 
 framework has a close resemblance to [JAX-RS](https://github.com/jax-rs/api).
 
+### Overview
+
+This framework forms the basis of a lightweight ultra fast dependency injection system. It has been
+largely inspired by [Spring Boot](https://github.com/spring-projects/spring-boot) 
+and [JAX-RS](https://github.com/jax-rs/api). Rather than expanding on the concepts and functionality
+available in these well know libraries, this framework offers a reduced set of features in order
+to provide a much faster and more deterministic dependency injection system. The result is a simpler
+more approachable route to building your micro-services.
+
 ```java
 @Module
 @Import(MailModule.class)
@@ -37,12 +46,14 @@ public class MailService {
 }
 ```
 
-A module is a class with the @Module annotation. They form the basis of the dependency injection
-framework by constraining the components that form the basis of the application. The basic constraint is
-that no component or module may exist outside the package the module it is declared in. In addition to
-applying constraints to the scope of the application that act as factories that may provide components
-via methods with the @Provides annotation. All other components are those classes with the @Component
-annotation.
+The framework is built around the concept of modules and components. A module is a class with the @Module 
+annotation. It forms the basis of the dependency injection
+framework by constraining the scope of the application. Scoping restricts the loading of components to
+the module package and its children. In addition to
+applying these constraints they act as component providers through methods declared with the 
+@Provides annotation. All other components are those classes within the module scope declared with 
+the @Component annotation. The @Import annotation allows a module to expand the application scope
+by including a dependent module and its components.
 
 ```java
 @Path("/login")
