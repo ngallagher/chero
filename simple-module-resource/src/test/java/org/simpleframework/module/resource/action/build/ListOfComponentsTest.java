@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.simpleframework.module.ComponentManager;
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.build.ComponentBuilder;
 import org.simpleframework.module.build.DependencyScanner;
 import org.simpleframework.module.build.extract.Extractor;
+import org.simpleframework.module.common.ComponentManager;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.MapContext;
 import org.simpleframework.module.resource.action.ActionContextBuilder;

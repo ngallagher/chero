@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.socket.service.Service;
-import org.simpleframework.module.DependencyManager;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.resource.action.ActionAssembler;
@@ -18,15 +18,13 @@ public class ResourceManager {
    
    private final ActionAssembler assembler;
    private final DependencyManager context;
-   private final int port;
    
-   public ResourceManager(DependencyManager context, DependencyPath path, int port) {
+   public ResourceManager(DependencyManager context, DependencyPath path) {
       this.assembler = new ActionAssembler(context, path);
       this.context = context;
-      this.port = port;
    }
 
-   public Class[] create() {
+   public Class[] create(int port) {
       context.register(context);
       
       ActionMatcher matcher = assembler.assemble();

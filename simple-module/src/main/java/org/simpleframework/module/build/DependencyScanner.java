@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.annotation.DefaultValue;
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
@@ -23,6 +22,7 @@ import org.simpleframework.module.build.extract.ParameterBuilder;
 import org.simpleframework.module.build.extract.StringConverter;
 import org.simpleframework.module.build.validate.AnnotationValidator;
 import org.simpleframework.module.build.validate.Validator;
+import org.simpleframework.module.common.DependencyManager;
 
 public class DependencyScanner {
 

@@ -17,7 +17,7 @@ public class DependencyPathBuilder {
 
    private final DependencyGraphBuilder builder;
 
-   public DependencyPathBuilder(Class<?>... modules) {
+   public DependencyPathBuilder(Set<Class<?>> modules) {
       this.builder = new DependencyGraphBuilder(modules);
    }
 

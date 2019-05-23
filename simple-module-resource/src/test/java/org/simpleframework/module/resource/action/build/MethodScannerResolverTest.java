@@ -3,13 +3,13 @@ package org.simpleframework.module.resource.action.build;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.simpleframework.module.ComponentManager;
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Required;
 import org.simpleframework.module.build.ComponentFinder;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ModelExtractor;
+import org.simpleframework.module.common.ComponentManager;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.resource.action.ActionContextBuilder;

@@ -1,4 +1,4 @@
-package org.simpleframework.module;
+package org.simpleframework.module.common;
 
 import java.util.List;
 

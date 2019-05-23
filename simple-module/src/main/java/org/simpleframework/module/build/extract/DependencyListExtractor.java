@@ -2,8 +2,8 @@ package org.simpleframework.module.build.extract;
 
 import java.util.List;
 
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.annotation.Inject;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 
 public class DependencyListExtractor implements Extractor<List> {

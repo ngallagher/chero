@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.build.ComponentFinder;
 import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.build.extract.ModelExtractor;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;

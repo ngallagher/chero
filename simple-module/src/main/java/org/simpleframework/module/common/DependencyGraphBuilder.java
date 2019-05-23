@@ -12,9 +12,9 @@ import org.simpleframework.module.annotation.Module;
 
 public class DependencyGraphBuilder {
 
-   private final Class<?>[] modules;
+   private final Set<Class<?>> modules;
    
-   public DependencyGraphBuilder(Class<?>... modules) {
+   public DependencyGraphBuilder(Set<Class<?>> modules) {
       this.modules = modules;
    }
    

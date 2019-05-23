@@ -2,8 +2,8 @@ package org.simpleframework.module.build;
 
 import java.lang.reflect.Constructor;
 
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.build.extract.ParameterBuilder;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 
 public class DependencyBuilder implements ComponentBuilder {

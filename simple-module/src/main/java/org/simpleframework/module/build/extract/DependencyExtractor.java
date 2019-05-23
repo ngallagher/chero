@@ -1,7 +1,7 @@
 package org.simpleframework.module.build.extract;
 
-import org.simpleframework.module.DependencyManager;
 import org.simpleframework.module.annotation.Inject;
+import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 
 public class DependencyExtractor implements Extractor<Object> {
