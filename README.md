@@ -14,6 +14,16 @@ available in these well know libraries, this framework offers a reduced set of f
 to provide a much faster and more deterministic dependency injection system. The result is a simpler
 more approachable route to building your micro-services.
 
+
+The framework is built around the concept of modules and components. A module is a class with the @Module 
+annotation. It forms the basis of the dependency injection
+framework by constraining the scope of the application. Scoping restricts the loading of components to
+the module package and its children. In addition to
+applying these constraints they act as component providers through methods declared with the 
+@Provides annotation. All other components are those classes within the module scope declared with 
+the @Component annotation. The @Import annotation allows a module to expand the application scope
+by including a dependent module and its components.
+
 ```java
 @Module
 @Import(MailModule.class)
@@ -46,14 +56,10 @@ public class MailService {
 }
 ```
 
-The framework is built around the concept of modules and components. A module is a class with the @Module 
-annotation. It forms the basis of the dependency injection
-framework by constraining the scope of the application. Scoping restricts the loading of components to
-the module package and its children. In addition to
-applying these constraints they act as component providers through methods declared with the 
-@Provides annotation. All other components are those classes within the module scope declared with 
-the @Component annotation. The @Import annotation allows a module to expand the application scope
-by including a dependent module and its components.
+A complementary library is provided to facilitate exposing functionality though HTTP and WebSockets. This
+framework is largely inspired by [JAX-RS](https://github.com/jax-rs/api) but does not follow the 
+official specification as this limits the usefulness and functionality of the library. Below is an example
+of how you would declare a resource.
 
 ```java
 @Path("/login")
