@@ -1,4 +1,4 @@
-## **WORK IN PROGRESS**
+## **THIS DOCUMENT IS A WORK IN PROGRESS**
 
 This provides a basic template for a service. It includes dependency injection and a web framework with
 support for HTTP and WebSocket communication. The dependency injection system is built on the 
