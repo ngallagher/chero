@@ -46,7 +46,7 @@ public class LoginResource {
 	}
 
 	@POST
-	@Path("/register/{type})
+	@Path("/register/{type}")
 	@Produces("application/json")
 	public AccessRequest register(
 		@PathParam("type") UserType type,
