@@ -69,10 +69,10 @@ The annotations for the core framework
 | @DefaultValue       |               |
 | @Inject       |               |
 | @Require       |               |
-| @Unless       |               |
 | @When       |               |
 | @WhenExists       |               |
-| @WhenMissing       |               |
+| @Unless       |               |
+| @UnlessExists       |               |
 
 A complementary library is provided to facilitate exposing functionality though HTTP and WebSockets. This
 framework is largely inspired by [JAX-RS](https://github.com/jax-rs/api) but does not follow the 
