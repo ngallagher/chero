@@ -14,21 +14,6 @@ available in these well know libraries, this framework offers a reduced set of f
 to provide a much faster and more deterministic dependency injection system. The result is a simpler
 more approachable route to building your micro-services.
 
-| Platform      | Description   | 
-| ------------- | ------------- | 
-| @Module       |               |
-| @Import       |               |
-| @Provides       |               |
-| @Component       |               |
-| @Value       |               |
-| @DefaultValue       |               |
-| @Inject       |               |
-| @Require       |               |
-| @If       |               |
-| @Unless       |               |
-| @IfExists       |               |
-| @IfMissing       |               |
-
 The framework is built around the concept of modules and components. A module is a class with the @Module 
 annotation. It forms the basis of the dependency injection
 framework by constraining the scope of the application. Scoping restricts the loading of components to
@@ -70,6 +55,25 @@ public class MailService {
 }
 ```
 
+#### Core Framework
+
+The annotations for the core framework
+
+| Platform      | Description   | 
+| ------------- | ------------- | 
+| @Module       |               |
+| @Import       |               |
+| @Provides       |               |
+| @Component       |               |
+| @Value       |               |
+| @DefaultValue       |               |
+| @Inject       |               |
+| @Require       |               |
+| @If       |               |
+| @Unless       |               |
+| @IfExists       |               |
+| @IfMissing       |               |
+
 A complementary library is provided to facilitate exposing functionality though HTTP and WebSockets. This
 framework is largely inspired by [JAX-RS](https://github.com/jax-rs/api) but does not follow the 
 official specification as this limits the usefulness and functionality of the library. Below is an example
@@ -108,3 +112,28 @@ public class LoginResource {
 }
 
 ```
+
+#### Web Framework
+
+The annotations for the core framework
+
+| Platform      | Description   | 
+| ------------- | ------------- | 
+
+| @GET       |               |
+| @POST       |               |
+| @PUT       |               |
+| @DELETE       |               |
+| @CONNECT       |               |
+| @Path       |               |
+| @PathParam       |               |
+| @QueryParam       |               |
+| @HeaderParam       |               |
+| @CookieParam       |               |
+| @ModelParam       |               |
+| @Consumes       |               |
+| @Produces       |               |
+| @CacheControl       |               |
+| @Attachment       |               |
+| @Intercept       |               |
+| @Subscribe      |               |
