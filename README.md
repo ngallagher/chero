@@ -14,6 +14,21 @@ available in these well know libraries, this framework offers a reduced set of f
 to provide a much faster and more deterministic dependency injection system. The result is a simpler
 more approachable route to building your micro-services.
 
+| Platform      | Description   | 
+| ------------- | ------------- | 
+
+| @Module       |               |
+| @Import       |               |
+| @Provides       |               |
+| @Component       |               |
+| @Value       |               |
+| @DefaultValue       |               |
+| @Inject       |               |
+| @Require       |               |
+| @If       |               |
+| @Unless       |               |
+| @IfExists       |               |
+| @IfMissing       |               |
 
 The framework is built around the concept of modules and components. A module is a class with the @Module 
 annotation. It forms the basis of the dependency injection
