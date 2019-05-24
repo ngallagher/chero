@@ -7,8 +7,6 @@ import java.util.Queue;
 
 import org.simpleframework.module.build.ComponentBuilder;
 import org.simpleframework.module.build.DependencyScanner;
-import org.simpleframework.module.build.extract.Extractor;
-import org.simpleframework.module.build.extract.ValueExtractor;
 import org.simpleframework.module.common.ComponentListener;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
@@ -16,6 +14,8 @@ import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.common.DependencyTreeScanner;
 import org.simpleframework.module.context.Context;
+import org.simpleframework.module.extract.Extractor;
+import org.simpleframework.module.extract.ValueExtractor;
 
 public class ResourceService {
    

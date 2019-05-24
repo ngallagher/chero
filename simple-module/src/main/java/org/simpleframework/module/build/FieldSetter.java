@@ -2,8 +2,8 @@ package org.simpleframework.module.build;
 
 import java.lang.reflect.Field;
 
-import org.simpleframework.module.build.extract.Extractor;
 import org.simpleframework.module.context.Context;
+import org.simpleframework.module.extract.Extractor;
 
 public class FieldSetter {
 

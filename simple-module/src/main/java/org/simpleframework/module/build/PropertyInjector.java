@@ -3,9 +3,9 @@ package org.simpleframework.module.build;
 import java.util.List;
 import java.util.Set;
 
-import org.simpleframework.module.build.validate.Validator;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Validation;
+import org.simpleframework.module.context.Validator;
 
 public class PropertyInjector {
 

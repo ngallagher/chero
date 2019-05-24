@@ -13,16 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.simpleframework.module.annotation.DefaultValue;
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
-import org.simpleframework.module.build.extract.ComponentExtractor;
-import org.simpleframework.module.build.extract.DependencyExtractor;
-import org.simpleframework.module.build.extract.DependencyListExtractor;
-import org.simpleframework.module.build.extract.Extractor;
-import org.simpleframework.module.build.extract.Parameter;
-import org.simpleframework.module.build.extract.ParameterBuilder;
-import org.simpleframework.module.build.extract.StringConverter;
-import org.simpleframework.module.build.validate.AnnotationValidator;
-import org.simpleframework.module.build.validate.Validator;
 import org.simpleframework.module.common.DependencyManager;
+import org.simpleframework.module.context.AnnotationValidator;
+import org.simpleframework.module.context.Validator;
+import org.simpleframework.module.extract.ComponentExtractor;
+import org.simpleframework.module.extract.DependencyExtractor;
+import org.simpleframework.module.extract.DependencyListExtractor;
+import org.simpleframework.module.extract.Extractor;
+import org.simpleframework.module.extract.StringConverter;
 
 public class DependencyScanner {
 

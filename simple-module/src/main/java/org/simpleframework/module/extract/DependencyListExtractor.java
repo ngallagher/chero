@@ -1,8 +1,9 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.extract;
 
 import java.util.List;
 
 import org.simpleframework.module.annotation.Inject;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 

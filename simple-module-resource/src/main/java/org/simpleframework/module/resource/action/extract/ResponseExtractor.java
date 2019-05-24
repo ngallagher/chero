@@ -5,10 +5,10 @@ import java.io.PrintStream;
 import java.nio.channels.WritableByteChannel;
 
 import org.simpleframework.http.Response;
-import org.simpleframework.module.build.extract.Extractor;
-import org.simpleframework.module.build.extract.Parameter;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
+import org.simpleframework.module.extract.Extractor;
 
 public class ResponseExtractor implements Extractor<Object> {
 

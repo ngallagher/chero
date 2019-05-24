@@ -5,13 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.simpleframework.module.build.ComponentBuilder;
-import org.simpleframework.module.build.extract.ComponentExtractor;
-import org.simpleframework.module.build.extract.Extractor;
-import org.simpleframework.module.build.extract.ModelExtractor;
-import org.simpleframework.module.build.extract.Parameter;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
+import org.simpleframework.module.extract.ComponentExtractor;
+import org.simpleframework.module.extract.Extractor;
+import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.MockRequest;

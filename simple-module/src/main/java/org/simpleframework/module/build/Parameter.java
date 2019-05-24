@@ -1,4 +1,4 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.build;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;

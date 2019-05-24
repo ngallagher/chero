@@ -1,9 +1,10 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.extract;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.module.annotation.Value;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 
 public class ValueExtractor extends StringConverterExtractor {

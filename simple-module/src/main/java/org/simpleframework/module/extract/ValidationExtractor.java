@@ -1,5 +1,6 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.extract;
 
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Validation;
 

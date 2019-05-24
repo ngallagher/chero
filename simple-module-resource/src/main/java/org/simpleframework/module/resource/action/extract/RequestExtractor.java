@@ -5,10 +5,10 @@ import java.nio.channels.ReadableByteChannel;
 
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.extract.Extractor;
-import org.simpleframework.module.build.extract.Parameter;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
+import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.transport.Channel;
 
 public class RequestExtractor implements Extractor<Object> {

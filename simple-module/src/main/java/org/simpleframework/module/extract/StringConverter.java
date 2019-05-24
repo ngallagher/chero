@@ -1,4 +1,4 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.extract;
 
 import java.io.File;
 import java.net.URI;

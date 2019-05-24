@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.simpleframework.module.annotation.Inject;
-import org.simpleframework.module.build.extract.Parameter;
 
 public class Property extends Parameter {
 

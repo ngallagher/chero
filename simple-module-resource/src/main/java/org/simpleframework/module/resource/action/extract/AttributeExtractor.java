@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.extract.Parameter;
-import org.simpleframework.module.build.extract.StringConverterExtractor;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
+import org.simpleframework.module.extract.StringConverterExtractor;
 import org.simpleframework.module.resource.annotation.AttributeParam;
 
 public class AttributeExtractor extends StringConverterExtractor {

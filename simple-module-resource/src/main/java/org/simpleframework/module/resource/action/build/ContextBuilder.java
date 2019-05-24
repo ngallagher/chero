@@ -3,8 +3,8 @@ package org.simpleframework.module.resource.action.build;
 import java.lang.reflect.Constructor;
 
 import org.simpleframework.module.build.ComponentBuilder;
+import org.simpleframework.module.build.ParameterBuilder;
 import org.simpleframework.module.build.PropertyInjector;
-import org.simpleframework.module.build.extract.ParameterBuilder;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 

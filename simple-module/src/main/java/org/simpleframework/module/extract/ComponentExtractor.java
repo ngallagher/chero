@@ -1,10 +1,11 @@
-package org.simpleframework.module.build.extract;
+package org.simpleframework.module.extract;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 import org.simpleframework.module.build.ComponentBuilder;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 
 public class ComponentExtractor implements Extractor<Object> {
