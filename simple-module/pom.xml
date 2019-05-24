@@ -9,10 +9,15 @@
     <artifactId>simple-module-parent</artifactId>
     <version>1.0.2</version>
   </parent>
-  <dependencies>  
+  <dependencies>
     <dependency>
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.21</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

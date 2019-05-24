@@ -35,7 +35,7 @@ public class Parameter {
    }
 
    public boolean isRequired() {
-      return required;
+      return required || constructor;
    }
    
    public boolean isList() {

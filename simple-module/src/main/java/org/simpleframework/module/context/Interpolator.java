@@ -1,7 +1,5 @@
 package org.simpleframework.module.context;
 
-import org.omg.CORBA.Request;
-
 public class Interpolator {
 
    private final Context context;

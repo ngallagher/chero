@@ -1,6 +1,7 @@
 package org.simpleframework.module.build.extract;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Paths;
 
 public class StringConverter {
@@ -42,6 +43,9 @@ public class StringConverter {
       if (actual == File.class) {
          return true;
       }
+      if (actual == URI.class) {
+         return true;
+      }
       if (Enum.class.isAssignableFrom(type)) {
          return true;
       }
@@ -80,6 +84,9 @@ public class StringConverter {
       }
       if (actual == File.class) {
          return Paths.get(value).toFile();
+      }
+      if (actual == URI.class) {
+         return URI.create(value);
       }
       if (Enum.class.isAssignableFrom(type)) {
          return Enum.valueOf(type, value);

@@ -16,7 +16,6 @@ import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.DependencyTree;
 import org.simpleframework.module.common.DependencyTreeScanner;
 import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.MapContext;
 
 public class ResourceService {
    
@@ -28,10 +27,9 @@ public class ResourceService {
       this.path = path;
    }
    
-   public void start(int port) throws Exception {
+   public void start(Context context, int port) throws Exception {
       List<Extractor> extractors = new LinkedList<>();
       DependencyScanner scanner = new DependencyScanner(manager, extractors);
-      Context context = new MapContext();
       Extractor extractor = new ValueExtractor();
       ResourceManager resourceManager = new ResourceManager(manager, path);
       DependencyTreeScanner dependencyScanner = new DependencyTreeScanner(path);   
