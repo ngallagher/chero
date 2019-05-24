@@ -59,7 +59,7 @@ public class MailService {
 
 The annotations for the core framework
 
-| Platform      | Description   | 
+| Annotation      | Description   | 
 | ------------- | ------------- | 
 | @Module       |               |
 | @Import       |               |
@@ -117,7 +117,7 @@ public class LoginResource {
 
 The annotations for the core framework
 
-| Platform      | Description   | 
+| Annotation      | Description   | 
 | ------------- | ------------- | 
 | @GET       |               |
 | @POST       |               |
