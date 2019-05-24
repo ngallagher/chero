@@ -16,7 +16,6 @@ more approachable route to building your micro-services.
 
 | Platform      | Description   | 
 | ------------- | ------------- | 
-
 | @Module       |               |
 | @Import       |               |
 | @Provides       |               |
