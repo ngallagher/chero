@@ -119,7 +119,6 @@ The annotations for the core framework
 
 | Platform      | Description   | 
 | ------------- | ------------- | 
-
 | @GET       |               |
 | @POST       |               |
 | @PUT       |               |
