@@ -123,6 +123,7 @@ The annotations for the core framework
 | @POST       |               |
 | @PUT       |               |
 | @DELETE       |               |
+| @PATCH       |               |
 | @CONNECT       |               |
 | @Path       |               |
 | @PathParam       |               |
