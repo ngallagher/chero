@@ -3,7 +3,7 @@ package org.simpleframework.module.build;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 public class ConstructorFunction implements Function {
 

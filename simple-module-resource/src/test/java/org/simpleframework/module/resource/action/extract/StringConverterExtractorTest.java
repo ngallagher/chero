@@ -5,8 +5,8 @@ import java.util.Collections;
 
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.MapContext;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
 

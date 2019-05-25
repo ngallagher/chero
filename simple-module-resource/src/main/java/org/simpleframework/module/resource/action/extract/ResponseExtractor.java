@@ -6,8 +6,8 @@ import java.nio.channels.WritableByteChannel;
 
 import org.simpleframework.http.Response;
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 import org.simpleframework.module.extract.Extractor;
 
 public class ResponseExtractor implements Extractor<Object> {

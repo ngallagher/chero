@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.MethodScanner;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.common.DependencyPath;
-import org.simpleframework.module.context.AnnotationValidator;
+import org.simpleframework.module.core.AnnotationValidator;
+import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
+import org.simpleframework.module.graph.DependencyPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
@@ -37,10 +37,10 @@ import org.simpleframework.module.resource.annotation.Path;
 
 public class ActionAssembler {
    
-   private final DependencyManager source;
+   private final ComponentManager source;
    private final DependencyPath path;
    
-   public ActionAssembler(DependencyManager source, DependencyPath path) {
+   public ActionAssembler(ComponentManager source, DependencyPath path) {
       this.source = source;
       this.path = path;
    }

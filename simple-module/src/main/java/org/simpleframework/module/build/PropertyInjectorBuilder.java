@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Validator;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 
 public class PropertyInjectorBuilder {
@@ -14,7 +14,7 @@ public class PropertyInjectorBuilder {
    private final PropertyScanner scanner;
    private final Validator validator;
    
-   public PropertyInjectorBuilder(DependencyManager manager, ConstructorScanner scanner, List<Extractor> extractors, Validator validator) {
+   public PropertyInjectorBuilder(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors, Validator validator) {
       this.resolver = new ExtractorResolver(manager, scanner, extractors);
       this.scanner = new PropertyScanner();
       this.validator = validator;

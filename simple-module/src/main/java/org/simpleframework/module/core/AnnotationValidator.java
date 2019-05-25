@@ -1,4 +1,4 @@
-package org.simpleframework.module.context;
+package org.simpleframework.module.core;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;

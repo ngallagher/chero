@@ -4,8 +4,8 @@ import static org.simpleframework.http.Method.CONNECT;
 
 import org.simpleframework.http.Path;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 
 public class PathResolver {
 

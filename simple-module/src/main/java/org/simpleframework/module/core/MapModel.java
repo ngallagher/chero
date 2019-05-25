@@ -1,4 +1,4 @@
-package org.simpleframework.module.context;
+package org.simpleframework.module.core;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;

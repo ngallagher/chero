@@ -2,16 +2,16 @@ package org.simpleframework.module.build;
 
 import java.util.function.Predicate;
 
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 
 public class InstanceManager {
 
    private final Predicate<Argument> transients;
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    
-   public InstanceManager(DependencyManager manager, Predicate<Argument> transients) {
+   public InstanceManager(ComponentManager manager, Predicate<Argument> transients) {
       this.transients = transients;
       this.manager = manager;
    }

@@ -2,8 +2,8 @@ package org.simpleframework.module.resource.action.build;
 
 import org.simpleframework.http.Request;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 
 public class MethodDispatcher {
 

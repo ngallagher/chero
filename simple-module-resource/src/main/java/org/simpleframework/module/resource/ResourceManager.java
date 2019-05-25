@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.simpleframework.http.socket.service.Service;
 import org.simpleframework.module.build.ConstructorScanner;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.ThreadPool;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.graph.DependencyPath;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.action.ActionMatcher;
 import org.simpleframework.module.resource.container.ResourceServer;
@@ -18,9 +18,9 @@ import org.simpleframework.module.resource.template.TemplateEngine;
 public class ResourceManager {
    
    private final ActionAssembler assembler;
-   private final DependencyManager context;
+   private final ComponentManager context;
    
-   public ResourceManager(DependencyManager context, DependencyPath path) {
+   public ResourceManager(ComponentManager context, DependencyPath path) {
       this.assembler = new ActionAssembler(context, path);
       this.context = context;
    }

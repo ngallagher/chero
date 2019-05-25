@@ -1,4 +1,4 @@
-package org.simpleframework.module.common;
+package org.simpleframework.module.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 import java.util.List;
 
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 public abstract class StringConverterExtractor implements Extractor<Object> {
 

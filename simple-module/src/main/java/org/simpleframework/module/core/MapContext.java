@@ -1,4 +1,4 @@
-package org.simpleframework.module.context;
+package org.simpleframework.module.core;
 
 public class MapContext implements Context {
 

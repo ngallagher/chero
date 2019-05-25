@@ -3,7 +3,7 @@ package org.simpleframework.module.build;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.simpleframework.module.common.DependencyManager;
+import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.ComponentExtractor;
 import org.simpleframework.module.extract.DependencyExtractor;
 import org.simpleframework.module.extract.DependencyListExtractor;
@@ -15,14 +15,14 @@ public class ExtractorResolver {
    private final Predicate<Argument> transients;
    private final List<Extractor> extractors;
    private final ConstructorScanner scanner;
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    private final StringConverter converter;
 
-   public ExtractorResolver(DependencyManager manager, ConstructorScanner scanner, List<Extractor> extractors) {
+   public ExtractorResolver(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors) {
       this(manager, scanner, extractors, argument -> false);
    }
    
-   public ExtractorResolver(DependencyManager manager, ConstructorScanner scanner, List<Extractor> extractors, Predicate<Argument> transients) {
+   public ExtractorResolver(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors, Predicate<Argument> transients) {
       this.converter = new StringConverter();
       this.extractors = extractors;
       this.transients = transients;

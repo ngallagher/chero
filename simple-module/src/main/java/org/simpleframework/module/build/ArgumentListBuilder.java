@@ -4,7 +4,7 @@ import java.lang.reflect.Executable;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.simpleframework.module.common.DependencyManager;
+import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.Extractor;
 
 public class ArgumentListBuilder {
@@ -14,7 +14,7 @@ public class ArgumentListBuilder {
    private final Extractor[] empty;
    private final Parameter[] none;
    
-   public ArgumentListBuilder(DependencyManager manager, ConstructorScanner scanner, List<Extractor> extractors, Predicate<Argument> transients) {
+   public ArgumentListBuilder(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors, Predicate<Argument> transients) {
       this.resolver = new ExtractorResolver(manager, scanner, extractors, transients);
       this.scanner = new ParameterScanner();
       this.empty = new Extractor[] {};

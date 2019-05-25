@@ -1,6 +1,6 @@
 package org.simpleframework.module.build;
 
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.StringConverter;
 

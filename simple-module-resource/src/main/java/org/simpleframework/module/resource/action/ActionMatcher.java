@@ -4,8 +4,8 @@ import java.util.Set;
 
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Validation;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Validation;
 import org.simpleframework.module.resource.Resource;
 import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.action.write.ResponseWriter;

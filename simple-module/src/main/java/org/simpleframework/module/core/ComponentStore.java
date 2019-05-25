@@ -1,4 +1,4 @@
-package org.simpleframework.module.common;
+package org.simpleframework.module.core;
 
 import java.util.List;
 import java.util.Map;
@@ -10,14 +10,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ComponentManager implements DependencyManager {
+public class ComponentStore implements ComponentManager {
    
    private final Function<Object, List<Object>> builder;
    private final Map<Class, List<Object>> groups;
    private final Set<Object> instances;
    private final ComponentMapper mapper;
    
-   public ComponentManager() {
+   public ComponentStore() {
       this.groups = new ConcurrentHashMap<Class, List<Object>>();
       this.builder = (key) -> new CopyOnWriteArrayList<Object>();
       this.instances = new CopyOnWriteArraySet<Object>();

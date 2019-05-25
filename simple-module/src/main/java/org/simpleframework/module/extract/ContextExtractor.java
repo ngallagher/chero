@@ -1,7 +1,7 @@
 package org.simpleframework.module.extract;
 
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 public class ContextExtractor implements Extractor<Context> {
 

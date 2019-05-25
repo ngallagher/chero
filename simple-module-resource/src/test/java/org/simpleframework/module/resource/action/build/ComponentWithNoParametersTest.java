@@ -8,9 +8,9 @@ import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.common.ComponentManager;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.ComponentStore;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
@@ -57,7 +57,7 @@ public class ComponentWithNoParametersTest extends TestCase {
       }
    }
 
-   private DependencyManager dependencySystem;
+   private ComponentManager dependencySystem;
    private ConstructorScanner scanner;
 
    public void setUp() {
@@ -71,7 +71,7 @@ public class ComponentWithNoParametersTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       
-      dependencySystem = new ComponentManager();
+      dependencySystem = new ComponentStore();
       scanner = new ConstructorScanner(dependencySystem, extractors, argument -> false);
    }
    

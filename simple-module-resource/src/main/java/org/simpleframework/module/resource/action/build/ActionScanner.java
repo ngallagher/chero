@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.MethodScanner;
-import org.simpleframework.module.context.Validator;
+import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.resource.annotation.GET;
 import org.simpleframework.module.resource.annotation.Ignore;
 import org.simpleframework.module.resource.annotation.Verb;

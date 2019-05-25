@@ -1,4 +1,4 @@
-package org.simpleframework.module.context;
+package org.simpleframework.module.core;
 
 public interface Model extends Iterable<Object> {
    <T> T remove(Object key);

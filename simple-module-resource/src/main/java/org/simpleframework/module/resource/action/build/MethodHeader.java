@@ -11,9 +11,9 @@ import java.util.Set;
 
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Interpolator;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Interpolator;
+import org.simpleframework.module.core.Model;
 import org.simpleframework.module.resource.annotation.Attachment;
 import org.simpleframework.module.resource.annotation.CacheControl;
 import org.simpleframework.module.resource.annotation.Produces;

@@ -7,24 +7,24 @@ import java.util.Queue;
 
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.common.ComponentListener;
-import org.simpleframework.module.common.ComponentManager;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.common.DependencyPath;
-import org.simpleframework.module.common.DependencyTree;
-import org.simpleframework.module.common.DependencyTreeScanner;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentListener;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.ComponentStore;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ValueExtractor;
+import org.simpleframework.module.graph.DependencyPath;
+import org.simpleframework.module.graph.DependencyTree;
+import org.simpleframework.module.graph.DependencyTreeScanner;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 
 public class ResourceService {
    
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    private final DependencyPath path;
    
    public ResourceService(DependencyPath path) {
-      this.manager = new ComponentManager();
+      this.manager = new ComponentStore();
       this.path = path;
    }
    

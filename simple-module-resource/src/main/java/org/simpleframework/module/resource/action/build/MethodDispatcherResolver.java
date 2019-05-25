@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 import com.google.common.collect.Multimap;
 

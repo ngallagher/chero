@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.simpleframework.module.ApplicationBuilder;
 import org.simpleframework.module.argument.ContextBuilder;
-import org.simpleframework.module.common.DependencyPath;
-import org.simpleframework.module.common.DependencyPathBuilder;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.graph.DependencyPath;
+import org.simpleframework.module.graph.DependencyPathBuilder;
 
 public class ResourceServiceBuilder implements ApplicationBuilder<ResourceService> {
    
@@ -41,6 +41,7 @@ public class ResourceServiceBuilder implements ApplicationBuilder<ResourceServic
    }
    
    public ResourceService start() {
+      long start = System.currentTimeMillis();
       DependencyPath path = builder.create();
       Context context = loader.create(arguments);
       
@@ -50,6 +51,8 @@ public class ResourceServiceBuilder implements ApplicationBuilder<ResourceServic
          return service;
       } catch(Exception e) {
          throw new IllegalStateException("Could not start service", e);
+      } finally {
+         System.err.println("######## TOTAL TIME "+ (System.currentTimeMillis()-start));
       }
    }
 }

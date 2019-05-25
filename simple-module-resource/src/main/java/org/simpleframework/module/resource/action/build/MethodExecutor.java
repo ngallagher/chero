@@ -8,8 +8,8 @@ import org.simpleframework.http.Path;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 
 public class MethodExecutor {
 

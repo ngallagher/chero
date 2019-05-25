@@ -1,4 +1,4 @@
-package org.simpleframework.module.common;
+package org.simpleframework.module.graph;
 
 import java.util.Arrays;
 import java.util.HashSet;

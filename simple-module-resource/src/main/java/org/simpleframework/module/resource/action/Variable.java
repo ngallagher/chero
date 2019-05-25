@@ -5,9 +5,9 @@ import java.util.Map;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
-import org.simpleframework.module.context.Validation;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
+import org.simpleframework.module.core.Validation;
 
 public enum Variable {
    REQUEST(Request.class, "request") {

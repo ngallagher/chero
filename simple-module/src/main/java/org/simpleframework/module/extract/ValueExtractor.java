@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.simpleframework.module.annotation.Value;
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 public class ValueExtractor extends StringConverterExtractor {
 

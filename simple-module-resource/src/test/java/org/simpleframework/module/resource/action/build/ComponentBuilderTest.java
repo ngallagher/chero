@@ -10,10 +10,10 @@ import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.common.ComponentManager;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.ComponentStore;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
@@ -154,7 +154,7 @@ public class ComponentBuilderTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       
-      DependencyManager system = new ComponentManager();
+      ComponentManager system = new ComponentStore();
       
       system.register(new FooService("foo"));
       system.register(new BlahService("blah1"));

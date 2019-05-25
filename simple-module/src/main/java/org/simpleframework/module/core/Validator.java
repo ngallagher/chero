@@ -1,4 +1,4 @@
-package org.simpleframework.module.context;
+package org.simpleframework.module.core;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

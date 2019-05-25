@@ -2,15 +2,15 @@ package org.simpleframework.module.extract;
 
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Context;
 
 public class DependencyExtractor implements Extractor<Object> {
 
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    private final Class type;
 
-   public DependencyExtractor(DependencyManager manager, Class type) {
+   public DependencyExtractor(ComponentManager manager, Class type) {
       this.manager = manager;
       this.type = type;
    }

@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.AnnotationValidator;
-import org.simpleframework.module.context.Validator;
+import org.simpleframework.module.core.AnnotationValidator;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 
 public class ConstructorScanner {
@@ -20,7 +20,7 @@ public class ConstructorScanner {
    private final InstanceManager manager;
    private final Validator validator;
 
-   public ConstructorScanner(DependencyManager manager, List<Extractor> extractors, Predicate<Argument> transients) {
+   public ConstructorScanner(ComponentManager manager, List<Extractor> extractors, Predicate<Argument> transients) {
       this.cache = new ConcurrentHashMap<Class, List<Function>>();
       this.validator = new AnnotationValidator();
       this.builder = new PropertyInjectorBuilder(manager, this, extractors, validator);

@@ -2,7 +2,7 @@ package org.simpleframework.module.resource.action.build;
 
 import java.util.List;
 
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.resource.action.Action;
 import org.simpleframework.module.resource.action.ActionResolver;
 

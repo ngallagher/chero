@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.simpleframework.module.context.Evaluation;
+import org.simpleframework.module.core.Evaluation;
 
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

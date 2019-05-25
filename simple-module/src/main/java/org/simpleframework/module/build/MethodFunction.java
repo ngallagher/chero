@@ -3,17 +3,17 @@ package org.simpleframework.module.build;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Context;
 
 public class MethodFunction implements Function {
 
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    private final ArgumentList arguments;
    private final MethodTarget target;
    private final Method method;
 
-   public MethodFunction(DependencyManager manager, ConstructorScanner scanner, ArgumentList arguments, Method method, Class type) {
+   public MethodFunction(ComponentManager manager, ConstructorScanner scanner, ArgumentList arguments, Method method, Class type) {
       this.target = new MethodTarget(scanner, type);
       this.arguments = arguments;
       this.manager = manager;

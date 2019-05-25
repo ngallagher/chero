@@ -1,4 +1,4 @@
-package org.simpleframework.module.common;
+package org.simpleframework.module.graph;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;

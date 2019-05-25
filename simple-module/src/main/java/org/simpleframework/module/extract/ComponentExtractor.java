@@ -6,7 +6,7 @@ import java.util.Queue;
 
 import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 
 public class ComponentExtractor implements Extractor<Object> {
 

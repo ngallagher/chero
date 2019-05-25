@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.Function;
-import org.simpleframework.module.common.ComponentManager;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.ComponentStore;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
@@ -72,7 +72,7 @@ public class DependencyInjectionSystemTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
 
-      DependencyManager dependencySystem = new ComponentManager();
+      ComponentManager dependencySystem = new ComponentStore();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       

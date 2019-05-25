@@ -5,7 +5,7 @@ import static org.simpleframework.module.resource.ResourceEvent.ERROR;
 
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.Context;
 import org.simpleframework.module.resource.Resource;
 import org.simpleframework.module.resource.action.write.ResponseWriter;
 import org.simpleframework.transport.Channel;

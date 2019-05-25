@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.common.DependencyManager;
-import org.simpleframework.module.context.Context;
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Context;
 
 public class DependencyListExtractor implements Extractor<List> {
 
-   private final DependencyManager manager;
+   private final ComponentManager manager;
    private final Class entry;
 
-   public DependencyListExtractor(DependencyManager manager, Class entry) {
+   public DependencyListExtractor(ComponentManager manager, Class entry) {
       this.manager = manager;
       this.entry = entry;
    }

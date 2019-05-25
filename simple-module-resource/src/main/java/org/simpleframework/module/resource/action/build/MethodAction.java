@@ -2,8 +2,8 @@ package org.simpleframework.module.resource.action.build;
 
 import java.util.List;
 
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Interpolator;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.resource.action.Action;
 
 public class MethodAction implements Action {

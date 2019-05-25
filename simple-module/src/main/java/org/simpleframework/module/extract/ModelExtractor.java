@@ -1,8 +1,8 @@
 package org.simpleframework.module.extract;
 
 import org.simpleframework.module.build.Argument;
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Model;
 
 public class ModelExtractor implements Extractor<Model> {
 

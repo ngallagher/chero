@@ -3,9 +3,9 @@ package org.simpleframework.module.argument;
 import java.util.Map;
 import java.util.Set;
 
-import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.MapContext;
-import org.simpleframework.module.context.Model;
+import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.MapContext;
+import org.simpleframework.module.core.Model;
 
 public class ContextBuilder {
 
