@@ -8,17 +8,17 @@ import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.StringConverterExtractor;
-import org.simpleframework.module.resource.annotation.AttributeParam;
+import org.simpleframework.module.resource.annotation.Attribute;
 
 public class AttributeExtractor extends StringConverterExtractor {
    
    public AttributeExtractor() {
-      super(AttributeParam.class);
+      super(Attribute.class);
    }
 
    @Override
    public List<String> resolve(Parameter parameter, Context context) {
-      AttributeParam annotation = parameter.getAnnotation(AttributeParam.class);
+      Attribute annotation = parameter.getAnnotation(Attribute.class);
       
       if(annotation != null) {
          Model model = context.getModel();

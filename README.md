@@ -130,7 +130,7 @@ The annotations for the core framework
 | @QueryParam       |               |
 | @HeaderParam       |               |
 | @CookieParam       |               |
-| @ModelParam       |               |
+| @Attribute       |               |
 | @Consumes       |               |
 | @Produces       |               |
 | @CacheControl       |               |

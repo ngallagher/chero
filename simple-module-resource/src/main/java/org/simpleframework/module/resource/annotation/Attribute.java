@@ -10,6 +10,6 @@ import org.simpleframework.module.annotation.Inject;
 @Inject
 @Target({ ElementType.PARAMETER, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AttributeParam {
+public @interface Attribute {
    String value();
 }
