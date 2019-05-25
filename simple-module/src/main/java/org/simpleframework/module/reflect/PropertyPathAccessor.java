@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.simpleframework.module.common.Introspector;
+import org.simpleframework.module.common.StringConverter;
+
 public class PropertyPathAccessor implements Accessor {
    
    private final Accessor[] accessors;

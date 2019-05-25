@@ -1,7 +1,7 @@
-package org.simpleframework.module.reflect;
+package org.simpleframework.module.common;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
@@ -82,25 +82,7 @@ public class Introspector {
       return null;
    }
 
-   public static Class getParameterDependent(Method method, int index) {
-      ParameterizedType type = getParameterType(method, index);
-
-      if (type != null) {
-         return getClass(type);
-      }
-      return null;
-   }
-
-   public static Class[] getParameterDependents(Method method, int index) {
-      ParameterizedType type = getParameterType(method, index);
-
-      if (type != null) {
-         return getClasses(type);
-      }
-      return new Class[] {};
-   }
-
-   public static Class getParameterDependent(Constructor factory, int index) {
+   public static Class getParameterDependent(Executable factory, int index) {
       ParameterizedType type = getParameterType(factory, index);
 
       if (type != null) {
@@ -109,7 +91,7 @@ public class Introspector {
       return null;
    }
 
-   public static Class[] getParameterDependents(Constructor factory, int index) {
+   public static Class[] getParameterDependents(Executable factory, int index) {
       ParameterizedType type = getParameterType(factory, index);
 
       if (type != null) {
@@ -118,21 +100,8 @@ public class Introspector {
       return new Class[] {};
    }
 
-   private static ParameterizedType getParameterType(Method method, int index) {
+   private static ParameterizedType getParameterType(Executable method, int index) {
       Type[] list = method.getGenericParameterTypes();
-
-      if (list.length > index) {
-         Type type = list[index];
-
-         if (type instanceof ParameterizedType) {
-            return (ParameterizedType) type;
-         }
-      }
-      return null;
-   }
-
-   private static ParameterizedType getParameterType(Constructor factory, int index) {
-      Type[] list = factory.getGenericParameterTypes();
 
       if (list.length > index) {
          Type type = list[index];

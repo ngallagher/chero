@@ -3,30 +3,28 @@ package org.simpleframework.module.build;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
-import java.lang.reflect.Type;
 import java.util.Map;
+
+import org.simpleframework.module.common.Introspector;
 
 public class ParameterScanner {
 
    private final AnnotationExtractor annotations;
-   private final GenericsExtractor generics;
    
    public ParameterScanner() {
       this.annotations = new AnnotationExtractor();
-      this.generics = new GenericsExtractor();
    }
    
    public Parameter[] createParameters(Executable executable) throws Exception {
       Annotation[][] annotations = executable.getParameterAnnotations();
-      Type[] types = executable.getGenericParameterTypes();
-      Class[] classes = executable.getParameterTypes();
+      Class[] types = executable.getParameterTypes();
 
       if (types.length > 0) {
          Parameter[] parameters = new Parameter[types.length];
 
          for (int i = 0; i < types.length; i++) {
-            Class[] dependents = generics.extract(types[i]);
-            Declaration declaration = createDeclaration(classes[i], dependents, annotations[i]);
+            Class[] dependents = Introspector.getParameterDependents(executable, i);
+            Declaration declaration = createDeclaration(types[i], dependents, annotations[i]);
             Parameter parameter = createParameter(executable, declaration);
             
             parameters[i] = parameter;

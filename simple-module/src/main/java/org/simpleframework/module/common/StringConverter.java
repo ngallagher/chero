@@ -1,4 +1,4 @@
-package org.simpleframework.module.reflect;
+package org.simpleframework.module.common;
 
 public class StringConverter {
 
