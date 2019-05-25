@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.StringConverterExtractor;
@@ -17,8 +17,8 @@ public class HeaderExtractor extends StringConverterExtractor {
    }
    
    @Override
-   public List<String> resolve(Parameter parameter, Context context) {
-      HeaderParam annotation = parameter.getAnnotation(HeaderParam.class);
+   public List<String> resolve(Argument argument, Context context) {
+      HeaderParam annotation = argument.getAnnotation(HeaderParam.class);
       
       if(annotation != null) {
          Model model = context.getModel();
@@ -28,7 +28,7 @@ public class HeaderExtractor extends StringConverterExtractor {
             throw new IllegalStateException("Could not get request from model");
          }
          String name = annotation.value();
-         String substitute = parameter.getDefault();
+         String substitute = argument.getDefault();
          String value = request.getValue(name);
          
          if(value != null) {

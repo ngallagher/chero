@@ -5,7 +5,7 @@ import java.nio.channels.ReadableByteChannel;
 
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.Extractor;
@@ -14,8 +14,8 @@ import org.simpleframework.transport.Channel;
 public class RequestExtractor implements Extractor<Object> {
 
    @Override
-   public Object extract(Parameter parameter, Context context) throws Exception {
-      Class type = parameter.getType();
+   public Object extract(Argument argument, Context context) throws Exception {
+      Class type = argument.getType();
       Model model = context.getModel();
       Request request = model.get(Request.class);
       
@@ -41,8 +41,8 @@ public class RequestExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Class type = parameter.getType();
+   public boolean accept(Argument argument) {
+      Class type = argument.getType();
       
       if (type == Request.class) {
          return true;

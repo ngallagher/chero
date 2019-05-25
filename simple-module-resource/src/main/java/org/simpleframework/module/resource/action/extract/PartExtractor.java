@@ -2,7 +2,7 @@ package org.simpleframework.module.resource.action.extract;
 
 import org.simpleframework.http.Part;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.Extractor;
@@ -11,11 +11,11 @@ import org.simpleframework.module.resource.annotation.PartParam;
 public class PartExtractor implements Extractor<Object> {
 
    @Override
-   public Object extract(Parameter parameter, Context context) throws Exception {
-      PartParam annotation = parameter.getAnnotation(PartParam.class);
+   public Object extract(Argument argument, Context context) throws Exception {
+      PartParam annotation = argument.getAnnotation(PartParam.class);
       
       if(annotation != null) {
-         Class type = parameter.getType();
+         Class type = argument.getType();
          Model model = context.getModel();
          Request request = model.get(Request.class);
          
@@ -23,7 +23,7 @@ public class PartExtractor implements Extractor<Object> {
             throw new IllegalStateException("Could not get request from model");
          }
          String name = annotation.value();
-         String substitute = parameter.getDefault();
+         String substitute = argument.getDefault();
    
          if (type == Part.class) {
             return request.getPart(name);
@@ -41,12 +41,12 @@ public class PartExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) throws Exception {
-      PartParam annotation = parameter.getAnnotation(PartParam.class);
+   public boolean accept(Argument argument) throws Exception {
+      PartParam annotation = argument.getAnnotation(PartParam.class);
       
       if(annotation != null) {
          String name = annotation.value();
-         Class type = parameter.getType();
+         Class type = argument.getType();
    
          if (type == Part.class) {
             return name != null;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.StringConverterExtractor;
@@ -17,8 +17,8 @@ public class AttributeExtractor extends StringConverterExtractor {
    }
 
    @Override
-   public List<String> resolve(Parameter parameter, Context context) {
-      Attribute annotation = parameter.getAnnotation(Attribute.class);
+   public List<String> resolve(Argument argument, Context context) {
+      Attribute annotation = argument.getAnnotation(Attribute.class);
       
       if(annotation != null) {
          Model model = context.getModel();
@@ -28,7 +28,7 @@ public class AttributeExtractor extends StringConverterExtractor {
             throw new IllegalStateException("Could not get request from model");
          }
          String name = annotation.value();
-         String substitute = parameter.getDefault();
+         String substitute = argument.getDefault();
          Object value = request.getAttribute(name);
    
          if (value != null) {

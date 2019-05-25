@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.Extractor;
@@ -13,11 +13,11 @@ import org.simpleframework.module.resource.annotation.Body;
 public class BodyExtractor implements Extractor<Object> {
 
    @Override
-   public Object extract(Parameter parameter, Context context) throws Exception {
-      Body annotation = parameter.getAnnotation(Body.class);
+   public Object extract(Argument argument, Context context) throws Exception {
+      Body annotation = argument.getAnnotation(Body.class);
       
       if(annotation != null) {
-         Class type = parameter.getType();
+         Class type = argument.getType();
          Model model = context.getModel();
          Request request = model.get(Request.class);
          
@@ -38,11 +38,11 @@ public class BodyExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Body annotation = parameter.getAnnotation(Body.class);
+   public boolean accept(Argument argument) {
+      Body annotation = argument.getAnnotation(Body.class);
       
       if(annotation != null) {
-         Class type = parameter.getType();
+         Class type = argument.getType();
          
          if (type == InputStream.class) {
             return true;

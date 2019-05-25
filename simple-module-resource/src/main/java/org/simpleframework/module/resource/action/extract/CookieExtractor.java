@@ -2,7 +2,7 @@ package org.simpleframework.module.resource.action.extract;
 
 import org.simpleframework.http.Cookie;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.Extractor;
@@ -18,11 +18,11 @@ public class CookieExtractor implements Extractor<Object> {
    }
 
    @Override
-   public Object extract(Parameter parameter, Context context) {
-      CookieParam annotation = parameter.getAnnotation(CookieParam.class);
+   public Object extract(Argument argument, Context context) {
+      CookieParam annotation = argument.getAnnotation(CookieParam.class);
       
       if(annotation != null) {
-         Class type = parameter.getType();
+         Class type = argument.getType();
          Model model = context.getModel();
          Request request = model.get(Request.class);
          
@@ -30,7 +30,7 @@ public class CookieExtractor implements Extractor<Object> {
             throw new IllegalStateException("Could not get request from model");
          }
          String name = annotation.value();
-         String substitute = parameter.getDefault();
+         String substitute = argument.getDefault();
          Cookie cookie = request.getCookie(name);
    
          if (cookie != null) {
@@ -49,12 +49,12 @@ public class CookieExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      CookieParam annotation = parameter.getAnnotation(CookieParam.class);
+   public boolean accept(Argument argument) {
+      CookieParam annotation = argument.getAnnotation(CookieParam.class);
       
       if(annotation != null) {
          String name = annotation.value();
-         Class type = parameter.getType();
+         Class type = argument.getType();
    
          if (name != null) {
             if (type == Cookie.class) {

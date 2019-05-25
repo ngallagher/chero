@@ -3,7 +3,7 @@ package org.simpleframework.module.extract;
 import java.util.List;
 
 import org.simpleframework.module.annotation.Inject;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 
@@ -18,10 +18,10 @@ public class DependencyListExtractor implements Extractor<List> {
    }
 
    @Override
-   public List extract(Parameter parameter, Context context) {
-      Class expect = parameter.getType();
-      Inject annotation = parameter.getAnnotation(Inject.class);
-      boolean constructor = parameter.isConstructor();
+   public List extract(Argument argument, Context context) {
+      Class expect = argument.getType();
+      Inject annotation = argument.getAnnotation(Inject.class);
+      boolean constructor = argument.isConstructor();
       
       if(expect == List.class) {
          if(annotation != null) {
@@ -35,11 +35,11 @@ public class DependencyListExtractor implements Extractor<List> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Class expect = parameter.getType();
-      Class element = parameter.getEntry();
-      Inject annotation = parameter.getAnnotation(Inject.class);
-      boolean constructor = parameter.isConstructor();
+   public boolean accept(Argument argument) {
+      Class expect = argument.getType();
+      Class element = argument.getEntry();
+      Inject annotation = argument.getAnnotation(Inject.class);
+      boolean constructor = argument.isConstructor();
 
       if(annotation != null || constructor) {
          return expect == List.class && element == entry;

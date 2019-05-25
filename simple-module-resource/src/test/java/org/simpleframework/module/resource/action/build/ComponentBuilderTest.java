@@ -8,8 +8,8 @@ import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
-import org.simpleframework.module.build.ComponentBuilder;
-import org.simpleframework.module.build.DependencyScanner;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.Function;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
@@ -141,7 +141,7 @@ public class ComponentBuilderTest extends TestCase {
       }
    }
    
-   private DependencyScanner scanner;
+   private ConstructorScanner scanner;
 
    public void setUp() {
       List<Extractor> extractors = new LinkedList<Extractor>();
@@ -159,16 +159,16 @@ public class ComponentBuilderTest extends TestCase {
       system.register(new FooService("foo"));
       system.register(new BlahService("blah1"));
       
-      scanner = new DependencyScanner(system, extractors);
+      scanner = new ConstructorScanner(system, extractors, argument -> false);
    }
    
    public void testComponentBuilderWithConstructorInjection() throws Exception {
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeResource.class);
+      List<Function> builders = scanner.createConstructors(SomeResource.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      Object value = builder.build(context);
+      Function builder = builders.iterator().next();
+      Object value = builder.getValue(context);
       SomeResource component = (SomeResource) value;
 
       assertNotNull(value);
@@ -180,12 +180,12 @@ public class ComponentBuilderTest extends TestCase {
    
 
    public void testComponentBuilderWithImplicitParams() throws Exception {
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeComponentWithImplicitConstructorParams.class);
+      List<Function> builders = scanner.createConstructors(SomeComponentWithImplicitConstructorParams.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      Object value = builder.build(context);
+      Function builder = builders.iterator().next();
+      Object value = builder.getValue(context);
       SomeComponentWithImplicitConstructorParams component = (SomeComponentWithImplicitConstructorParams) value;
 
       assertNotNull(value);
@@ -198,12 +198,12 @@ public class ComponentBuilderTest extends TestCase {
    }
 
    public void testComponentBuilderWithImplicitAndExplicitParams() throws Exception {
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields.class);
+      List<Function> builders = scanner.createConstructors(SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse(System.err);
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      Object value = builder.build(context);
+      Function builder = builders.iterator().next();
+      Object value = builder.getValue(context);
       SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields component = (SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields) value;
 
       assertNotNull(value);

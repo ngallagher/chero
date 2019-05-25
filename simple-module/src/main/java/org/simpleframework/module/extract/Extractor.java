@@ -1,9 +1,9 @@
 package org.simpleframework.module.extract;
 
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 
 public interface Extractor<T> {
-   T extract(Parameter parameter, Context context) throws Exception;
-   boolean accept(Parameter parameter) throws Exception;
+   T extract(Argument argument, Context context) throws Exception;
+   boolean accept(Argument argument) throws Exception;
 }

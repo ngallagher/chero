@@ -4,11 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.simpleframework.module.annotation.Required;
-import org.simpleframework.module.build.ComponentFinder;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.MethodScanner;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
+import org.simpleframework.module.context.AnnotationValidator;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
+import org.simpleframework.module.context.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
@@ -22,14 +25,14 @@ import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
 import org.simpleframework.module.resource.annotation.Path;
-import org.simpleframework.module.resource.annotation.Payload;
+import org.simpleframework.module.resource.annotation.Entity;
 import org.simpleframework.module.resource.annotation.QueryParam;
 
 import junit.framework.TestCase;
 
 public class MethodValidationTest extends TestCase {
 
-   @Payload
+   @Entity
    public static class SomeComponentWithNoInstantiation {
       private String x;
 
@@ -38,7 +41,7 @@ public class MethodValidationTest extends TestCase {
       }
    }
 
-   @Payload
+   @Entity
    public static class SomeComponent {
       private String y;
 
@@ -81,7 +84,11 @@ public class MethodValidationTest extends TestCase {
       extractors.add(new PartExtractor());
       DependencyManager dependencySystem = new ComponentManager();
       ComponentFinder finder = new ComponentFinder(SomeExampleController.class);
-      ActionScanner scanner = new ActionScanner(dependencySystem, extractors);
+      Validator validator = new AnnotationValidator();
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
+      ActionScanner scanner = new ActionScanner(methodScanner, validator);
       MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
       MockRequest request = new MockRequest("GET", "/test/execute?a=XX&z=DD", "");
       MockResponse response = new MockResponse(System.out);
@@ -105,7 +112,11 @@ public class MethodValidationTest extends TestCase {
       extractors.add(new PartExtractor());
       DependencyManager dependencySystem = new ComponentManager();
       ComponentFinder finder = new ComponentFinder(SomeExampleController.class);
-      ActionScanner scanner = new ActionScanner(dependencySystem, extractors);
+      Validator validator = new AnnotationValidator();
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
+      ActionScanner scanner = new ActionScanner(methodScanner, validator);
       MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
       MockRequest request = new MockRequest("GET", "/test/execute", "");
       MockResponse response = new MockResponse(System.out);

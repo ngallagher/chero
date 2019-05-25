@@ -1,56 +1,59 @@
 package org.simpleframework.module.build;
 
 import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.Map;
+import java.lang.reflect.Executable;
 
-public class Parameter {
+public class Parameter implements Argument {
 
-   protected final Map<Class, Annotation> annotations;
-   protected final String value;
-   protected final Class type;
-   protected final Class entry;
-   protected final boolean required;
-   protected final boolean constructor;
-
-   public Parameter(Class type, Class entry, String value, Map<Class, Annotation> annotations, boolean constructor) {
-      this(type, entry, value, annotations, constructor, false);
-   }
-
-   public Parameter(Class type, Class entry, String value, Map<Class, Annotation> annotations, boolean constructor, boolean required) {
-      this.annotations = Collections.unmodifiableMap(annotations);
-      this.constructor = constructor;
-      this.required = required;
-      this.value = value;
-      this.entry = entry;
-      this.type = type;
+   private final Declaration declaration;
+   private final Executable executable;
+   private final Class[] generics;
+   private final int modifiers;
+   
+   public Parameter(Executable executable, Declaration declaration, Class[] generics, int modifiers) {
+      this.declaration = declaration;
+      this.executable = executable;
+      this.modifiers = modifiers;
+      this.generics = generics;
    }
    
+   @Override
    public <T extends Annotation> T getAnnotation(Class<T> type) {
-      return (T) annotations.get(type);
+      return (T) declaration.getAnnotation(type);
    }
    
+   @Override
+   public Executable getSource() {
+      return executable;
+   }
+   
+   @Override
    public boolean isConstructor() {
-      return constructor;
+      return Modifier.isConstructor(modifiers);
    }
 
+   @Override
    public boolean isRequired() {
-      return required || constructor;
+      return Modifier.isRequired(modifiers);
    }
    
-   public boolean isList() {
-      return entry != null;
+   @Override
+   public boolean isCollection() {
+      return generics.length == 1;
    }
    
+   @Override
    public Class getEntry() {
-      return entry;
+      return generics.length > 0 ? generics[0] : null;
    }
 
+   @Override
    public Class getType() {
-      return type;
+      return declaration.getType();
    }
 
+   @Override
    public String getDefault() {
-      return value;
+      return declaration.getDefault();
    }
 }

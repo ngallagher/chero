@@ -3,9 +3,9 @@ package org.simpleframework.module.resource.action.build;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
+import org.simpleframework.module.resource.annotation.Entity;
 import org.simpleframework.module.resource.annotation.Intercept;
 import org.simpleframework.module.resource.annotation.Path;
-import org.simpleframework.module.resource.annotation.Payload;
 
 public enum ComponentType {
    SERVICE(Path.class) {
@@ -28,7 +28,7 @@ public enum ComponentType {
          return null;
       }
    },
-   PAYLOAD(Payload.class) {
+   ENTITY(Entity.class) {
       public String extractPath(AnnotatedElement element) {
          return null;
       }

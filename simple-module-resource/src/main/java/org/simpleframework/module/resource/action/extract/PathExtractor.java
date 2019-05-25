@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.StringConverterExtractor;
@@ -17,8 +17,8 @@ public class PathExtractor extends StringConverterExtractor {
    }
    
    @Override
-   protected List<String> resolve(Parameter parameter, Context context) {
-      PathParam annotation = parameter.getAnnotation(PathParam.class);
+   protected List<String> resolve(Argument argument, Context context) {
+      PathParam annotation = argument.getAnnotation(PathParam.class);
       
       if(annotation != null) {
          Model model = context.getModel();

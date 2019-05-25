@@ -5,12 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.simpleframework.module.annotation.Component;
-import org.simpleframework.module.build.ComponentBuilder;
-import org.simpleframework.module.build.DependencyScanner;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.Function;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.MapContext;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
 
@@ -70,13 +69,14 @@ public class ListOfComponentsTest extends TestCase {
    public void testDepdencyInjection() throws Exception{
       List<Extractor> extractors = new LinkedList<Extractor>();
       DependencyManager dependencySystem = new ComponentManager();
-      DependencyScanner scanner = new DependencyScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeOtherComponent.class);
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      List<Function> builders = constructorScanner.createConstructors(SomeOtherComponent.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      SomeOtherComponent value = builder.build(context);
+      Function builder = builders.iterator().next();
+      SomeOtherComponent value = builder.getValue(context);
       
       assertNotNull(value);
       assertNotNull(value.a);
@@ -94,14 +94,15 @@ public class ListOfComponentsTest extends TestCase {
    public void testDepdencyInjectionListOfComponents() throws Exception{
       List<Extractor> extractors = new LinkedList<Extractor>();
       DependencyManager dependencySystem = new ComponentManager();
-      DependencyScanner scanner = new DependencyScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeOtherComponent.class);
-      List<ComponentBuilder> listBuilders = scanner.createBuilders(ListOfSerializable.class);
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      List<Function> builders = constructorScanner.createConstructors(SomeOtherComponent.class);
+      List<Function> listBuilders = constructorScanner.createConstructors(ListOfSerializable.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      SomeOtherComponent value = builder.build(context);
+      Function builder = builders.iterator().next();
+      SomeOtherComponent value = builder.getValue(context);
       
       assertNotNull(value);
       assertNotNull(value.a);
@@ -110,8 +111,8 @@ public class ListOfComponentsTest extends TestCase {
       assertNotNull(value.b.b);
       assertNotNull(value.b.b.a);
       
-      ComponentBuilder listBuilder = listBuilders.iterator().next();
-      ListOfSerializable listOfSerializable = listBuilder.build(context);
+      Function listBuilder = listBuilders.iterator().next();
+      ListOfSerializable listOfSerializable = listBuilder.getValue(context);
       
       assertNotNull(listOfSerializable);
    }

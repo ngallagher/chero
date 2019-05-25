@@ -3,7 +3,7 @@ package org.simpleframework.module.resource.action.extract;
 import org.simpleframework.http.ContentType;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.Extractor;
@@ -25,8 +25,8 @@ public class JsonExtractor implements Extractor<Object> {
    }
 
    @Override
-   public Object extract(Parameter parameter, Context context) throws Exception {
-      Body annotation = parameter.getAnnotation(Body.class);
+   public Object extract(Argument argument, Context context) throws Exception {
+      Body annotation = argument.getAnnotation(Body.class);
       
       if(annotation != null) {
          Model model = context.getModel();
@@ -41,7 +41,7 @@ public class JsonExtractor implements Extractor<Object> {
          
          if(value.equals("application/json")) {
             String body = request.getContent();
-            Class require = parameter.getType();
+            Class require = argument.getType();
             
             return gson.fromJson(body, require);
          }
@@ -50,14 +50,14 @@ public class JsonExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) throws Exception {
-      Body annotation = parameter.getAnnotation(Body.class);
+   public boolean accept(Argument argument) throws Exception {
+      Body annotation = argument.getAnnotation(Body.class);
       
       if(annotation != null) {
-         Class require = parameter.getType();
+         Class require = argument.getType();
          
          if(!converter.accept(require)) {
-            return !extractor.accept(parameter);
+            return !extractor.accept(argument);
          }
       }
       return false;

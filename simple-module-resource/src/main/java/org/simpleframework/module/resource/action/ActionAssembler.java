@@ -4,13 +4,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.simpleframework.module.build.ComponentFinder;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.MethodScanner;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.common.DependencyPath;
+import org.simpleframework.module.context.AnnotationValidator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
+import org.simpleframework.module.resource.action.build.ComponentFilter;
+import org.simpleframework.module.resource.action.build.ComponentFinder;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
 import org.simpleframework.module.resource.action.extract.BodyExtractor;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
@@ -41,7 +45,7 @@ public class ActionAssembler {
       this.path = path;
    }
    
-   public ActionMatcher assemble() {
+   public ActionMatcher assemble(ConstructorScanner scanner) {
       Set<Class> interceptors = path.getTypes(Intercept.class);
       Set<Class> services = path.getTypes(Path.class);
 
@@ -49,9 +53,12 @@ public class ActionAssembler {
       List<BodyWriter> builders = new LinkedList<BodyWriter>();
       ComponentFinder interceptorFinder = new ComponentFinder(interceptors);
       ComponentFinder serviceFinder = new ComponentFinder(services);
-      ActionScanner scanner = new ActionScanner(source, extractors);
-      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(scanner, interceptorFinder);
-      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(scanner, serviceFinder);
+      AnnotationValidator validator = new AnnotationValidator();
+      ComponentFilter filter = new ComponentFilter();
+      MethodScanner methodScanner = new MethodScanner(source, scanner, extractors, filter);
+      ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
+      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(actionScanner, interceptorFinder);
+      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder);
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(builders);
 

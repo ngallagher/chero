@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.simpleframework.module.build.ComponentFinder;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 import org.simpleframework.module.context.Context;

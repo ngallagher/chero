@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.module.annotation.Value;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 
 public class ValueExtractor extends StringConverterExtractor {
@@ -14,8 +14,8 @@ public class ValueExtractor extends StringConverterExtractor {
    }
    
    @Override
-   protected List<String> resolve(Parameter parameter, Context context) {
-      Value annotation = parameter.getAnnotation(Value.class);
+   protected List<String> resolve(Argument argument, Context context) {
+      Value annotation = argument.getAnnotation(Value.class);
       
       if(annotation != null) {
          String name = annotation.value();
@@ -23,7 +23,7 @@ public class ValueExtractor extends StringConverterExtractor {
          
          if(length > 0) {
             if(name.startsWith("${") && name.endsWith("}")) {
-               String substitute = parameter.getDefault();
+               String substitute = argument.getDefault();
                String token = name.substring(2, length - 1);
                String value = System.getProperty(token, substitute);
                

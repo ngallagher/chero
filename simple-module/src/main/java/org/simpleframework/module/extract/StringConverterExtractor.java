@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.util.List;
 
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 
 public abstract class StringConverterExtractor implements Extractor<Object> {
@@ -18,10 +18,10 @@ public abstract class StringConverterExtractor implements Extractor<Object> {
    }
 
    @Override
-   public Object extract(Parameter parameter, Context context) {
-      if (parameter != null) {
-         List<String> values = resolve(parameter, context);
-         Class type = parameter.getType();
+   public Object extract(Argument argument, Context context) {
+      if (argument != null) {
+         List<String> values = resolve(argument, context);
+         Class type = argument.getType();
 
          if (values != null) {
             int size = values.size();
@@ -54,9 +54,9 @@ public abstract class StringConverterExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Annotation value = parameter.getAnnotation(annotation);
-      Class type = parameter.getType();
+   public boolean accept(Argument argument) {
+      Annotation value = argument.getAnnotation(annotation);
+      Class type = argument.getType();
 
       if (value != null) {
          if(type.isArray()) {
@@ -72,5 +72,5 @@ public abstract class StringConverterExtractor implements Extractor<Object> {
       return false;
    }
 
-   protected abstract List<String> resolve(Parameter parameter, Context context);
+   protected abstract List<String> resolve(Argument argument, Context context);
 }

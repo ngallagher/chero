@@ -4,32 +4,32 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.simpleframework.module.build.ComponentBuilder;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.Declaration;
+import org.simpleframework.module.build.Function;
+import org.simpleframework.module.build.MethodScanner;
 import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
+import org.simpleframework.module.context.AnnotationValidator;
 import org.simpleframework.module.context.Context;
+import org.simpleframework.module.context.Validator;
 import org.simpleframework.module.extract.ComponentExtractor;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
+import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
-import org.simpleframework.module.resource.action.extract.CookieExtractor;
-import org.simpleframework.module.resource.action.extract.HeaderExtractor;
-import org.simpleframework.module.resource.action.extract.PartExtractor;
-import org.simpleframework.module.resource.action.extract.QueryExtractor;
-import org.simpleframework.module.resource.action.extract.RequestExtractor;
-import org.simpleframework.module.resource.action.extract.ResponseExtractor;
-import org.simpleframework.module.resource.annotation.Payload;
+import org.simpleframework.module.resource.annotation.Entity;
 import org.simpleframework.module.resource.annotation.QueryParam;
 
 import junit.framework.TestCase;
 
 public class NoArgComponentExtractorTest extends TestCase {
 
-   @Payload
+   @Entity
    public static class Query {
 
       public final String x;
@@ -59,10 +59,12 @@ public class NoArgComponentExtractorTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       DependencyManager dependencySystem = new ComponentManager();
-      ActionScanner scanner = new ActionScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builder = scanner.createBuilders(Query.class);
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      List<Function> builder = constructorScanner.createConstructors(Query.class);
       ComponentExtractor extractor = new ComponentExtractor(builder, Query.class);
-      Parameter parameter = new Parameter(Query.class, null, null, Collections.EMPTY_MAP, false);
+      Declaration declaration = new Declaration(Collections.EMPTY_MAP, Query.class, new Class[] {}, null, false);
+      Parameter parameter = new Parameter(null, declaration, new Class[] {}, 0);
       MockRequest request = new MockRequest("GET", "/?x=X", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);

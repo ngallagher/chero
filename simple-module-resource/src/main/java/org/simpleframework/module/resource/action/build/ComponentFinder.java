@@ -1,4 +1,4 @@
-package org.simpleframework.module.build;
+package org.simpleframework.module.resource.action.build;
 
 import java.util.Arrays;
 import java.util.Collection;

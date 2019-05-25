@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 import org.simpleframework.module.extract.StringConverterExtractor;
@@ -18,8 +18,8 @@ public class QueryExtractor extends StringConverterExtractor {
    }
    
    @Override
-   protected List<String> resolve(Parameter parameter, Context context) {
-      QueryParam annotation = parameter.getAnnotation(QueryParam.class);
+   protected List<String> resolve(Argument argument, Context context) {
+      QueryParam annotation = argument.getAnnotation(QueryParam.class);
       
       if(annotation != null) {
          Model model = context.getModel();
@@ -30,7 +30,7 @@ public class QueryExtractor extends StringConverterExtractor {
          }
          String name = annotation.value();
          Query query = request.getQuery();    
-         String substitute = parameter.getDefault();
+         String substitute = argument.getDefault();
          List<String> list = query.getAll(name);
          
          if(list != null) {

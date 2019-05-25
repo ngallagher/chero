@@ -6,12 +6,11 @@ import java.util.List;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Required;
-import org.simpleframework.module.build.ComponentBuilder;
-import org.simpleframework.module.build.DependencyScanner;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.Function;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
-import org.simpleframework.module.context.MapContext;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
@@ -58,8 +57,12 @@ public class ComponentWithNoParametersTest extends TestCase {
       }
    }
 
-   public void testBuilder() throws Exception {
+   private DependencyManager dependencySystem;
+   private ConstructorScanner scanner;
+
+   public void setUp() {
       List<Extractor> extractors = new LinkedList<Extractor>();
+      
       extractors.add(new RequestExtractor());
       extractors.add(new ResponseExtractor());
       extractors.add(new ModelExtractor());
@@ -67,14 +70,18 @@ public class ComponentWithNoParametersTest extends TestCase {
       extractors.add(new CookieExtractor());
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
-      DependencyManager dependencySystem = new ComponentManager();
-      DependencyScanner scanner = new DependencyScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeComponent.class);
+      
+      dependencySystem = new ComponentManager();
+      scanner = new ConstructorScanner(dependencySystem, extractors, argument -> false);
+   }
+   
+   public void testBuilder() throws Exception {
+      List<Function> builders = scanner.createConstructors(SomeComponent.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      Object value = builder.build(context);
+      Function builder = builders.iterator().next();
+      Object value = builder.getValue(context);
       SomeComponent component = (SomeComponent) value;
 
       System.err.println(context.getValidation().getErrors());
@@ -88,22 +95,12 @@ public class ComponentWithNoParametersTest extends TestCase {
    }
 
    public void testBuilderWithNoParametersAtAll() throws Exception {
-      List<Extractor> extractors = new LinkedList<Extractor>();
-      extractors.add(new RequestExtractor());
-      extractors.add(new ResponseExtractor());
-      extractors.add(new ModelExtractor());
-      extractors.add(new QueryExtractor());
-      extractors.add(new CookieExtractor());
-      extractors.add(new HeaderExtractor());
-      extractors.add(new PartExtractor());
-      DependencyManager dependencySystem = new ComponentManager();
-      DependencyScanner scanner = new DependencyScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeComponentWithSomeComponent.class);
+      List<Function> builders = scanner.createConstructors(SomeComponentWithSomeComponent.class);
       MockRequest request = new MockRequest("GET", "/", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      Object value = builder.build(context);
+      Function builder = builders.iterator().next();
+      Object value = builder.getValue(context);
       SomeComponentWithSomeComponent component = (SomeComponentWithSomeComponent) value;
 
       System.err.println(context.getValidation().getErrors());

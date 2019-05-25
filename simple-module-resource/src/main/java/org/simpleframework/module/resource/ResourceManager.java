@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.simpleframework.http.socket.service.Service;
+import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.common.DependencyPath;
 import org.simpleframework.module.common.ThreadPool;
@@ -24,10 +25,10 @@ public class ResourceManager {
       this.context = context;
    }
 
-   public Class[] create(int port) {
+   public Class[] create(ConstructorScanner scanner, int port) {
       context.register(context);
       
-      ActionMatcher matcher = assembler.assemble();
+      ActionMatcher matcher = assembler.assemble(scanner);
       List<ResourceMatcher> matchers = context.resolveAll(ResourceMatcher.class);
       List<Service> services = context.resolveAll(Service.class);
       

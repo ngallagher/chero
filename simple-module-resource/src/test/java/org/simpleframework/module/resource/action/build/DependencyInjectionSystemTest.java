@@ -3,34 +3,32 @@ package org.simpleframework.module.resource.action.build;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.simpleframework.module.annotation.Component;
-import org.simpleframework.module.build.ComponentBuilder;
-import org.simpleframework.module.build.DependencyScanner;
+import org.simpleframework.module.build.ConstructorScanner;
+import org.simpleframework.module.build.Function;
 import org.simpleframework.module.common.ComponentManager;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
-import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
 import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
-import org.simpleframework.module.resource.annotation.Payload;
+import org.simpleframework.module.resource.annotation.Entity;
 
 import junit.framework.TestCase;
 
 public class DependencyInjectionSystemTest extends TestCase {
    
-   @Payload
+   @Entity
    public static class SomeComponent {
       
    }
    
-   @Payload
+   @Entity
    public static class OtherComponent {
       
       private final SomeComponent a;
@@ -42,7 +40,7 @@ public class DependencyInjectionSystemTest extends TestCase {
       }
    }
    
-   @Payload
+   @Entity
    public static class YetAnotherComponent {
       
       private SomeComponent a;
@@ -52,7 +50,7 @@ public class DependencyInjectionSystemTest extends TestCase {
       }
    }
    
-   @Payload
+   @Entity
    public static class SomeOtherComponent {
       
       private final SomeComponent a;
@@ -73,14 +71,17 @@ public class DependencyInjectionSystemTest extends TestCase {
       extractors.add(new CookieExtractor());
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
+
       DependencyManager dependencySystem = new ComponentManager();
-      ActionScanner scanner = new ActionScanner(dependencySystem, extractors);
-      List<ComponentBuilder> builders = scanner.createBuilders(SomeOtherComponent.class);
+      ComponentFilter filter = new ComponentFilter();
+      ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
+      
+      List<Function> builders = constructorScanner.createConstructors(SomeOtherComponent.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
       Context context = new ActionContextBuilder().build(request, response);
-      ComponentBuilder builder = builders.iterator().next();
-      SomeOtherComponent value = builder.build(context);
+      Function builder = builders.iterator().next();
+      SomeOtherComponent value = builder.getValue(context);
       
       assertNotNull(value);
       assertNotNull(value.a);

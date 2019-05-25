@@ -1,15 +1,15 @@
 package org.simpleframework.module.extract;
 
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.context.Context;
 import org.simpleframework.module.context.Model;
 
 public class ModelExtractor implements Extractor<Model> {
 
    @Override
-   public Model extract(Parameter parameter, Context context) {
+   public Model extract(Argument argument, Context context) {
       Model model = context.getModel();
-      Class type = parameter.getType();
+      Class type = argument.getType();
 
       if (type == Model.class) {
          return model;
@@ -18,8 +18,8 @@ public class ModelExtractor implements Extractor<Model> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Class type = parameter.getType();
+   public boolean accept(Argument argument) {
+      Class type = argument.getType();
 
       if (type == Model.class) {
          return true;

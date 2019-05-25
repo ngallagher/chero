@@ -4,17 +4,13 @@ import org.simpleframework.module.context.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.StringConverter;
 
-public class ParameterBuilder {
+public class ArgumentList {
 
    private final StringConverter converter;
    private final Extractor[] extractors;
    private final Parameter[] parameters;
 
-   public ParameterBuilder() {
-      this(new Extractor[] {}, new Parameter[] {});
-   }
-
-   public ParameterBuilder(Extractor[] extractors, Parameter[] parameters) {
+   public ArgumentList(Extractor[] extractors, Parameter[] parameters) {
       this.converter = new StringConverter();
       this.extractors = extractors;
       this.parameters = parameters;
@@ -29,7 +25,7 @@ public class ParameterBuilder {
       return types;
    }
 
-   public Object[] extract(Context context) throws Exception {
+   public Object[] create(Context context) throws Exception {
       Object[] arguments = new Object[extractors.length];
 
       for (int i = 0; i < extractors.length; i++) {
@@ -81,5 +77,4 @@ public class ParameterBuilder {
       }
       return result - adjustment;
    }
-
 }

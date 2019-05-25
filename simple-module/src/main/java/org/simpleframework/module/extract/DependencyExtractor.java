@@ -1,7 +1,7 @@
 package org.simpleframework.module.extract;
 
 import org.simpleframework.module.annotation.Inject;
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.common.DependencyManager;
 import org.simpleframework.module.context.Context;
 
@@ -16,10 +16,10 @@ public class DependencyExtractor implements Extractor<Object> {
    }
 
    @Override
-   public Object extract(Parameter parameter, Context context) {
-      Class type = parameter.getType();
-      Inject annotation = parameter.getAnnotation(Inject.class);
-      boolean constructor = parameter.isConstructor();
+   public Object extract(Argument argument, Context context) {
+      Class type = argument.getType();
+      Inject annotation = argument.getAnnotation(Inject.class);
+      boolean constructor = argument.isConstructor();
       
       if(annotation != null) {
          String name = annotation.value();
@@ -47,10 +47,10 @@ public class DependencyExtractor implements Extractor<Object> {
    }
 
    @Override
-   public boolean accept(Parameter parameter) {
-      Class expect = parameter.getType();
-      Inject annotation = parameter.getAnnotation(Inject.class);
-      boolean constructor = parameter.isConstructor();
+   public boolean accept(Argument argument) {
+      Class expect = argument.getType();
+      Inject annotation = argument.getAnnotation(Inject.class);
+      boolean constructor = argument.isConstructor();
 
       if(annotation != null || constructor) {
          return type == expect;
