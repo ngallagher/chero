@@ -137,3 +137,4 @@ The annotations for the core framework
 | @Attachment       |               |
 | @Intercept       |               |
 | @Subscribe      |               |
+| @Entity        |               |
