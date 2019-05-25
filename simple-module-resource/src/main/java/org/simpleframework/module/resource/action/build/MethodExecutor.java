@@ -76,4 +76,9 @@ public class MethodExecutor {
          header.applyHeader(context);
       }
    }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(function);
+   }
 }
