@@ -17,7 +17,7 @@ public class ContainerServer extends Server {
    @Override
    public Acceptor start(String name, String cookie, int threads) {
       try {
-         return new ContainerAcceptor(matcher, router, name, cookie, threads);
+         return new ConnectionAcceptor(matcher, router, name, cookie, threads);
       } catch(Exception e) {
          throw new IllegalStateException("Could not start server", e);
       }
