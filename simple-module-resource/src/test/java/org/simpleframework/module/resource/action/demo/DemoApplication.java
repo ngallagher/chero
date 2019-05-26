@@ -30,12 +30,7 @@ public class DemoApplication {
       @Produces("text/plain")
       public CompletableFuture<?> helloWorld() {
          return CompletableFuture.supplyAsync(() -> {
-            try {
-               Thread.sleep(10000);
-               return text + " sleep";
-            }catch(Exception e) {
-               return e;
-            }
+            return text;
          });
       }
    }
