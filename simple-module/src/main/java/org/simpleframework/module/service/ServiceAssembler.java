@@ -15,7 +15,7 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.graph.DependencyTree;
 import org.simpleframework.module.graph.DependencyTreeScanner;
-import org.simpleframework.module.graph.index.ClassPath;
+import org.simpleframework.module.path.ClassPath;
 
 public class ServiceAssembler {
    

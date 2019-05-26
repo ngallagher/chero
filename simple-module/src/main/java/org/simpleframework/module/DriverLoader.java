@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.simpleframework.module.argument.ContextBuilder;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.index.ClassPath;
-import org.simpleframework.module.graph.index.ClassPathBuilder;
+import org.simpleframework.module.index.ClassPathBuilder;
+import org.simpleframework.module.path.ClassPath;
 
 public class DriverLoader<T> {
    

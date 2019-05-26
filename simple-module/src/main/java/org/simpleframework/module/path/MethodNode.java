@@ -1,8 +1,9 @@
-package org.simpleframework.module.graph.index;
+package org.simpleframework.module.path;
 
 import java.util.List;
 
-public interface ConstructorNode {
+public interface MethodNode {
    List<ClassNode> getParameterTypes();
    ClassNode getDeclaringClass();
+   ClassNode getReturnType();
 }

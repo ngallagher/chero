@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.index.ClassPath;
+import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.resource.ContentTypeResolver;
 import org.simpleframework.module.resource.FileManager;
 import org.simpleframework.module.resource.FileResolver;

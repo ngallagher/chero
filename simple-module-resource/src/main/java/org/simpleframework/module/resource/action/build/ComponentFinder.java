@@ -4,8 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.simpleframework.module.graph.index.ClassNode;
-import org.simpleframework.module.graph.index.ClassPath;
+import org.simpleframework.module.path.ClassNode;
+import org.simpleframework.module.path.ClassPath;
 
 public class ComponentFinder extends ClassFinder {
    

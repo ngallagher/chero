@@ -9,7 +9,7 @@ import org.simpleframework.module.core.ComponentStore;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ValueExtractor;
-import org.simpleframework.module.graph.index.ClassPath;
+import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.service.ServiceAssembler;
 import org.simpleframework.module.service.ServiceBinder;
 

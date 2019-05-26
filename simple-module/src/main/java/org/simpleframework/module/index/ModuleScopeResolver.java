@@ -1,4 +1,4 @@
-package org.simpleframework.module.graph;
+package org.simpleframework.module.index;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,26 +11,30 @@ import java.util.Set;
 import org.simpleframework.module.annotation.Import;
 import org.simpleframework.module.annotation.Module;
 
-public class DependencyGraphBuilder {
+public class ModuleScopeResolver {
 
    private final Set<Class> modules;
    private final Set<String> paths;
 
-   public DependencyGraphBuilder(Set<Class> modules) {
+   public ModuleScopeResolver(Set<Class> modules) {
       this(modules, Collections.EMPTY_SET);
    }
    
-   public DependencyGraphBuilder(Set<Class> modules, Set<String> paths) {
+   public ModuleScopeResolver(Set<Class> modules, Set<String> paths) {
       this.modules = modules;
       this.paths = paths;
    }
    
-   public DependencyGraph create() {
+   public ModuleScope resolve() {
       Set<Class<?>> imports = new HashSet<>();
 
       for(Class module : modules) {
          collect(module, imports);
       }
+      return create(imports);
+   }
+   
+   private ModuleScope create(Set<Class<?>> imports) {
       Set<String> packages = reduce(imports);
       String[] directories = paths.stream()
             .filter(Objects::nonNull)
@@ -44,7 +48,7 @@ public class DependencyGraphBuilder {
             .map(module -> module + ".*")
             .toArray(String[]::new);
       
-      return new DependencyGraph(packages, patterns, directories);
+      return new ModuleScope(packages, patterns, directories);
    }
    
    private Set<String> reduce(Set<Class<?>> imports) {

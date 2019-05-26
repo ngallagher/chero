@@ -1,4 +1,4 @@
-package org.simpleframework.module.graph.index;
+package org.simpleframework.module.path;
 
 import java.net.URL;
 import java.util.Collections;
