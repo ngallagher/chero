@@ -25,7 +25,8 @@ public class ContextBuilder {
          String value = map.get(name);
          Model model = context.getModel();
          
-         model.set(name, value);
+         System.setProperty(name, value);
+         model.set(name, value);         
       }
       return context;
    }

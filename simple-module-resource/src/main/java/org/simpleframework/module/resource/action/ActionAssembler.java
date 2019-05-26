@@ -9,6 +9,7 @@ import org.simpleframework.module.core.AnnotationValidator;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
+import org.simpleframework.module.extract.ValueExtractor;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
@@ -76,6 +77,7 @@ public class ActionAssembler {
       extractors.add(new ResponseExtractor());
       extractors.add(new ModelExtractor());
       extractors.add(new BodyExtractor());
+      extractors.add(new ValueExtractor());
       
       return new ActionMatcher(resolver, router);
    }
