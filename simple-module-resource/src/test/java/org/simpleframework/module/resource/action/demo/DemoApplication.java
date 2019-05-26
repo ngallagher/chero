@@ -1,5 +1,7 @@
 package org.simpleframework.module.resource.action.demo;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.simpleframework.module.Application;
 import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.annotation.Value;
@@ -11,6 +13,12 @@ import org.simpleframework.module.resource.container.ServerDriver;
 @Module
 public class DemoApplication {
    
+   private final String message;
+   
+   public DemoApplication(@Value("${message}") String message) {
+      this.message = message;
+   }
+   
    @Path
    public static class DemoResource {
       
@@ -20,8 +28,15 @@ public class DemoApplication {
       @GET
       @Path("/.*")
       @Produces("text/plain")
-      public String helloWorld() {
-         return text;
+      public CompletableFuture<?> helloWorld() {
+         return CompletableFuture.supplyAsync(() -> {
+            try {
+               Thread.sleep(10000);
+               return text + " sleep";
+            }catch(Exception e) {
+               return e;
+            }
+         });
       }
    }
    

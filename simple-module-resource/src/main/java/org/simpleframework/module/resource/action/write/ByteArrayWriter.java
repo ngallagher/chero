@@ -15,12 +15,13 @@ public class ByteArrayWriter implements BodyWriter<byte[]> {
    }
 
    @Override
-   public void write(Response response, byte[] result) throws Exception {
+   public boolean write(Response response, byte[] result) throws Exception {
       OutputStream output = response.getOutputStream();
       
       if(result.length > 0) {
          response.setContentLength(result.length);
          output.write(result);
       }
+      return true;
    }
 }

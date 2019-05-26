@@ -15,11 +15,12 @@ public class ExceptionWriter<T extends Throwable> implements BodyWriter<T> {
    }
 
    @Override
-   public void write(Response response, Throwable cause) throws Exception {
+   public boolean write(Response response, Throwable cause) throws Exception {
       PrintStream output = response.getPrintStream();
 
       if(cause != null) {
          cause.printStackTrace(output);
       }
+      return true;
    }
 }

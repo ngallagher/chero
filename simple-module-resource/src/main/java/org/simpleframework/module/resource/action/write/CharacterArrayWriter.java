@@ -15,11 +15,12 @@ public class CharacterArrayWriter implements BodyWriter<char[]> {
    }
 
    @Override
-   public void write(Response response, char[] result) throws Exception {
+   public boolean write(Response response, char[] result) throws Exception {
       PrintStream output = response.getPrintStream();
 
       if(result.length > 0) {
          output.print(result);
       }
+      return true;
    }
 }

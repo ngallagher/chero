@@ -47,22 +47,25 @@ class ServerContainer implements Container {
          response.setDate(DATE, time);
          response.setValue(SERVER, name);
          response.setDate(DATE, time);
+         response.setStatus(Status.OK);
          
-         if(resource != null) {
-            response.setStatus(Status.OK);
-            resource.handle(request, response);
-         } else {
-            throw new RuntimeException("Default response here " + request);
+         if(resource == null) {
+            throw new RuntimeException("Could not find resource for" + request);
+         }
+         if(resource.handle(request, response)) {
+            if(!method.equalsIgnoreCase(CONNECT)) {
+               response.close();
+            }
          }
       } catch (Throwable cause) {
          trace.trace(ERROR, cause);
-      } finally {
+         
          try {
             if(!method.equalsIgnoreCase(CONNECT)) {
                response.close();
             }
-         } catch (Exception cause) {
-            trace.trace(ERROR, cause);
+         } catch (Exception ignore) {
+            trace.trace(ERROR, ignore);
          }
       }
    }

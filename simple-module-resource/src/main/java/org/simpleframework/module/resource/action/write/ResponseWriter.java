@@ -20,10 +20,9 @@ public class ResponseWriter {
    public boolean write(Response response, Object result) throws Exception {
       for (BodyWriter builder : builders) {
          if (builder.accept(response, result)) {
-            builder.write(response, result);
-            return true;
+            return builder.write(response, result);            
          }
-      }
-      return false;
+      }      
+      return true;
    }
 }

@@ -24,7 +24,7 @@ public class ActionResource implements Resource {
    }
 
    @Override
-   public void handle(Request request, Response response) throws Throwable {
+   public boolean handle(Request request, Response response) throws Throwable {
       try {
          Object result = action.execute(context);
 
@@ -33,10 +33,9 @@ public class ActionResource implements Resource {
 
             if (result != null) {
                context.setResult(result);
-               router.write(response, result);
-            } else {
-               router.write(response, cause);
-            }
+               return router.write(response, result);
+            } 
+            return router.write(response, cause);            
          }
       } catch (Throwable cause) {
          Channel channel = request.getChannel();
@@ -48,12 +47,7 @@ public class ActionResource implements Resource {
             context.setError(cause);
             router.write(response, cause);
          }
-      } finally {
-         String method = request.getMethod();
-         
-         if(!method.equalsIgnoreCase(CONNECT)) {
-            response.close();
-         }
       }
+      return true;
    }
 }

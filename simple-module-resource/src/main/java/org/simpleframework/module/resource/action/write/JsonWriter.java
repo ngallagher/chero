@@ -36,11 +36,14 @@ public class JsonWriter implements BodyWriter<Object> {
    }
 
    @Override
-   public void write(Response response, Object result) throws Exception {
+   public boolean write(Response response, Object result) throws Exception {
       PrintStream output = response.getPrintStream();
       String text = gson.toJson(result);
       
-      output.print(text);
+      if(text != null) {
+         output.print(text);      
+      }      
+      return true;
    }
 
 }

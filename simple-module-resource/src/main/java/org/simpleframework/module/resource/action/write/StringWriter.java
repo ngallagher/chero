@@ -15,11 +15,12 @@ public class StringWriter implements BodyWriter<String> {
    }
 
    @Override
-   public void write(Response response, String result) throws Exception {
+   public boolean write(Response response, String result) throws Exception {
       PrintStream output = response.getPrintStream();
 
       if (result != null) {
          output.print(result);
       }
+      return true;
    }
 }

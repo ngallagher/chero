@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Component;
+import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
@@ -23,14 +24,20 @@ public class DependencyCalculator {
    }
    
    public void calculate(Consumer<ClassNode> ready) {
-      Set<ClassNode> require = path.getTypes(Component.class);
+      Set<ClassNode> components = path.getTypes(Component.class);
+      Set<ClassNode> modules = path.getTypes(Module.class);
       
-      if(!require.isEmpty()) {
+      if(!components.isEmpty() || !modules.isEmpty()) {
          Set<ClassNode> done = new HashSet<>();
-         
-         for(ClassNode node: require) {
-            if(filter.isModule(node)) {
-               calculate(ready, done, node);
+
+         for(ClassNode module : modules) {
+            if(filter.isModule(module)) {
+               calculate(ready, done, module);
+            }
+         }
+         for(ClassNode component : components) {
+            if(filter.isModule(component)) {
+               calculate(ready, done, component);
             }
          }
       }      
