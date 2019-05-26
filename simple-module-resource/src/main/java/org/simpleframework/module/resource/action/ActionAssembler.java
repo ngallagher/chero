@@ -33,7 +33,7 @@ import org.simpleframework.module.resource.action.write.ExceptionWriter;
 import org.simpleframework.module.resource.action.write.JsonWriter;
 import org.simpleframework.module.resource.action.write.ResponseWriter;
 import org.simpleframework.module.resource.action.write.StringWriter;
-import org.simpleframework.module.resource.annotation.Intercept;
+import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.Path;
 
 public class ActionAssembler {
@@ -50,7 +50,7 @@ public class ActionAssembler {
       List<Extractor> extractors = new LinkedList<Extractor>();
       List<BodyWriter> builders = new LinkedList<BodyWriter>();
       ComponentFilter filter = new ComponentFilter();
-      ClassFinder interceptorFinder = new ComponentFinder(path, Intercept.class);
+      ClassFinder interceptorFinder = new ComponentFinder(path, Filter.class);
       ClassFinder serviceFinder = new ComponentFinder(path, Path.class);
       AnnotationValidator validator = new AnnotationValidator();
       ConstructorScanner constructorScanner = new ConstructorScanner(source, extractors, filter);

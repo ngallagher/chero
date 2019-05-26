@@ -27,14 +27,14 @@ import org.simpleframework.module.resource.action.extract.PartExtractor;
 import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
-import org.simpleframework.module.resource.annotation.Intercept;
+import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.QueryParam;
 
 import junit.framework.TestCase;
 
 public class MethodResolverOrderTest extends TestCase {
 
-   @Intercept("/a/b/c")
+   @Filter("/a/b/c")
    public static class Longest {
       @QueryParam("x")
       String x;
@@ -46,46 +46,46 @@ public class MethodResolverOrderTest extends TestCase {
 
       Response response;
 
-      @Intercept("/.*")
+      @Filter("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
       }
    }
 
-   @Intercept("/a/b")
+   @Filter("/a/b")
    public static class Middle {
       @Inject
       Request request;
       @Inject
       Response response;
 
-      @Intercept("/.*")
+      @Filter("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
       }
    }
 
-   @Intercept("/a")
+   @Filter("/a")
    public static class Shortest {
       @Inject
       Request request;
       Response response;
 
-      @Intercept("/.*")
+      @Filter("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
       }
    }
 
-   @Intercept("/")
+   @Filter("/")
    public static class AlsoShortest {
       @Inject
       Request request;
 
-      @Intercept("/a")
+      @Filter("/a")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);

@@ -4,11 +4,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
 import org.simpleframework.module.resource.annotation.Entity;
-import org.simpleframework.module.resource.annotation.Intercept;
+import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.Path;
 
 public enum ComponentType {
-   SERVICE(Path.class) {
+   RESOURCE(Path.class) {
       public String extractPath(AnnotatedElement element) {
          Path export = element.getAnnotation(Path.class);
 
@@ -18,9 +18,9 @@ public enum ComponentType {
          return null;
       }
    },
-   INTERCEPTOR(Intercept.class) {
+   FILTER(Filter.class) {
       public String extractPath(AnnotatedElement element) {
-         Intercept export = element.getAnnotation(Intercept.class);
+         Filter export = element.getAnnotation(Filter.class);
 
          if (export != null) {
             return export.value();

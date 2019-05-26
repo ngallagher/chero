@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 @Transient
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Intercept {
+public @interface Filter {
    String value() default "/";
 }

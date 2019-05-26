@@ -22,24 +22,24 @@ import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
 import org.simpleframework.module.resource.annotation.GET;
-import org.simpleframework.module.resource.annotation.Intercept;
+import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.Path;
 
 import junit.framework.TestCase;
 
 public class ActionBuilderTest extends TestCase {
 
-   @Intercept("/a/b/c")
+   @Filter("/a/b/c")
    public static class InterceptorA {
-      @Intercept(".*")
+      @Filter(".*")
       public void addString(Model model) {
          model.set("a", "A");
       }
    }
 
-   @Intercept("/a")
+   @Filter("/a")
    public static class InterceptorB {
-      @Intercept(".*")
+      @Filter(".*")
       public void addString(Model model) {
          model.set("b", "B");
       }
