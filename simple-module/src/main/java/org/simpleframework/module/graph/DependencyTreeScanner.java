@@ -1,17 +1,16 @@
 package org.simpleframework.module.graph;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.MethodInfo;
-import io.github.classgraph.MethodInfoList;
-import io.github.classgraph.MethodParameterInfo;
+import org.simpleframework.module.annotation.Component;
+import org.simpleframework.module.graph.index.ClassNode;
+import org.simpleframework.module.graph.index.ClassPath;
+import org.simpleframework.module.graph.index.ConstructorNode;
 
 public class DependencyTreeScanner {
    
@@ -21,25 +20,25 @@ public class DependencyTreeScanner {
             .collect(Collectors.toSet());
       
       LinkedList<Class> ready = new LinkedList<>();
-      LinkedList<ClassInfo> resolving = new LinkedList<>();
-      Set<ClassInfo> done = new HashSet<>();
+      LinkedList<ClassNode> resolving = new LinkedList<>();
+      Set<ClassNode> done = new HashSet<>();
       
-      resolving.addAll(path.getComponents().values());
+      resolving.addAll(path.getTypes(Component.class));
       
       while(!resolving.isEmpty()) {
-         ClassInfo next = resolving.poll();
-         Set<ClassInfo> children = getChildren(next, path, names);
+         ClassNode next = resolving.poll();
+         Set<ClassNode> children = getChildren(next, path, names);
          
          children.removeAll(done);
          
          if(!children.isEmpty()) {
-            for(ClassInfo child : children) {
+            for(ClassNode child : children) {
                resolving.offer(child);
             }
             resolving.offer(next);
          } else {
             if(done.add(next)) {
-               Class type = next.loadClass();
+               Class type = next.getType();
                ready.offer(type);
             }
          }
@@ -47,21 +46,21 @@ public class DependencyTreeScanner {
       return new DependencyTree(path, ready);
    }
    
-   private Set<ClassInfo> getChildren(ClassInfo info, ClassPath path, Set<String> names) {
-      Set<ClassInfo> done = new HashSet<>();
-      MethodInfoList constructors = info.getConstructorInfo();
+   private Set<ClassNode> getChildren(ClassNode info, ClassPath path, Set<String> names) {
+      Set<ClassNode> done = new HashSet<>();
+      List<ConstructorNode> constructors = info.getConstructors();
       Predicate<String> predicate = path.getPredicate();
       int size = constructors.size();
       
       for(int i = 0; i < size; i++) {
-         MethodInfo constructor = constructors.get(i);
-         MethodParameterInfo[] params = constructor.getParameterInfo();
+         ConstructorNode constructor = constructors.get(i);
+         List<ClassNode> params = constructor.getParameterTypes();
          
-         for(MethodParameterInfo param : params) {
-            String name = param.getTypeDescriptor().toString();
+         for(ClassNode param : params) {
+            String name = param.getName();
             
             if(predicate.test(name)) {
-               ClassInfo paramInfo = path.getObjects().get(name);
+               ClassNode paramInfo = path.getType(name);
                
                if(paramInfo != null && !paramInfo.isEnum() && !names.contains(name)) {
                   paramInfo = componentType(paramInfo, path);
@@ -72,36 +71,49 @@ public class DependencyTreeScanner {
                   done.add(paramInfo);
                } 
             } else {
-               // XXX here we need to throw an exception if there is no way to resolve the component.......
+               if(!names.contains(name) && !name.startsWith("java.")) {
+                  ClassNode node = anyTypeImplementing(name, path, names);
+                  
+                  if(node == null) {
+                     throw new RuntimeException("Could not resolve type for " + name);
+                  }
+                  //done.add(node);
+               }
             }
          }
       }
       return done;
    }
    
-   private ClassInfo componentType(ClassInfo info, ClassPath path) {
+   private ClassNode anyTypeImplementing(String param, ClassPath path, Set<String> names) {
+      ClassNode node = path.getType(param);
+      if(node != null) {
+         return node.getImplementations()
+            .stream()
+            .filter(entry -> names.contains(entry.getName()))
+            .findFirst()
+            .orElse(null);
+      }
+      return null;
+   }
+   
+   private ClassNode componentType(ClassNode info, ClassPath path) {
       String rootName = info.getName();
 
-      if(!path.getComponents().containsKey(rootName)) {
+      if(!path.getTypes(Component.class).contains(info)) {
          if(info.isInterface()) {
-            ClassInfoList list = info.getClassesImplementing();
-            for(int i = 0; i < list.size(); i++) {
-               ClassInfo next = list.get(i);
-               String name = next.getName();
-               
-               if(path.getComponents().containsKey(name)) {
-                  return path.getComponents().get(name);
-               }
-            }
-            return null;
+            return info.getImplementations()
+                  .stream()
+                  .findFirst()
+                  .orElse(null);
          }
-         for(ClassInfo next : path.getComponents().values()) {
-            if(next.extendsSuperclass(rootName)) {
+         for(ClassNode next : path.getTypes(Component.class)) {
+            if(next.isSuper(rootName)) {
                return next;
             }
          }
          return null;
       }
-      return path.getComponents().get(rootName);
+      return info;
    }
 }

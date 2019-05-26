@@ -2,6 +2,8 @@ package org.simpleframework.module.graph;
 
 import java.util.Queue;
 
+import org.simpleframework.module.graph.index.ClassPath;
+
 public class DependencyTree {
 
    private final ClassPath path;

@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.ClassPath;
+import org.simpleframework.module.graph.index.ClassPath;
 import org.simpleframework.module.resource.ContentTypeResolver;
 import org.simpleframework.module.resource.FileManager;
 import org.simpleframework.module.resource.FileResolver;
@@ -14,24 +14,22 @@ import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.template.StringTemplateEngine;
 import org.simpleframework.module.resource.template.TemplateEngine;
-import org.simpleframework.module.service.ServiceAssembler;
+import org.simpleframework.module.service.ServiceBinder;
 
-public class ServerBuilder {
+class ServerBuilder {
    
    private final ActionAssembler assembler;
    private final SubscriptionRouter router;
-   private final ComponentManager manager;
    private final ContainerServer server;
    private final ResourceSystem system;
-   private final ServerBinder binder;
+   private final ServiceBinder binder;
    
-   public ServerBuilder(ServiceAssembler assembler, ComponentManager manager, ClassPath path) throws IOException {
+   public ServerBuilder(ServiceBinder binder, ComponentManager manager, ClassPath path) throws IOException {
       this.assembler = new ActionAssembler(manager, path);
       this.router = new SubscriptionRouter(manager);
       this.system = new ResourceSystem(manager, this.assembler);
-      this.binder = new ServerBinder(assembler, manager, path);
       this.server = new ContainerServer(system, router);
-      this.manager = manager;
+      this.binder = binder;
    }
 
    public Server create(Context context, int threads) {
@@ -44,14 +42,19 @@ public class ServerBuilder {
       binder.register(pool);
       binder.register(engine);
       binder.register(fileResolver);
-      binder.register(manager);
       binder.register(resolver);
 
-      return new Server() {
+      return new ServerBinder() {
+         
+         @Override
+         public Server register(Object instance) {
+            binder.register(instance);
+            return this;
+         }
          
          @Override
          public Acceptor start(String name, String cookie, int threads) {
-            Acceptor acceptor = server.start();
+            Acceptor acceptor = server.start(name, cookie, threads);
             
             binder.register(acceptor);
             binder.start(context);

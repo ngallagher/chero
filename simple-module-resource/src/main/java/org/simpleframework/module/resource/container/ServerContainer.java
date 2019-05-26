@@ -17,13 +17,13 @@ import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.transport.Channel;
 import org.simpleframework.transport.trace.Trace;
 
-public class RequestHandler implements Container {
+class ServerContainer implements Container {
 
    private final ResourceMatcher matcher;
    private final String session;
    private final String name;
    
-   public RequestHandler(ResourceMatcher matcher, String name, String session) {
+   public ServerContainer(ResourceMatcher matcher, String name, String session) {
       this.matcher = matcher;
       this.session = session;
       this.name = name;

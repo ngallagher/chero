@@ -12,8 +12,8 @@ public class ContextBuilder {
    private final AttributeCombiner combiner;
    private final Context context;
    
-   public ContextBuilder(Set<String> paths) {
-      this.combiner = new AttributeCombiner(paths);
+   public ContextBuilder(Set<String> paths, Set<String> files) {
+      this.combiner = new AttributeCombiner(paths, files);
       this.context = new MapContext();
    }
    

@@ -1,5 +1,6 @@
 package org.simpleframework.module.graph;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,9 +14,15 @@ import org.simpleframework.module.annotation.Module;
 public class DependencyGraphBuilder {
 
    private final Set<Class> modules;
-   
+   private final Set<String> paths;
+
    public DependencyGraphBuilder(Set<Class> modules) {
+      this(modules, Collections.EMPTY_SET);
+   }
+   
+   public DependencyGraphBuilder(Set<Class> modules, Set<String> paths) {
       this.modules = modules;
+      this.paths = paths;
    }
    
    public DependencyGraph create() {
@@ -25,12 +32,19 @@ public class DependencyGraphBuilder {
          collect(module, imports);
       }
       Set<String> packages = reduce(imports);
+      String[] directories = paths.stream()
+            .filter(Objects::nonNull)
+            .map(File::new)
+            .filter(File::isDirectory)
+            .map(File::toString)
+            .toArray(String[]::new);
+      
       String[] patterns = packages.stream()
             .filter(Objects::nonNull)
             .map(module -> module + ".*")
             .toArray(String[]::new);
       
-      return new DependencyGraph(packages, patterns);
+      return new DependencyGraph(packages, patterns, directories);
    }
    
    private Set<String> reduce(Set<Class<?>> imports) {

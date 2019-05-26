@@ -4,7 +4,7 @@ import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.ResourceSystem;
 import org.simpleframework.module.resource.SubscriptionRouter;
 
-public class ContainerServer extends Server {
+class ContainerServer {
    
    private final SubscriptionRouter router;
    private final ResourceMatcher matcher;
@@ -14,7 +14,6 @@ public class ContainerServer extends Server {
       this.router = router;
    }
 
-   @Override
    public Acceptor start(String name, String cookie, int threads) {
       try {
          return new ConnectionAcceptor(matcher, router, name, cookie, threads);

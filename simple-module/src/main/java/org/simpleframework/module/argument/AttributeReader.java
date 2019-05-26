@@ -4,6 +4,6 @@ import java.util.Map;
 import java.util.Set;
 
 public interface AttributeReader {
-   Map<String, String> read(Set<String> paths);
-   boolean exists(Set<String> paths);
+   Map<String, String> read(Set<String> files);
+   boolean exists(Set<String> files);
 }

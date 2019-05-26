@@ -13,23 +13,27 @@ import org.simpleframework.transport.SocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
-public class ConnectionAcceptor implements Acceptor {
+class ConnectionAcceptor implements Acceptor {
    
-   private final RequestHandler container;
+   private final ServerContainer container;
    private final RouterContainer wrapper;
-   private final SocketProcessor server;
+   private final SocketProcessor server;  
    private final Connection connection;
 
-   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String cookie, int threads) throws IOException {
-      this.container = new RequestHandler(matcher, name, cookie);
+   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String session) throws IOException {
+      this(matcher, router, name, session, 10);
+   }
+   
+   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String session, int threads) throws IOException {
+      this.container = new ServerContainer(matcher, name, session);
       this.wrapper = new RouterContainer(container, router, threads);
       this.server = new ContainerSocketProcessor(wrapper);
       this.connection = new SocketConnection(server);
    }
    
    @Override
-   public InetSocketAddress bind(int port, SSLContext context) {
-      InetSocketAddress listen = new InetSocketAddress(port);
+   public InetSocketAddress bind(String host, int port, SSLContext context) {
+      InetSocketAddress listen = new InetSocketAddress(host, port);
       
       try {   
          return (InetSocketAddress)connection.connect(listen, context);
@@ -37,4 +41,14 @@ public class ConnectionAcceptor implements Acceptor {
          throw new IllegalStateException("Could not listen on port " + port, e);
       }
    }
+   
+   @Override
+   public void close() {
+      try {
+         connection.close();
+      } catch(Exception e) {
+         throw new IllegalStateException("Could not stop listener", e);
+      }
+   }
+
 }

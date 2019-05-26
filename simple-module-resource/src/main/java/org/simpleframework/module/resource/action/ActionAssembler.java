@@ -9,7 +9,7 @@ import org.simpleframework.module.core.AnnotationValidator;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.graph.ClassPath;
+import org.simpleframework.module.graph.index.ClassPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.ClassFinder;

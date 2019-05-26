@@ -13,9 +13,9 @@ import org.simpleframework.module.core.ComponentListener;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
-import org.simpleframework.module.graph.ClassPath;
 import org.simpleframework.module.graph.DependencyTree;
 import org.simpleframework.module.graph.DependencyTreeScanner;
+import org.simpleframework.module.graph.index.ClassPath;
 
 public class ServiceAssembler {
    
@@ -29,7 +29,7 @@ public class ServiceAssembler {
       this.manager = manager;
    }
 
-   public Service assemble(ClassPath path, Context context, Set<Class> ignore) {
+   public Runnable assemble(ClassPath path, Context context, Set<Class> ignore) {
       try {
          DependencyTree tree = calculator.scan(path, ignore);
          Queue<Class> queue = tree.getOrder();

@@ -2,8 +2,10 @@ package org.simpleframework.module.resource.action.build;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.simpleframework.module.graph.ClassPath;
+import org.simpleframework.module.graph.index.ClassNode;
+import org.simpleframework.module.graph.index.ClassPath;
 
 public class ComponentFinder extends ClassFinder {
    
@@ -17,6 +19,9 @@ public class ComponentFinder extends ClassFinder {
 
    @Override
    public Set<Class> getComponents() {
-      return path.getTypes(type);
+      return path.getTypes(type)
+            .stream()
+            .map(ClassNode::getType)
+            .collect(Collectors.toSet());
    }
 }

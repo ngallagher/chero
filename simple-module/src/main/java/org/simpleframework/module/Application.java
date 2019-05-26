@@ -1,8 +1,55 @@
 package org.simpleframework.module;
 
-import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.ClassPath;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public interface Application<T> {
-   T create(ClassPath path, Context context) throws Exception;
+public class Application<T> {
+   
+   public static <T> Binder<T> create(Class<? extends Driver<T>> type) {
+      return new ApplicationBinder<T>(type);
+   }
+   
+   private static class ApplicationBinder<T> implements Binder<T> {
+      
+      private final DriverLoader<T> launcher;
+      private final Set<Class> modules;
+      private final Set<String> files;
+      private final Set<String> paths;
+      
+      private ApplicationBinder(Class<? extends Driver<T>> type) {
+         this.modules = new LinkedHashSet<>();
+         this.paths = new LinkedHashSet<>();
+         this.files = new LinkedHashSet<>();
+         this.launcher = new DriverLoader<T>(type, modules, files, paths);
+      }
+      
+      @Override
+      public Binder<T> module(Class module) {
+         modules.add(module);
+         return this;
+      }
+      
+      @Override
+      public Binder<T> path(String path) {
+         paths.add(path);
+         return this;
+      }
+      
+      @Override
+      public Binder<T> file(String file) {
+         files.add(file);
+         return this;
+      }
+      
+      @Override
+      public T create(String... arguments) {
+         if(paths.isEmpty()) {
+            throw new IllegalArgumentException("Driver requires a configuration path");
+         }
+         if(modules.isEmpty()) {
+            throw new IllegalArgumentException("Driver requires at least one module");
+         }
+         return launcher.create(arguments);
+      }
+   }
 }

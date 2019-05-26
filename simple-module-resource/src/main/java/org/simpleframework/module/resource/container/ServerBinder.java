@@ -1,45 +1,58 @@
 package org.simpleframework.module.resource.container;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.simpleframework.module.resource.SessionCookie;
 
-import org.simpleframework.module.core.ComponentManager;
-import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.ClassPath;
-import org.simpleframework.module.service.Service;
-import org.simpleframework.module.service.ServiceAssembler;
+abstract class ServerBinder implements Server {
+   
+   private String name;
+   private String cookie;
+   private int threads;  
+   
+   protected ServerBinder() {
+      this(SessionCookie.SESSION_ID);
+   }
 
-public class ServerBinder {
-   
-   private final ServiceAssembler assembler;
-   private final ComponentManager manager;
-   private final ClassPath path;
-   private final Set<Class> ignore;
-   
-   public ServerBinder(ServiceAssembler assembler, ComponentManager manager, ClassPath path) {
-      this.ignore = new HashSet<>();
-      this.assembler = assembler;
-      this.manager = manager;
-      this.path = path;
+   protected ServerBinder(String cookie) {
+      this(cookie, 10);
    }
    
-   public ServerBinder register(Object instance) {
-      Class type = instance.getClass();
-      
-      ignore.add(type);
-      manager.register(instance);
-      
+   protected ServerBinder(String cookie, int threads) {
+      this.name = Server.class.getSimpleName();
+      this.threads = threads;
+      this.cookie = cookie;
+   }
+   
+   @Override
+   public Server name(String name) {
+      this.name = name;
       return this;
    }
    
-   public ServerBinder start(Context context) {
-      Service service = assembler.assemble(path, context, ignore);
-      
-      service.start();
-      ignore.clear();
-      
+   @Override
+   public Server session(String cookie) {
+      this.cookie = cookie;
       return this;
-      
    }
-
+   
+   @Override
+   public Server threads(int threads) {
+      this.threads = threads;
+      return this;
+   }
+   
+   @Override
+   public Acceptor start() {
+      if(name == null) {
+         throw new IllegalArgumentException("Server requires a name");
+      }
+      if(cookie == null) {
+         throw new IllegalArgumentException("Server requires a session cookie");
+      }
+      if(threads <= 0) {
+         throw new IllegalArgumentException("Server must have at least one thread");
+      }
+      return start(name, cookie, threads);
+   }
+   
+   protected abstract Acceptor start(String name, String cookie, int threads);
 }
