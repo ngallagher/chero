@@ -4,7 +4,6 @@ import static org.simpleframework.http.Method.CONNECT;
 import static org.simpleframework.http.Protocol.DATE;
 import static org.simpleframework.http.Protocol.SERVER;
 import static org.simpleframework.module.resource.ResourceEvent.ERROR;
-import static org.simpleframework.module.resource.SessionCookie.SESSION_ID;
 
 import java.util.UUID;
 
@@ -18,13 +17,13 @@ import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.transport.Channel;
 import org.simpleframework.transport.trace.Trace;
 
-public class ContainerRequestHandler implements Container {
+public class RequestHandler implements Container {
 
    private final ResourceMatcher matcher;
    private final String session;
    private final String name;
    
-   public ContainerRequestHandler(ResourceMatcher matcher, String name, String session) {
+   public RequestHandler(ResourceMatcher matcher, String name, String session) {
       this.matcher = matcher;
       this.session = session;
       this.name = name;

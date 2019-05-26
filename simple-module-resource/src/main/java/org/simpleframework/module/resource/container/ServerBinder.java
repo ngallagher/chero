@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.server;
+package org.simpleframework.module.resource.container;
 
 import java.util.HashSet;
 import java.util.Set;

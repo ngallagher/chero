@@ -9,20 +9,19 @@ import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.http.socket.service.RouterContainer;
 import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.SubscriptionRouter;
-import org.simpleframework.module.resource.server.Acceptor;
 import org.simpleframework.transport.SocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
 public class ContainerAcceptor implements Acceptor {
    
-   private final ContainerRequestHandler container;
+   private final RequestHandler container;
    private final RouterContainer wrapper;
    private final SocketProcessor server;
    private final Connection connection;
 
    public ContainerAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String cookie, int threads) throws IOException {
-      this.container = new ContainerRequestHandler(matcher, name, cookie);
+      this.container = new RequestHandler(matcher, name, cookie);
       this.wrapper = new RouterContainer(container, router, threads);
       this.server = new ContainerSocketProcessor(wrapper);
       this.connection = new SocketConnection(server);

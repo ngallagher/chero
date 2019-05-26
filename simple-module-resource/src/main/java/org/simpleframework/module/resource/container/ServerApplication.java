@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.server;
+package org.simpleframework.module.resource.container;
 
 import java.util.LinkedList;
 import java.util.List;

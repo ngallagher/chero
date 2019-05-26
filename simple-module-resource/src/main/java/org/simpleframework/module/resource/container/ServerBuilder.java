@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.server;
+package org.simpleframework.module.resource.container;
 
 import java.io.IOException;
 
@@ -12,7 +12,6 @@ import org.simpleframework.module.resource.FileResolver;
 import org.simpleframework.module.resource.ResourceSystem;
 import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.module.resource.action.ActionAssembler;
-import org.simpleframework.module.resource.container.ContainerServer;
 import org.simpleframework.module.resource.template.StringTemplateEngine;
 import org.simpleframework.module.resource.template.TemplateEngine;
 import org.simpleframework.module.service.ServiceAssembler;

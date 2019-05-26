@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.server;
+package org.simpleframework.module.resource.container;
 
 import org.simpleframework.module.resource.SessionCookie;
 
