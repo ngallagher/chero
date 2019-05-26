@@ -1,10 +1,10 @@
 package org.simpleframework.module.resource.container;
 
-import org.simpleframework.module.resource.Acceptor;
 import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.ResourceSystem;
-import org.simpleframework.module.resource.Server;
 import org.simpleframework.module.resource.SubscriptionRouter;
+import org.simpleframework.module.resource.server.Acceptor;
+import org.simpleframework.module.resource.server.Server;
 
 public class ContainerServer extends Server {
    

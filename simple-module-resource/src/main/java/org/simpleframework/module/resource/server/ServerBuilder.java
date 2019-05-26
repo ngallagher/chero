@@ -1,31 +1,36 @@
-package org.simpleframework.module.resource;
+package org.simpleframework.module.resource.server;
 
 import java.io.IOException;
 
-import org.simpleframework.module.build.ServiceAssembler;
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.graph.ClassPath;
+import org.simpleframework.module.resource.ContentTypeResolver;
+import org.simpleframework.module.resource.FileManager;
+import org.simpleframework.module.resource.FileResolver;
+import org.simpleframework.module.resource.ResourceSystem;
+import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.container.ContainerServer;
 import org.simpleframework.module.resource.template.StringTemplateEngine;
 import org.simpleframework.module.resource.template.TemplateEngine;
+import org.simpleframework.module.service.ServiceAssembler;
 
-public class ResourceManager {
+public class ServerBuilder {
    
    private final ActionAssembler assembler;
    private final SubscriptionRouter router;
    private final ComponentManager manager;
    private final ContainerServer server;
    private final ResourceSystem system;
-   private final ResourceBinder binder;
+   private final ServerBinder binder;
    
-   public ResourceManager(ServiceAssembler assembler, ComponentManager manager, ClassPath path) throws IOException {
+   public ServerBuilder(ServiceAssembler assembler, ComponentManager manager, ClassPath path) throws IOException {
       this.assembler = new ActionAssembler(manager, path);
       this.router = new SubscriptionRouter(manager);
       this.system = new ResourceSystem(manager, this.assembler);
-      this.binder = new ResourceBinder(assembler, manager, path);
+      this.binder = new ServerBinder(assembler, manager, path);
       this.server = new ContainerServer(system, router);
       this.manager = manager;
    }

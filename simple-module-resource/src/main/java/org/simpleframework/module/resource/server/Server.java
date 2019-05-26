@@ -1,4 +1,6 @@
-package org.simpleframework.module.resource;
+package org.simpleframework.module.resource.server;
+
+import org.simpleframework.module.resource.SessionCookie;
 
 public abstract class Server {
    

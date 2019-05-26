@@ -1,29 +1,29 @@
-package org.simpleframework.module.resource;
+package org.simpleframework.module.resource.server;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.simpleframework.module.build.Service;
-import org.simpleframework.module.build.ServiceAssembler;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.graph.ClassPath;
+import org.simpleframework.module.service.Service;
+import org.simpleframework.module.service.ServiceAssembler;
 
-public class ResourceBinder {
+public class ServerBinder {
    
    private final ServiceAssembler assembler;
    private final ComponentManager manager;
    private final ClassPath path;
    private final Set<Class> ignore;
    
-   public ResourceBinder(ServiceAssembler assembler, ComponentManager manager, ClassPath path) {
+   public ServerBinder(ServiceAssembler assembler, ComponentManager manager, ClassPath path) {
       this.ignore = new HashSet<>();
       this.assembler = assembler;
       this.manager = manager;
       this.path = path;
    }
    
-   public ResourceBinder register(Object instance) {
+   public ServerBinder register(Object instance) {
       Class type = instance.getClass();
       
       ignore.add(type);
@@ -32,7 +32,7 @@ public class ResourceBinder {
       return this;
    }
    
-   public ResourceBinder start(Context context) {
+   public ServerBinder start(Context context) {
       Service service = assembler.assemble(path, context, ignore);
       
       service.start();

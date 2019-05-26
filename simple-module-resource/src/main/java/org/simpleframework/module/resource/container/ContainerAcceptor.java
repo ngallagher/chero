@@ -7,9 +7,9 @@ import javax.net.ssl.SSLContext;
 
 import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.http.socket.service.RouterContainer;
-import org.simpleframework.module.resource.Acceptor;
 import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.SubscriptionRouter;
+import org.simpleframework.module.resource.server.Acceptor;
 import org.simpleframework.transport.SocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;

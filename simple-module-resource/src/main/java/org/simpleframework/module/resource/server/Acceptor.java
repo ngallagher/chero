@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource;
+package org.simpleframework.module.resource.server;
 
 import java.net.InetSocketAddress;
 

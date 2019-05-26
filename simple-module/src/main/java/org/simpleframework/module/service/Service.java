@@ -1,4 +1,4 @@
-package org.simpleframework.module.build;
+package org.simpleframework.module.service;
 
 public interface Service {
    void start();
