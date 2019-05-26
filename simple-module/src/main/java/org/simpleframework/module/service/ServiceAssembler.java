@@ -2,7 +2,6 @@ package org.simpleframework.module.service;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -13,45 +12,42 @@ import org.simpleframework.module.core.ComponentListener;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
-import org.simpleframework.module.graph.DependencyTree;
-import org.simpleframework.module.graph.DependencyTreeScanner;
+import org.simpleframework.module.graph.DependencyScanner;
 import org.simpleframework.module.path.ClassPath;
 
 public class ServiceAssembler {
    
-   private final DependencyTreeScanner calculator;
+   private final DependencyScanner calculator;
    private final ConstructorScanner scanner;
    private final ComponentManager manager;
    
    public ServiceAssembler(ComponentManager manager, List<Extractor> extractors, Predicate<Argument> filter) {
       this.scanner = new ConstructorScanner(manager, extractors, filter);
-      this.calculator = new DependencyTreeScanner();
+      this.calculator = new DependencyScanner();
       this.manager = manager;
    }
 
    public Runnable assemble(ClassPath path, Context context, Set<Class> ignore) {
-      try {
-         DependencyTree tree = calculator.scan(path, ignore);
-         Queue<Class> queue = tree.getOrder();
-         
-         while(!queue.isEmpty()) {
-            Class type = queue.poll();
+      calculator.create(path, ignore).traverse(type -> {
+         try {
             List<Function> builders = scanner.createConstructors(type);
             Iterator<Function> iterator = builders.iterator();
             
             while(iterator.hasNext()) {
                try {
                   Function builder = iterator.next();
-                  Object instance = builder.getValue(context);
-                  break;
+                  return builder.getValue(context);                 
                } catch(Exception e) {
                   e.printStackTrace();
                }
             }
+            return null;
+         }catch(Exception e) {
+            throw new IllegalStateException("Could not start application", e);
          }
-         return () -> manager.resolveAll(ComponentListener.class).forEach(ComponentListener::onReady);
-      }catch(Exception e) {
-         throw new IllegalStateException("Could not start application", e);
-      }
+      });
+      return () -> manager.resolveAll(ComponentListener.class)
+            .forEach(ComponentListener::onReady);
+
    }
 }

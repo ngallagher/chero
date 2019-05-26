@@ -10,66 +10,61 @@ import org.simpleframework.module.path.ClassPath;
 
 public class DependencyResolver {
    
-   private final Map<String, ClassNode> index;
-   private final DependencyFilter filter;
+   private final Map<String, Dependency> index;
+   private final ModuleFilter filter;
    private final ClassPath path;
-   private final Set<String> internal;
    
-   public DependencyResolver(ClassPath path, Set<String> internal) {  
-      this.filter = new DependencyFilter(path);
+   public DependencyResolver(ModuleFilter filter, ClassPath path) {  
       this.index = new HashMap<>(); 
-      this.internal = internal;
+      this.filter = filter;
       this.path = path;      
    }
    
-   public ClassNode resolve(ClassNode node) {
-      String name = node.getName();   
+   public Dependency resolve(ClassNode node) {
+      String name = node.getName();
       
       return index.computeIfAbsent(name, key -> {
          Set<ClassNode> nodes = path.getTypes(Component.class);  
-         return resolve(node, nodes);
-      });
+         ClassNode match = resolve(node, nodes);
+         
+         return new Dependency(node, match, name);
+      });          
    }
    
    private ClassNode resolve(ClassNode node, Set<ClassNode> nodes) {
-      if (filter.test(node)) {         
-         if(!nodes.contains(node)) {
-            return resolveInternal(node, nodes);
+      if (filter.isModule(node)) {         
+         if(!filter.isComponent(node)) {
+            return resolveModule(node, nodes);
          }
          return node;
       }
-      return resolveExternal(node, nodes);
+      return resolveInternal(node, nodes);
    }
 
-   private ClassNode resolveExternal(ClassNode node, Set<ClassNode> nodes) {
+   private ClassNode resolveInternal(ClassNode node, Set<ClassNode> nodes) {   
       if(node.isInterface()) {
          return node.getImplementations()
                .stream()
-               .filter(entry -> {
-                  String type = entry.getName();
-                  return internal.contains(type);
-               }) 
+               .filter(filter::isInternal) 
                .findFirst()
                .orElse(null);
       }
       return null;
    }
    
-   private ClassNode resolveInternal(ClassNode node, Set<ClassNode> nodes) {
+   private ClassNode resolveModule(ClassNode node, Set<ClassNode> nodes) {
       String name = node.getName();
-      
+    
       if(node.isInterface()) {
          return node.getImplementations()
                .stream()
-               .filter(entry -> {
-                  String type = entry.getName();
-                  return !internal.contains(type);
-               })               
+               .filter(filter::isComponent)               
                .findFirst()
                .orElse(null);
       }
       return nodes.stream()
             .filter(next -> next.isSuper(name))
+            .filter(filter::isComponent)                
             .findFirst()
             .orElse(null);
    }

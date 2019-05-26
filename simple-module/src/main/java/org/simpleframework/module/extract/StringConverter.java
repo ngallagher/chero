@@ -10,48 +10,6 @@ public class StringConverter {
       super();
    }
 
-   public boolean accept(Class type) {
-      Class actual = convert(type);
-
-      if (actual == String.class) {
-         return true;
-      }
-      if (actual == Integer.class) {
-         return true;
-      }
-      if (actual == Double.class) {
-         return true;
-      }
-      if (actual == Float.class) {
-         return true;
-      }
-      if (actual == Boolean.class) {
-         return true;
-      }
-      if (actual == Byte.class) {
-         return true;
-      }
-      if (actual == Short.class) {
-         return true;
-      }
-      if (actual == Long.class) {
-         return true;
-      }
-      if (actual == Character.class) {
-         return true;
-      }
-      if (actual == File.class) {
-         return true;
-      }
-      if (actual == URI.class) {
-         return true;
-      }
-      if (Enum.class.isAssignableFrom(type)) {
-         return true;
-      }
-      return false;
-   }
-
    public Object convert(Class type, String value) {
       Class actual = convert(type);
 
@@ -93,35 +51,49 @@ public class StringConverter {
       }
       return value;
    }
+   
+   public boolean accept(Class type) {
+      Class actual = convert(type);
 
-   public Object box(Class type) {
-      if (type == int.class) {
-         return 0;
+      if (actual == String.class) {
+         return true;
       }
-      if (type == double.class) {
-         return 0.0;
+      if (actual == Integer.class) {
+         return true;
       }
-      if (type == float.class) {
-         return 0f;
+      if (actual == Double.class) {
+         return true;
       }
-      if (type == boolean.class) {
-         return false;
+      if (actual == Float.class) {
+         return true;
       }
-      if (type == byte.class) {
-         return (byte) 0x00;
+      if (actual == Boolean.class) {
+         return true;
       }
-      if (type == short.class) {
-         return (short) 0;
+      if (actual == Byte.class) {
+         return true;
       }
-      if (type == long.class) {
-         return 0L;
+      if (actual == Short.class) {
+         return true;
       }
-      if (type == char.class) {
-         return (char) 0;
+      if (actual == Long.class) {
+         return true;
       }
-      return null;
+      if (actual == Character.class) {
+         return true;
+      }
+      if (actual == File.class) {
+         return true;
+      }
+      if (actual == URI.class) {
+         return true;
+      }
+      if (Enum.class.isAssignableFrom(type)) {
+         return true;
+      }
+      return false;
    }
-
+   
    private Class convert(Class type) {
       if (type == String.class) {
          return String.class;
@@ -151,5 +123,33 @@ public class StringConverter {
          return Character.class;
       }
       return type;
+   }   
+
+   public Object box(Class type) {
+      if (type == int.class) {
+         return 0;
+      }
+      if (type == double.class) {
+         return 0.0;
+      }
+      if (type == float.class) {
+         return 0f;
+      }
+      if (type == boolean.class) {
+         return false;
+      }
+      if (type == byte.class) {
+         return (byte) 0x00;
+      }
+      if (type == short.class) {
+         return (short) 0;
+      }
+      if (type == long.class) {
+         return 0L;
+      }
+      if (type == char.class) {
+         return (char) 0;
+      }
+      return null;
    }
 }

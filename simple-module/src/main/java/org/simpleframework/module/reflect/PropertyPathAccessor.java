@@ -9,13 +9,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.simpleframework.module.common.Introspector;
-import org.simpleframework.module.common.StringConverter;
+import org.simpleframework.module.extract.StringConverter;
 
 public class PropertyPathAccessor implements Accessor {
    
+   private final StringConverter converter;
    private final Accessor[] accessors;
    
    public PropertyPathAccessor(String path, Class type) throws Exception  {
+      this.converter = new StringConverter();
       this.accessors = getPath(path, type);
    }
    
@@ -108,14 +110,14 @@ public class PropertyPathAccessor implements Accessor {
       }
       if(Map.class.isAssignableFrom(result)) {
          Class[] dependents = Introspector.getReturnDependents(method);
-         Object key = StringConverter.convert(dependents[0], argument);
+         Object key = converter.convert(dependents[0], argument);
          Class entry = dependents[1];
          
          return new PropertyKeyAccessor(name, type, entry, key);
       }
       if(parameters.length == 1) {
          Class parameter = parameters[0];
-         Object value = StringConverter.convert(parameter, argument);                 
+         Object value = converter.convert(parameter, argument);                 
          
          return new PropertyArgumentAccessor(name, type, value);
       }
