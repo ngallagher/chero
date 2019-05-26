@@ -23,7 +23,7 @@ public class ServerDriver implements Driver<Server> {
    
    @Override
    public Server create(ClassPath path, Context context) throws Exception {
-      List<Extractor> extractors = new LinkedList<>();
+      List<Extractor> extractors = new LinkedList<>();  
       ServiceAssembler assembler = new ServiceAssembler(manager, extractors, argument -> false);
       ServiceBinder binder = new ServiceBinder(assembler, manager, path);
       ServerBuilder builder = new ServerBuilder(binder, manager, path);
