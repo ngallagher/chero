@@ -2,7 +2,6 @@ package org.simpleframework.module.service;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import org.simpleframework.module.build.Argument;
@@ -13,6 +12,7 @@ import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.graph.DependencyScanner;
+import org.simpleframework.module.graph.ModuleFilter;
 import org.simpleframework.module.path.ClassPath;
 
 public class ServiceAssembler {
@@ -27,8 +27,8 @@ public class ServiceAssembler {
       this.manager = manager;
    }
 
-   public Runnable assemble(ClassPath path, Context context, Set<Class> ignore) {
-      calculator.create(path, ignore).traverse(type -> {
+   public Runnable assemble(ModuleFilter filter, ClassPath path, Context context) {
+      calculator.create(filter, path).traverse(type -> {
          try {
             List<Function> builders = scanner.createConstructors(type);
             Iterator<Function> iterator = builders.iterator();

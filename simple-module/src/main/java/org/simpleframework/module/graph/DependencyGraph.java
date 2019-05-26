@@ -1,6 +1,5 @@
 package org.simpleframework.module.graph;
 
-import java.util.Set;
 import java.util.function.Function;
 
 import org.simpleframework.module.path.ClassPath;
@@ -9,8 +8,8 @@ public class DependencyGraph {
       
    private final DependencyCalculator calculator;
    
-   public DependencyGraph(ClassPath path, Set<Class> internal) {
-      this.calculator = new DependencyCalculator(path, internal);
+   public DependencyGraph(ModuleFilter filter, ClassPath path) {
+      this.calculator = new DependencyCalculator(filter, path);
    }
    
    public void traverse(Function<Class, Object> builder) {

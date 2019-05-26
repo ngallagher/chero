@@ -16,9 +16,9 @@ public class DependencyCalculator {
    private final ModuleFilter filter;
    private final ClassPath path;
    
-   public DependencyCalculator(ClassPath path, Set<Class> internal) {
-      this.filter = new ModuleFilter(path, internal);
+   public DependencyCalculator(ModuleFilter filter, ClassPath path) {
       this.collector = new DependencyCollector(filter, path);
+      this.filter = filter;
       this.path = path;
    }
    
@@ -29,7 +29,9 @@ public class DependencyCalculator {
          Set<ClassNode> done = new HashSet<>();
          
          for(ClassNode node: require) {
-            calculate(ready, done, node);
+            if(filter.isModule(node)) {
+               calculate(ready, done, node);
+            }
          }
       }      
    }

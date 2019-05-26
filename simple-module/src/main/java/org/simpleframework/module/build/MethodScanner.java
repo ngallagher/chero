@@ -1,6 +1,7 @@
 package org.simpleframework.module.build;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,14 @@ public class MethodScanner {
             Method[] methods = type.getDeclaredMethods();
    
             for (Method method : methods) {
-               Function builder = createMethod(type, method);
-   
-               if (builder != null) {
-                  matches.add(builder);
+               int modifiers = method.getModifiers();
+               
+               if(Modifier.isPublic(modifiers)) {
+                  Function builder = createMethod(type, method);
+      
+                  if (builder != null) {
+                     matches.add(builder);
+                  }
                }
             }
             if(matches.isEmpty()) {

@@ -1,16 +1,16 @@
 package org.simpleframework.module.resource.container;
 
 import org.simpleframework.module.resource.ResourceMatcher;
-import org.simpleframework.module.resource.ResourceSystem;
 import org.simpleframework.module.resource.SubscriptionRouter;
+import org.simpleframework.module.resource.action.ActionAssembler;
 
 class ContainerServer {
    
    private final SubscriptionRouter router;
    private final ResourceMatcher matcher;
 
-   public ContainerServer(ResourceSystem system, SubscriptionRouter router) {
-      this.matcher = system.create();
+   public ContainerServer(ActionAssembler assembler, SubscriptionRouter router) {
+      this.matcher = assembler.assemble();
       this.router = router;
    }
 

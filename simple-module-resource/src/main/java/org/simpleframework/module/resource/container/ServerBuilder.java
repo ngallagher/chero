@@ -9,7 +9,6 @@ import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.resource.ContentTypeResolver;
 import org.simpleframework.module.resource.FileManager;
 import org.simpleframework.module.resource.FileResolver;
-import org.simpleframework.module.resource.ResourceSystem;
 import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.template.StringTemplateEngine;
@@ -21,14 +20,12 @@ class ServerBuilder {
    private final ActionAssembler assembler;
    private final SubscriptionRouter router;
    private final ContainerServer server;
-   private final ResourceSystem system;
    private final ServiceBinder binder;
    
    public ServerBuilder(ServiceBinder binder, ComponentManager manager, ClassPath path) throws IOException {
       this.assembler = new ActionAssembler(manager, path);
       this.router = new SubscriptionRouter(manager);
-      this.system = new ResourceSystem(manager, this.assembler);
-      this.server = new ContainerServer(system, router);
+      this.server = new ContainerServer(assembler, router);
       this.binder = binder;
    }
 

@@ -1,5 +1,7 @@
 package org.simpleframework.module.resource.action.build;
 
+import static org.simpleframework.module.resource.action.build.ComponentType.SERVICE;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -35,7 +37,7 @@ public class ActionScanner {
          String typePath = componentType.extractPath(type);
          
          for (Function function : functions) {
-            String methodPath = componentType.extractPath(function);
+            String methodPath = SERVICE.extractPath(function);
 
             if (methodPath != null) {
                MethodMatcher matcher = createMatcher(function, typePath, methodPath);

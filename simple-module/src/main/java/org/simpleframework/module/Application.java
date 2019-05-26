@@ -3,7 +3,7 @@ package org.simpleframework.module;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class Application<T> {
+public class Application {
    
    public static <T> Binder<T> create(Class<? extends Driver<T>> type) {
       return new ApplicationBinder<T>(type);
@@ -43,9 +43,6 @@ public class Application<T> {
       
       @Override
       public T create(String... arguments) {
-         if(paths.isEmpty()) {
-            throw new IllegalArgumentException("Driver requires a configuration path");
-         }
          if(modules.isEmpty()) {
             throw new IllegalArgumentException("Driver requires at least one module");
          }

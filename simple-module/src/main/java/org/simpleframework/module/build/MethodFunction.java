@@ -30,9 +30,6 @@ public class MethodFunction implements Function {
       Object[] values = arguments.create(context);
       Object object = method.invoke(destination, values);
 
-      if (object != null) {
-         manager.register(object);
-      }
       return (T)object;
    }
 

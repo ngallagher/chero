@@ -11,7 +11,6 @@ import org.simpleframework.http.Response;
 import org.simpleframework.module.resource.Resource;
 import org.simpleframework.module.resource.ResourceMatcher;
 
-//@Component
 public class TemplateMatcher implements ResourceMatcher {
    
    private final Map<String, Method> cache;
