@@ -34,7 +34,7 @@ public class ConnectionAcceptor implements Acceptor {
       try {   
          return (InetSocketAddress)connection.connect(listen, context);
       } catch(Exception e) {
-         throw new IllegalStateException("Could not start server on port " + port, e);
+         throw new IllegalStateException("Could not listen on port " + port, e);
       }
    }
 }
