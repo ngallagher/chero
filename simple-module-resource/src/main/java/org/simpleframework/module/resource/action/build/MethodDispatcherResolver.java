@@ -20,11 +20,11 @@ public class MethodDispatcherResolver implements MethodResolver {
 
    private final Cache<String, MatchGroup> cache;
    private final List<Match> matches;
-   private final ComponentFinder finder;
+   private final ClassFinder finder;
    private final ActionScanner scanner;
    private final PathResolver resolver;
    
-   public MethodDispatcherResolver(ActionScanner scanner, ComponentFinder finder) {
+   public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder) {
       this.cache = new LeastRecentlyUsedCache<String, MatchGroup>(1000);
       this.matches = new LinkedList<Match>();
       this.resolver = new PathResolver();

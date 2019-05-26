@@ -12,16 +12,16 @@ import org.simpleframework.module.annotation.Module;
 
 public class DependencyGraphBuilder {
 
-   private final Set<Class<?>> modules;
+   private final Set<Class> modules;
    
-   public DependencyGraphBuilder(Set<Class<?>> modules) {
+   public DependencyGraphBuilder(Set<Class> modules) {
       this.modules = modules;
    }
    
    public DependencyGraph create() {
       Set<Class<?>> imports = new HashSet<>();
 
-      for(Class<?> module : modules) {
+      for(Class module : modules) {
          collect(module, imports);
       }
       Set<String> packages = reduce(imports);

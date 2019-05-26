@@ -1,22 +1,24 @@
 package org.simpleframework.module.resource.container;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class ResourceServer {
+import javax.net.ssl.SSLContext;
+
+import org.simpleframework.module.resource.ResourceSystem;
+import org.simpleframework.module.resource.Server;
+import org.simpleframework.module.resource.SubscriptionRouter;
+
+public class ResourceServer implements Server {
    
-   private final ResourceServerBuilder builder;
-   private final int port;
-   
-   public ResourceServer(ResourceServerBuilder builder, int port) {
-      this.builder = builder;
-      this.port = port;
+   private final ResourceServerAcceptor acceptor;
+
+   public ResourceServer(ResourceSystem system, SubscriptionRouter router) throws IOException {
+      this.acceptor = new ResourceServerAcceptor(system, router);
    }
 
-   public InetSocketAddress start() {
-      try {
-         return builder.create(null, port);
-      } catch(Exception e) {
-         throw new IllegalStateException("Could not create container", e);
-      }
+   @Override
+   public InetSocketAddress start(int port, SSLContext context) {
+      return acceptor.accept(port, context);
    }
 }

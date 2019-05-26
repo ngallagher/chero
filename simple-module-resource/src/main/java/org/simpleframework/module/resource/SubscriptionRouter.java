@@ -13,16 +13,17 @@ import org.simpleframework.http.socket.service.Router;
 import org.simpleframework.http.socket.service.Service;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
+import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.resource.annotation.Subscribe;
 
 public class SubscriptionRouter implements Router {
    
    private final Cache<String, Router> routes;
-   private final List<Service> services;
+   private final ComponentManager manager;
    
-   public SubscriptionRouter(List<Service> services) {
+   public SubscriptionRouter(ComponentManager manager) {
       this.routes = new LeastRecentlyUsedCache<String, Router>();
-      this.services = services;
+      this.manager = manager;
    }
 
    @Override
@@ -36,6 +37,8 @@ public class SubscriptionRouter implements Router {
             Router router = routes.fetch(normal);
             
             if(router == null) {
+               List<Service> services = manager.resolveAll(Service.class);
+               
                for(Service service : services) {
                   Class<?> type = service.getClass();
                   Subscribe label = type.getAnnotation(Subscribe.class);

@@ -2,6 +2,8 @@ package org.simpleframework.module.resource;
 
 import java.util.List;
 
+import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.resource.action.ActionAssembler;
 import org.simpleframework.module.resource.action.ActionMatcher;
 
 public class ResourceSystem {
@@ -9,9 +11,9 @@ public class ResourceSystem {
    private final List<ResourceMatcher> matchers;
    private final ActionMatcher matcher;
    
-   public ResourceSystem(ActionMatcher matcher, List<ResourceMatcher> matchers) {
-      this.matchers = matchers;
-      this.matcher = matcher;
+   public ResourceSystem(ComponentManager manager, ActionAssembler assembler) {
+      this.matchers = manager.resolveAll(ResourceMatcher.class);
+      this.matcher = assembler.assemble();
    }
 
    public ResourceMatcher create() {

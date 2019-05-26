@@ -15,15 +15,8 @@ import io.github.classgraph.MethodParameterInfo;
 
 public class DependencyTreeScanner {
    
-   private final DependencyPath path;
-
-   public DependencyTreeScanner(DependencyPath path) {
-      this.path = path;
-   }
-   
-   public DependencyTree scan(Class<?>... internal) {
-      Set<String> names = Arrays.asList(internal)
-            .stream()
+   public DependencyTree scan(ClassPath path, Set<Class> internal) {
+      Set<String> names = internal.stream()
             .map(Class::getName)
             .collect(Collectors.toSet());
       
@@ -54,7 +47,7 @@ public class DependencyTreeScanner {
       return new DependencyTree(path, ready);
    }
    
-   private Set<ClassInfo> getChildren(ClassInfo info, DependencyPath path, Set<String> names) {
+   private Set<ClassInfo> getChildren(ClassInfo info, ClassPath path, Set<String> names) {
       Set<ClassInfo> done = new HashSet<>();
       MethodInfoList constructors = info.getConstructorInfo();
       Predicate<String> predicate = path.getPredicate();
@@ -86,7 +79,7 @@ public class DependencyTreeScanner {
       return done;
    }
    
-   private ClassInfo componentType(ClassInfo info, DependencyPath path) {
+   private ClassInfo componentType(ClassInfo info, ClassPath path) {
       String rootName = info.getName();
 
       if(!path.getComponents().containsKey(rootName)) {

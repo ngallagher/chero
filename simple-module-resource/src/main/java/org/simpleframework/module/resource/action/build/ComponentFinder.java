@@ -1,23 +1,22 @@
 package org.simpleframework.module.resource.action.build;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
-public class ComponentFinder {
+import org.simpleframework.module.graph.ClassPath;
 
-   private final Set<Class> types;
+public class ComponentFinder extends ClassFinder {
+   
+   private final Class<? extends Annotation> type;
+   private final ClassPath path;
 
-   public ComponentFinder(Class... types) {
-      this(Arrays.asList(types));
+   public ComponentFinder(ClassPath path, Class<? extends Annotation> type) {
+      this.path = path;
+      this.type = type;
    }
 
-   public ComponentFinder(Collection<Class> types) {
-      this.types = new LinkedHashSet<Class>(types);
-   }
-
+   @Override
    public Set<Class> getComponents() {
-      return types;
+      return path.getTypes(type);
    }
 }

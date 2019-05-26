@@ -12,7 +12,7 @@ public class ContextBuilder {
    private final AttributeCombiner combiner;
    private final Context context;
    
-   public ContextBuilder(String... paths) {
+   public ContextBuilder(Set<String> paths) {
       this.combiner = new AttributeCombiner(paths);
       this.context = new MapContext();
    }

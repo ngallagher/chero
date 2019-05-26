@@ -102,7 +102,7 @@ public class MethodResolverOrderTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(AlsoShortest.class, Longest.class, Middle.class, Shortest.class);
+      ClassFinder finder = new ClassFinder(AlsoShortest.class, Longest.class, Middle.class, Shortest.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);

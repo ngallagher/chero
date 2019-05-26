@@ -2,7 +2,6 @@ package org.simpleframework.module.resource.action;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.MethodScanner;
@@ -10,9 +9,10 @@ import org.simpleframework.module.core.AnnotationValidator;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.graph.DependencyPath;
+import org.simpleframework.module.graph.ClassPath;
 import org.simpleframework.module.resource.action.build.ActionBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
+import org.simpleframework.module.resource.action.build.ClassFinder;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.ComponentFinder;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
@@ -38,24 +38,22 @@ import org.simpleframework.module.resource.annotation.Path;
 public class ActionAssembler {
    
    private final ComponentManager source;
-   private final DependencyPath path;
+   private final ClassPath path;
    
-   public ActionAssembler(ComponentManager source, DependencyPath path) {
+   public ActionAssembler(ComponentManager source, ClassPath path) {
       this.source = source;
       this.path = path;
    }
    
-   public ActionMatcher assemble(ConstructorScanner scanner) {
-      Set<Class> interceptors = path.getTypes(Intercept.class);
-      Set<Class> services = path.getTypes(Path.class);
-
+   public ActionMatcher assemble() {
       List<Extractor> extractors = new LinkedList<Extractor>();
       List<BodyWriter> builders = new LinkedList<BodyWriter>();
-      ComponentFinder interceptorFinder = new ComponentFinder(interceptors);
-      ComponentFinder serviceFinder = new ComponentFinder(services);
-      AnnotationValidator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
-      MethodScanner methodScanner = new MethodScanner(source, scanner, extractors, filter);
+      ClassFinder interceptorFinder = new ComponentFinder(path, Intercept.class);
+      ClassFinder serviceFinder = new ComponentFinder(path, Path.class);
+      AnnotationValidator validator = new AnnotationValidator();
+      ConstructorScanner constructorScanner = new ConstructorScanner(source, extractors, filter);
+      MethodScanner methodScanner = new MethodScanner(source, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
       MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(actionScanner, interceptorFinder);
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder);

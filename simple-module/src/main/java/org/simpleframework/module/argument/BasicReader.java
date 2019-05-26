@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class BasicReader implements AttributeReader {
    
@@ -17,7 +18,7 @@ public class BasicReader implements AttributeReader {
    }
 
    @Override
-   public Map<String, String> read(String... paths) {
+   public Map<String, String> read(Set<String> paths) {
       Map<String, String> map = new LinkedHashMap<>();
 
       for(String path : paths) {
@@ -60,7 +61,7 @@ public class BasicReader implements AttributeReader {
    }
    
    @Override
-   public boolean exists(String... paths) {
+   public boolean exists(Set<String> paths) {
       for(String path : paths) {
          File file = new File(".", path + extension);
    

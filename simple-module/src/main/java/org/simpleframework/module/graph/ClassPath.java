@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import io.github.classgraph.ClassInfo;
 
-public interface DependencyPath {
+public interface ClassPath {
    Set<Class> getTypes(Class<? extends Annotation> type);
    Map<String, ClassInfo> getModules();
    Map<String, ClassInfo> getComponents();

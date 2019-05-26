@@ -2,13 +2,14 @@ package org.simpleframework.module.argument;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 public class AttributeCombiner {
 
    private final CommandLineParser parser;
-   private final String[] paths;
+   private final Set<String> paths;
    
-   public AttributeCombiner(String... paths) {
+   public AttributeCombiner(Set<String> paths) {
       this.parser = new CommandLineParser();
       this.paths = paths;
    }

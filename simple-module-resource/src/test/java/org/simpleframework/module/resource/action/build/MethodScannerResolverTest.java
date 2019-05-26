@@ -98,7 +98,7 @@ public class MethodScannerResolverTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(ExampleCompositeController.class);
+      ClassFinder finder = new ClassFinder(ExampleCompositeController.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
@@ -124,7 +124,7 @@ public class MethodScannerResolverTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(ExampleController.class);
+      ClassFinder finder = new ClassFinder(ExampleController.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);

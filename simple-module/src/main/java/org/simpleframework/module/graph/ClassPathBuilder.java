@@ -13,15 +13,15 @@ import org.simpleframework.module.annotation.Module;
 
 import io.github.classgraph.ClassInfo;
 
-public class DependencyPathBuilder {
+public class ClassPathBuilder {
 
    private final DependencyGraphBuilder builder;
 
-   public DependencyPathBuilder(Set<Class<?>> modules) {
+   public ClassPathBuilder(Set<Class> modules) {
       this.builder = new DependencyGraphBuilder(modules);
    }
 
-   public DependencyPath create() {
+   public ClassPath create() {
       String module = Module.class.getName();
       String component = Component.class.getName();
       DependencyGraph graph = builder.create();
@@ -50,7 +50,7 @@ public class DependencyPathBuilder {
       return new ImportPath(name -> false);
    }
 
-   private static class ImportPath implements DependencyPath {
+   private static class ImportPath implements ClassPath {
       
       private final Map<String, ClassInfo> components;
       private final Map<String, ClassInfo> modules;

@@ -17,7 +17,7 @@ public class PropertiesReader implements AttributeReader {
    }
 
    @Override
-   public Map<String, String> read(String... paths) {
+   public Map<String, String> read(Set<String> paths) {
       Map<String, String> map = new LinkedHashMap<>();
 
       for(String path : paths) {
@@ -51,7 +51,7 @@ public class PropertiesReader implements AttributeReader {
       return map;
    }
    
-   public boolean exists(String... paths) {
+   public boolean exists(Set<String> paths) {
       for(String path : paths) {
          File file = new File(".", path + extension);
    

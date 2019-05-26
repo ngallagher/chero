@@ -91,7 +91,7 @@ public class ValidationTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(ControllerThatTakesComponent.class);
+      ClassFinder finder = new ClassFinder(ControllerThatTakesComponent.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);

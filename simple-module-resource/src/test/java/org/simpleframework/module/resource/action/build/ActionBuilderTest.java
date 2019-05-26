@@ -91,8 +91,8 @@ public class ActionBuilderTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder interceptorFinder = new ComponentFinder(InterceptorA.class, InterceptorB.class);
-      ComponentFinder serviceFinder = new ComponentFinder(ServiceA.class, ServiceB.class, ServiceC.class);
+      ClassFinder interceptorFinder = new ClassFinder(InterceptorA.class, InterceptorB.class);
+      ClassFinder serviceFinder = new ClassFinder(ServiceA.class, ServiceB.class, ServiceC.class);
       
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();

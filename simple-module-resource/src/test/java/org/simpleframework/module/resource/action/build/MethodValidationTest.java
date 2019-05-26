@@ -83,7 +83,7 @@ public class MethodValidationTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(SomeExampleController.class);
+      ClassFinder finder = new ClassFinder(SomeExampleController.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
@@ -111,7 +111,7 @@ public class MethodValidationTest extends TestCase {
       extractors.add(new HeaderExtractor());
       extractors.add(new PartExtractor());
       ComponentManager dependencySystem = new ComponentStore();
-      ComponentFinder finder = new ComponentFinder(SomeExampleController.class);
+      ClassFinder finder = new ClassFinder(SomeExampleController.class);
       Validator validator = new AnnotationValidator();
       ComponentFilter filter = new ComponentFilter();
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);

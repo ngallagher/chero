@@ -4,15 +4,15 @@ import java.util.Queue;
 
 public class DependencyTree {
 
-   private final DependencyPath path;
+   private final ClassPath path;
    private final Queue<Class> types;
    
-   public DependencyTree(DependencyPath path, Queue<Class> types) {
+   public DependencyTree(ClassPath path, Queue<Class> types) {
       this.types = types;
       this.path = path;
    }
    
-   public DependencyPath getPath() {
+   public ClassPath getPath() {
       return path;
    }
    
