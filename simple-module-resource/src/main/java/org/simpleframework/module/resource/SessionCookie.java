@@ -6,7 +6,7 @@ import org.simpleframework.http.Cookie;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 
-public class SessionConstants {
+public class SessionCookie {
 
    public static final String SESSION_ID = "SESSID";
 

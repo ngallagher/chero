@@ -7,30 +7,29 @@ import javax.net.ssl.SSLContext;
 
 import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.http.socket.service.RouterContainer;
+import org.simpleframework.module.resource.Acceptor;
 import org.simpleframework.module.resource.ResourceMatcher;
-import org.simpleframework.module.resource.ResourceSystem;
 import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.transport.SocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
-public class ResourceServerAcceptor {
+public class ContainerAcceptor implements Acceptor {
    
-   private final ResourceServerContainer container;
-   private final ResourceMatcher matcher;
+   private final ContainerRequestHandler container;
    private final RouterContainer wrapper;
    private final SocketProcessor server;
    private final Connection connection;
 
-   public ResourceServerAcceptor(ResourceSystem system, SubscriptionRouter router) throws IOException {
-      this.matcher = system.create();
-      this.container = new ResourceServerContainer(matcher);
-      this.wrapper = new RouterContainer(container, router, 5);
+   public ContainerAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String cookie, int threads) throws IOException {
+      this.container = new ContainerRequestHandler(matcher, name, cookie);
+      this.wrapper = new RouterContainer(container, router, threads);
       this.server = new ContainerSocketProcessor(wrapper);
       this.connection = new SocketConnection(server);
    }
    
-   public InetSocketAddress accept(int port, SSLContext context) {
+   @Override
+   public InetSocketAddress bind(int port, SSLContext context) {
       InetSocketAddress listen = new InetSocketAddress(port);
       
       try {   

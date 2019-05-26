@@ -4,7 +4,7 @@ import static org.simpleframework.http.Method.CONNECT;
 import static org.simpleframework.http.Protocol.DATE;
 import static org.simpleframework.http.Protocol.SERVER;
 import static org.simpleframework.module.resource.ResourceEvent.ERROR;
-import static org.simpleframework.module.resource.SessionConstants.SESSION_ID;
+import static org.simpleframework.module.resource.SessionCookie.SESSION_ID;
 
 import java.util.UUID;
 
@@ -18,14 +18,16 @@ import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.transport.Channel;
 import org.simpleframework.transport.trace.Trace;
 
-public class ResourceServerContainer implements Container {
-   
-   private static final String SERVER_NAME = "Apache/2.2.14";
+public class ContainerRequestHandler implements Container {
 
    private final ResourceMatcher matcher;
-
-   public ResourceServerContainer(ResourceMatcher matcher) {
+   private final String session;
+   private final String name;
+   
+   public ContainerRequestHandler(ResourceMatcher matcher, String name, String session) {
       this.matcher = matcher;
+      this.session = session;
+      this.name = name;
    }
 
    @Override
@@ -37,14 +39,14 @@ public class ResourceServerContainer implements Container {
       
       try {
          Resource resource = matcher.match(request, response);
-         Cookie cookie = request.getCookie(SESSION_ID);
+         Cookie cookie = request.getCookie(session);
          
          if(cookie == null) {
             String value = UUID.randomUUID().toString();
-            response.setCookie(SESSION_ID, value);
+            response.setCookie(session, value);
          }
          response.setDate(DATE, time);
-         response.setValue(SERVER, SERVER_NAME);
+         response.setValue(SERVER, name);
          response.setDate(DATE, time);
          
          if(resource != null) {

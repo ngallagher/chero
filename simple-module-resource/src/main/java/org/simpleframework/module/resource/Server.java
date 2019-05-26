@@ -1,22 +1,52 @@
 package org.simpleframework.module.resource;
 
-import java.net.InetSocketAddress;
-
-import javax.net.ssl.SSLContext;
-
-public interface Server {
+public abstract class Server {
    
-   default InetSocketAddress start() {
-      return start(0, null);
+   private String name;
+   private String cookie;
+   private int threads;  
+   
+   protected Server() {
+      this(SessionCookie.SESSION_ID);
    }
 
-   default InetSocketAddress start(SSLContext context) {
-      return start(0, context);
+   protected Server(String cookie) {
+      this(cookie, 10);
    }
-
-   default InetSocketAddress start(int port) {
-      return start(port, null);
+   
+   protected Server(String cookie, int threads) {
+      this.name = Server.class.getSimpleName();
+      this.threads = threads;
+      this.cookie = cookie;
    }
-
-   InetSocketAddress start(int port, SSLContext context);
+   
+   public Server withName(String name) {
+      this.name = name;
+      return this;
+   }
+   
+   public Server withCookie(String cookie) {
+      this.cookie = cookie;
+      return this;
+   }
+   
+   public Server withThreads(int threads) {
+      this.threads = threads;
+      return this;
+   }
+   
+   public Acceptor start() {
+      if(name == null) {
+         throw new IllegalArgumentException("Server requires a name");
+      }
+      if(cookie == null) {
+         throw new IllegalArgumentException("Server requires a session cookie");
+      }
+      if(threads <= 0) {
+         throw new IllegalArgumentException("Server must have at least one thread");
+      }
+      return start(name, cookie, threads);
+   }
+   
+   protected abstract Acceptor start(String name, String cookie, int threads);
 }
