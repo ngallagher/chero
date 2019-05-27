@@ -27,6 +27,7 @@ public class ServiceDriver implements Driver<Service> {
       Extractor extractor = new ValueExtractor();      
       
       binder.register(path);
+      binder.register(context);
       binder.register(manager);
       extractors.add(extractor);
 

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import io.github.classgraph.ClassGraph;
 
-public class ModuleScope {
+class ModuleScope {
 
    private final Set<String> packages;
    private final ClassGraph graph;

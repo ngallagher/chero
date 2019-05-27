@@ -30,6 +30,7 @@ public class ServerDriver implements Driver<Server> {
       Extractor extractor = new ValueExtractor();
       
       binder.register(path);
+      binder.register(context);
       binder.register(manager);
       extractors.add(extractor);
       

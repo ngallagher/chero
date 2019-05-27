@@ -11,7 +11,7 @@ import java.util.Set;
 import org.simpleframework.module.annotation.Import;
 import org.simpleframework.module.annotation.Module;
 
-public class ModuleScopeResolver {
+class ModuleScopeResolver {
 
    private final Set<Class> modules;
    private final Set<String> paths;
