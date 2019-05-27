@@ -28,7 +28,7 @@ public class DemoApplication {
          return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
             .type("text/plain")
             .cookie("TEST", "123")
-            .entity("hi")
+            .entity(text)
             .create()
          );
       }

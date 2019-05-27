@@ -37,9 +37,7 @@ public class ServiceAssembler {
                try {
                   Function builder = iterator.next();
                   return builder.getValue(context);                 
-               } catch(Exception e) {
-                  e.printStackTrace();
-               }
+               } catch(Exception e) {}
             }
             return null;
          }catch(Exception e) {
