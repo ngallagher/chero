@@ -1,4 +1,4 @@
-## **THIS DOCUMENT IS A WORK IN PROGRESS**
+## CHERO
 
 This provides a basic template for a service. It includes dependency injection and a web framework with
 support for HTTP and WebSocket communication. The dependency injection system is built on the 
@@ -144,6 +144,8 @@ The annotations for the core framework.
 | @Filter       | Filter executed before the resource              |
 | @Subscribe      | Subscribe to a web socket               |
 | @Entity        | Transient component used to hold request and dependency state              |
+
+Below is an example application that responds asynchronously.
 
 ```java
 @Module
