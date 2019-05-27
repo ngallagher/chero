@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Component;
+import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
@@ -43,6 +43,7 @@ public class ModuleFilter {
    private final Map<String, Boolean> convertable;
    private final Map<String, Boolean> component;
    private final Map<String, Boolean> internal;
+   private final Map<String, Boolean> visible;
    private final Map<String, Boolean> module;
    private final ComponentMapper mapper;
    private final Set<Class> types;
@@ -53,6 +54,7 @@ public class ModuleFilter {
       this.convertable = new HashMap<>();
       this.component = new HashMap<>();
       this.internal = new HashMap<>();
+      this.visible = new HashMap<>();
       this.module = new HashMap<>();
       this.types = types;
       this.path = path;      
@@ -90,15 +92,32 @@ public class ModuleFilter {
       Boolean match = module.get(name);
       
       if(match == null) {
+         Set<ClassNode> nodes = path.getTypes(Module.class);
+         
+         if(nodes.contains(node)) {
+            module.put(name, true);
+            return true;
+         }
+         module.put(name, false);
+         return false;
+      }
+      return match.booleanValue();
+   }
+   
+   public boolean isVisible(ClassNode node) {
+      String name = node.getName();
+      Boolean match = visible.get(name);
+      
+      if(match == null) {
          Set<String> packages = path.getPackages();
          
          for(String prefix : packages) {
             if(name.startsWith(prefix)) {
-               module.put(name, true);
+               visible.put(name, true);
                return true;
             }
          }
-         module.put(name, false);
+         visible.put(name, false);
          return false;
       }
       return match.booleanValue();  

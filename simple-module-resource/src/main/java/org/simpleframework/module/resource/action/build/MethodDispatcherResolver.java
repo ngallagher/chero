@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +14,6 @@ import java.util.regex.Pattern;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 import org.simpleframework.module.core.Context;
-
-import com.google.common.collect.Multimap;
 
 public class MethodDispatcherResolver implements MethodResolver {
 
@@ -137,7 +136,7 @@ public class MethodDispatcherResolver implements MethodResolver {
          Set<Class> components = finder.getComponents();
 
          for (Class component : components) {
-            Multimap<String, MethodDispatcher> extracted = scanner.createDispatchers(component);
+            Map<String, List<MethodDispatcher>> extracted = scanner.createDispatchers(component);
             Set<String> patterns = extracted.keySet();
 
             for (String pattern : patterns) {

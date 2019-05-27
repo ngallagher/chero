@@ -32,9 +32,9 @@ public class DependencyResolver {
    }
    
    private ClassNode resolve(ClassNode node, Set<ClassNode> nodes) {
-      if (filter.isModule(node)) {         
+      if (filter.isVisible(node)) {         
          if(!filter.isComponent(node)) {
-            return resolveModule(node, nodes);
+            return resolveComponent(node, nodes);
          }
          return node;
       }
@@ -52,7 +52,7 @@ public class DependencyResolver {
       return null;
    }
    
-   private ClassNode resolveModule(ClassNode node, Set<ClassNode> nodes) {
+   private ClassNode resolveComponent(ClassNode node, Set<ClassNode> nodes) {
       String name = node.getName();
     
       if(node.isInterface()) {

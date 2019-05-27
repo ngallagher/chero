@@ -38,7 +38,7 @@ public class DemoApplication {
       Application.create(ServerDriver.class)
          .path("..")
          .module(DemoApplication.class)
-         .create(list)
+         .create("--message=hi")
          .name("Apache/2.2.14")
          .session("SESSIONID")
          .threads(10)

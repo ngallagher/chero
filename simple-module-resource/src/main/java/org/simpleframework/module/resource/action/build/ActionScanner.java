@@ -3,8 +3,10 @@ package org.simpleframework.module.resource.action.build;
 import static org.simpleframework.module.resource.action.build.ComponentType.RESOURCE;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.MethodScanner;
@@ -13,23 +15,22 @@ import org.simpleframework.module.resource.annotation.GET;
 import org.simpleframework.module.resource.annotation.Ignore;
 import org.simpleframework.module.resource.annotation.Verb;
 
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
-
 public class ActionScanner {
 
+   private final MethodPathBuilder builder;
    private final PathFormatter formatter;
    private final MethodScanner scanner;
    private final Validator validator;
 
    public ActionScanner(MethodScanner scanner, Validator validator) {
+      this.builder = new MethodPathBuilder();
       this.formatter = new PathFormatter();
       this.validator = validator;
       this.scanner = scanner;
    }
 
-   public Multimap<String, MethodDispatcher> createDispatchers(Class<?> type) throws Exception {
-      Multimap<String, MethodDispatcher> dispatchers = LinkedHashMultimap.create();
+   public Map<String, List<MethodDispatcher>> createDispatchers(Class<?> type) throws Exception {
+      Map<String, List<MethodDispatcher>> dispatchers = new LinkedHashMap<>();
 
       if (type != null) {
          ComponentType componentType = ComponentType.resolveType(type);
@@ -47,7 +48,7 @@ public class ActionScanner {
                if(dispatcher == null) {
                   throw new IllegalStateException("Could not resolve for " + pattern + " on " + function);
                }
-               dispatchers.put(pattern, dispatcher);
+               dispatchers.computeIfAbsent(pattern, PatternList::new).add(dispatcher);
             }
          }
       }
@@ -55,9 +56,10 @@ public class ActionScanner {
    }
    
    private MethodMatcher createMatcher(Function function, String typePath, String methodPath) throws Exception {
-      Ignore ignore = function.getAnnotation(Ignore.class);
-      Annotation[] annotations = function.getAnnotations();
       String methodName = function.getName();
+      Ignore ignore = function.getAnnotation(Ignore.class);
+      Annotation[] annotations = function.getAnnotations(); 
+      String realPath = builder.create(methodPath, methodName);
       String parentPath = "/";
       String ignorePath = "";
       
@@ -68,19 +70,14 @@ public class ActionScanner {
       if (typePath != null) {
          parentPath = formatter.formatPath(typePath);
       }
-      if (!methodPath.equals("") && !methodPath.equals("/")) {
-         methodPath = formatter.formatPath(methodPath);  
-      } else {
-         methodPath = formatter.formatPath(methodName);
-      }
       for(Annotation annotation : annotations) {
          Class<? extends Annotation> methodVerb = annotation.annotationType();
          
          if(methodVerb.isAnnotationPresent(Verb.class)) {
-            return new MethodMatcher(methodVerb, ignorePath, parentPath, methodPath);
+            return new MethodMatcher(methodVerb, ignorePath, parentPath, realPath);
          }
       }
-      return new MethodMatcher(GET.class, ignorePath, parentPath, methodPath);
+      return new MethodMatcher(GET.class, ignorePath, parentPath, realPath);
  
    }
 
@@ -105,5 +102,18 @@ public class ActionScanner {
          return header;
       }
       return null;
+   }
+   
+   private static class PatternList<T> extends ArrayList<T> {
+      
+      private final String pattern;
+      
+      public PatternList(String pattern) {
+         this.pattern = pattern;
+      }
+      
+      public String pattern() {
+         return pattern;
+      }
    }
 }

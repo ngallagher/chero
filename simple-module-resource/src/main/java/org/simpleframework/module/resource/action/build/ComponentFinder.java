@@ -25,7 +25,7 @@ public class ComponentFinder extends ClassFinder {
    public Set<Class> getComponents() {
       return path.getTypes(type)
             .stream()
-            .filter(filter::isModule)
+            .filter(filter::isVisible)
             .map(ClassNode::getType)
             .collect(Collectors.toSet());
    }

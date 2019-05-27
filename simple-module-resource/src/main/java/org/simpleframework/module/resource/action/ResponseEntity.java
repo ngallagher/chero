@@ -21,11 +21,11 @@ public abstract class ResponseEntity {
    
    private static class ResponseResult extends ResponseEntity {
       
-      private final AtomicReference entity;
+      private final AtomicReference<Object> entity;
       private final Message header;
       private final Status status;
       
-      public ResponseResult(AtomicReference entity, Status status, Message header) {
+      public ResponseResult(AtomicReference<Object> entity, Status status, Message header) {
          this.header = header;
          this.status = status;
          this.entity = entity;

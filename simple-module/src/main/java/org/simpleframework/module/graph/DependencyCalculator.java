@@ -31,12 +31,12 @@ public class DependencyCalculator {
          Set<ClassNode> done = new HashSet<>();
 
          for(ClassNode module : modules) {
-            if(filter.isModule(module)) {
+            if(filter.isVisible(module)) {
                calculate(ready, done, module);
             }
          }
          for(ClassNode component : components) {
-            if(filter.isModule(component)) {
+            if(filter.isVisible(component)) {
                calculate(ready, done, component);
             }
          }
