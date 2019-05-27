@@ -12,7 +12,7 @@ import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.graph.DependencyScanner;
-import org.simpleframework.module.graph.ModuleFilter;
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassPath;
 
 public class ServiceAssembler {

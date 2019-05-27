@@ -14,7 +14,7 @@ import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.Action;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
@@ -107,7 +107,7 @@ public class ActionBuilderTest extends TestCase {
       // Test resolution on showA
       MockRequest request = new MockRequest("GET", "/a/b/c/show-a?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Action action = builder.resolve(context);
       Object result = action.execute(context);
 
@@ -120,7 +120,7 @@ public class ActionBuilderTest extends TestCase {
       // Test resolution on showB
       MockRequest secondRequest = new MockRequest("GET", "/a/b/c/show-b?x=X&y=Y", "");
       MockResponse secondResponse = new MockResponse(System.out);
-      Context secondContext = new ActionContextBuilder().build(secondRequest, secondResponse);
+      Context secondContext = new RequestContextBuilder().build(secondRequest, secondResponse);
       Action secondAction = builder.resolve(secondContext);
       Object secondResult = secondAction.execute(secondContext);
 
@@ -134,7 +134,7 @@ public class ActionBuilderTest extends TestCase {
       // Test resolution on throwException
       MockRequest thirdRequest = new MockRequest("GET", "/a/bad/service/throw-exception?x=X&y=Y", "");
       MockResponse thirdResponse = new MockResponse(System.out);
-      Context thirdContext = new ActionContextBuilder().build(thirdRequest, thirdResponse);
+      Context thirdContext = new RequestContextBuilder().build(thirdRequest, thirdResponse);
       Action thirdAction = builder.resolve(thirdContext);
       Object thirdResult = thirdAction.execute(thirdContext);
 
@@ -146,7 +146,7 @@ public class ActionBuilderTest extends TestCase {
       // Test resolution on throwException with interpolation
       MockRequest fourthRequest = new MockRequest("GET", "/interpolate/exception/throw-exception?x=X&y=Y", "");
       MockResponse fourthResponse = new MockResponse(System.out);
-      Context fourthContext = new ActionContextBuilder().build(fourthRequest, fourthResponse);
+      Context fourthContext = new RequestContextBuilder().build(fourthRequest, fourthResponse);
       Action fourthAction = builder.resolve(fourthContext);
       Object fourthResult = fourthAction.execute(fourthContext);
 

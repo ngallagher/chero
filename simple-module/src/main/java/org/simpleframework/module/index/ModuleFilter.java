@@ -1,4 +1,4 @@
-package org.simpleframework.module.graph;
+package org.simpleframework.module.index;
 
 import java.io.File;
 import java.net.URI;

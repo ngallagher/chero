@@ -5,10 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.simpleframework.module.annotation.Component;
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
-public class DependencyResolver {
+class DependencyResolver {
    
    private final Map<String, Dependency> index;
    private final ModuleFilter filter;

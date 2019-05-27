@@ -17,7 +17,7 @@ import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.ComponentExtractor;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.MockRequest;
@@ -67,7 +67,7 @@ public class NoArgComponentExtractorTest extends TestCase {
       Parameter parameter = new Parameter(null, declaration, new Class[] {}, 0);
       MockRequest request = new MockRequest("GET", "/?x=X", "");
       MockResponse response = new MockResponse();
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Query query = (Query) extractor.extract(parameter, context);
 
       assertEquals(query.x, "X");
@@ -75,7 +75,7 @@ public class NoArgComponentExtractorTest extends TestCase {
 
       request = new MockRequest("GET", "/", "");
       response = new MockResponse();
-      context = new ActionContextBuilder().build(request, response);
+      context = new RequestContextBuilder().build(request, response);
       query = (Query) extractor.extract(parameter, context);
 
       assertEquals(query.x, "defaultX");

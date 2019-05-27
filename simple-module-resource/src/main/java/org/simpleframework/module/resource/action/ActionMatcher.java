@@ -12,12 +12,12 @@ import org.simpleframework.module.resource.action.write.ResponseWriter;
 
 public class ActionMatcher implements ResourceMatcher {
 
-   private final ActionContextBuilder builder;
+   private final RequestContextBuilder builder;
    private final ActionResolver resolver;
    private final ResponseWriter router;
 
    public ActionMatcher(ActionResolver resolver, ResponseWriter router) {
-      this.builder = new ActionContextBuilder();
+      this.builder = new RequestContextBuilder();
       this.resolver = resolver;
       this.router = router;
    }

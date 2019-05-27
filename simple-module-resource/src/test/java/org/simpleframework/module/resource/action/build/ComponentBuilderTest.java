@@ -16,7 +16,7 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Model;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
@@ -166,7 +166,7 @@ public class ComponentBuilderTest extends TestCase {
       List<Function> builders = scanner.createConstructors(SomeResource.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse();
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Function builder = builders.iterator().next();
       Object value = builder.getValue(context);
       SomeResource component = (SomeResource) value;
@@ -183,7 +183,7 @@ public class ComponentBuilderTest extends TestCase {
       List<Function> builders = scanner.createConstructors(SomeComponentWithImplicitConstructorParams.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse();
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Function builder = builders.iterator().next();
       Object value = builder.getValue(context);
       SomeComponentWithImplicitConstructorParams component = (SomeComponentWithImplicitConstructorParams) value;
@@ -201,7 +201,7 @@ public class ComponentBuilderTest extends TestCase {
       List<Function> builders = scanner.createConstructors(SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields.class);
       MockRequest request = new MockRequest("GET", "/?a=A&b=B&int=5", "");
       MockResponse response = new MockResponse(System.err);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Function builder = builders.iterator().next();
       Object value = builder.getValue(context);
       SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields component = (SomeComponentWithImplicitAndExplicitConstructorParamsAndOverriddenFields) value;

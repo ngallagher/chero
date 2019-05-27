@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Module;
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
-public class DependencyCalculator {
+class DependencyCalculator {
    
    private final DependencyCollector collector;
    private final ModuleFilter filter;

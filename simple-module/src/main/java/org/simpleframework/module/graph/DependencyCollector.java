@@ -7,11 +7,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.ConstructorNode;
 
-public class DependencyCollector {
+class DependencyCollector {
 
    private final Map<String, Set<Dependency>> index;
    private final DependencyResolver resolver;

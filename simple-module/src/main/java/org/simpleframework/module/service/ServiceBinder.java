@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.graph.ModuleFilter;
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassPath;
 
 public class ServiceBinder {

@@ -2,7 +2,7 @@ package org.simpleframework.module.graph;
 
 import org.simpleframework.module.path.ClassNode;
 
-public class Dependency {
+class Dependency {
 
    private final ClassNode match;
    private final ClassNode node;

@@ -5,11 +5,11 @@ import org.simpleframework.http.Response;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.MapContext;
 
-public class ActionContextBuilder {
+public class RequestContextBuilder {
 
    private final Variable[] variables;
    
-   public ActionContextBuilder() {
+   public RequestContextBuilder() {
       this.variables = Variable.values();
    }
 

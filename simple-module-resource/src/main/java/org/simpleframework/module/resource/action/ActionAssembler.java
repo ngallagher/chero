@@ -1,12 +1,12 @@
 package org.simpleframework.module.resource.action;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.simpleframework.module.build.ConstructorScanner;
 import org.simpleframework.module.build.MethodScanner;
 import org.simpleframework.module.core.AnnotationValidator;
 import org.simpleframework.module.core.ComponentManager;
+import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.extract.ValueExtractor;
@@ -40,36 +40,36 @@ import org.simpleframework.module.resource.annotation.Path;
 
 public class ActionAssembler {
    
-   private final ComponentManager source;
-   private final ClassPath path;
+   private final ClassFinder interceptorFinder;
+   private final ClassFinder serviceFinder;
+   private final ComponentManager manager;
+   private final ComponentFilter filter;
+   private final Validator validator;
    
-   public ActionAssembler(ComponentManager source, ClassPath path) {
-      this.source = source;
-      this.path = path;
+   public ActionAssembler(ComponentManager manager, ClassPath path) {
+      this.interceptorFinder = new ComponentFinder(path, Filter.class);
+      this.serviceFinder = new ComponentFinder(path, Path.class);
+      this.validator = new AnnotationValidator();
+      this.filter = new ComponentFilter();
+      this.manager = manager;
    }
    
-   public ActionMatcher assemble() {
-      List<Extractor> extractors = new LinkedList<Extractor>();
-      List<BodyWriter> builders = new LinkedList<BodyWriter>();
-      ComponentFilter filter = new ComponentFilter();
-      ClassFinder interceptorFinder = new ComponentFinder(path, Filter.class);
-      ClassFinder serviceFinder = new ComponentFinder(path, Path.class);
-      AnnotationValidator validator = new AnnotationValidator();
-      ConstructorScanner constructorScanner = new ConstructorScanner(source, extractors, filter);
-      MethodScanner methodScanner = new MethodScanner(source, constructorScanner, extractors, filter);
+   public ActionMatcher assemble(List<Extractor> extractors, List<BodyWriter> writers) {
+      ConstructorScanner constructorScanner = new ConstructorScanner(manager, extractors, filter);
+      MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
       MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(actionScanner, interceptorFinder);
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder);
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
-      ResponseWriter router = new ResponseWriter(builders);
+      ResponseWriter router = new ResponseWriter(writers);
 
-      builders.add(new CompletableFutureWriter(router));
-      builders.add(new ResponseEntityWriter(router));
-      builders.add(new JsonWriter());
-      builders.add(new ByteArrayWriter());
-      builders.add(new CharacterArrayWriter());
-      builders.add(new ExceptionWriter());
-      builders.add(new StringWriter());      
+      writers.add(new CompletableFutureWriter(router));
+      writers.add(new ResponseEntityWriter(router));
+      writers.add(new JsonWriter());
+      writers.add(new ByteArrayWriter());
+      writers.add(new CharacterArrayWriter());
+      writers.add(new ExceptionWriter());
+      writers.add(new StringWriter());      
 
       extractors.add(new JsonExtractor());
       extractors.add(new PathExtractor());

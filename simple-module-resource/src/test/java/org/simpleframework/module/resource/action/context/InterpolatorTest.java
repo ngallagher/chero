@@ -3,7 +3,7 @@ package org.simpleframework.module.resource.action.context;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.Model;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
 
@@ -14,7 +14,7 @@ public class InterpolatorTest extends TestCase {
    public void testInterpolation() throws Exception {
       MockRequest request = new MockRequest("GET", "/a/b/c/showA?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Interpolator interpolator = new Interpolator(context);
 
       Model model = context.getModel();
@@ -38,7 +38,7 @@ public class InterpolatorTest extends TestCase {
    public void testPartialToken() throws Exception {
       MockRequest request = new MockRequest("GET", "/?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Interpolator interpolator = new Interpolator(context);
       
       Model model = context.getModel();

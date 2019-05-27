@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.simpleframework.module.graph.ModuleFilter;
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 

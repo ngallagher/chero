@@ -14,7 +14,7 @@ import org.simpleframework.module.core.Model;
 import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
@@ -109,7 +109,7 @@ public class MethodScannerResolverTest extends TestCase {
       request.setCookie("SSOID", "XYZ");
       request.setCookie("SSOSESSION", "ABC");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       MethodDispatcher dispatcher = resolver.resolveBest(context);
       dispatcher.execute(context);
    }
@@ -135,7 +135,7 @@ public class MethodScannerResolverTest extends TestCase {
       request.setCookie("SSOID", "XYZ");
       request.setCookie("SSOSESSION", "ABC");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       MethodDispatcher dispatcher = resolver.resolveBest(context);
       dispatcher.execute(context);
    }

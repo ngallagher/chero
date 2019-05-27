@@ -1,20 +1,22 @@
 package org.simpleframework.module.resource.container;
 
+import org.simpleframework.module.resource.ResourceManager;
 import org.simpleframework.module.resource.ResourceMatcher;
 import org.simpleframework.module.resource.SubscriptionRouter;
-import org.simpleframework.module.resource.action.ActionAssembler;
 
 class ContainerServer {
    
    private final SubscriptionRouter router;
-   private final ResourceMatcher matcher;
+   private final ResourceManager assembler;
 
-   public ContainerServer(ActionAssembler assembler, SubscriptionRouter router) {
-      this.matcher = assembler.assemble();
+   public ContainerServer(ResourceManager assembler, SubscriptionRouter router) {
+      this.assembler = assembler;
       this.router = router;
    }
 
    public Acceptor start(String name, String cookie, int threads) {
+      ResourceMatcher matcher = assembler.create();
+      
       try {
          return new ConnectionAcceptor(matcher, router, name, cookie, threads);
       } catch(Exception e) {

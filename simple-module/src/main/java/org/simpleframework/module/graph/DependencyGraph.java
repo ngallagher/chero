@@ -2,6 +2,7 @@ package org.simpleframework.module.graph;
 
 import java.util.function.Function;
 
+import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassPath;
 
 public class DependencyGraph {

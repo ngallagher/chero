@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.ContextValidation;
 import org.simpleframework.module.core.Validation;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.build.MockRequest;
 import org.simpleframework.module.resource.action.build.MockResponse;
 
@@ -16,7 +16,7 @@ public class InterpolateValidationTest extends TestCase {
    public void testValidation() throws Exception {
       MockRequest request = new MockRequest("GET", "/a/b/c/showA?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       Validation validation = new ContextValidation(context);
 
       context.getModel().set("x", "X");

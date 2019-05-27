@@ -10,7 +10,7 @@ import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.ComponentStore;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.annotation.Entity;
 
 import junit.framework.TestCase;
@@ -73,7 +73,7 @@ public class ListOfComponentsTest extends TestCase {
       List<Function> builders = constructorScanner.createConstructors(SomeOtherComponent.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       
       context.getModel().set("a", "A");
       
@@ -97,7 +97,7 @@ public class ListOfComponentsTest extends TestCase {
       List<Function> listBuilders = constructorScanner.createConstructors(ListOfSerializable.class);
       MockRequest request = new MockRequest("GET", "/?a=A", "");
       MockResponse response = new MockResponse();
-      Context context = new ActionContextBuilder().build(request, response);
+      Context context = new RequestContextBuilder().build(request, response);
       
       context.getModel().set("a", "A");
       

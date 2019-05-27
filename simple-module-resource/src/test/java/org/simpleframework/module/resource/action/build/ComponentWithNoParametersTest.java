@@ -13,7 +13,7 @@ import org.simpleframework.module.core.ComponentStore;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
-import org.simpleframework.module.resource.action.ActionContextBuilder;
+import org.simpleframework.module.resource.action.RequestContextBuilder;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;

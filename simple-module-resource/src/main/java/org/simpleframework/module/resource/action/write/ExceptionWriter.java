@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 import org.simpleframework.http.Response;
 
-public class ExceptionWriter<T extends Throwable> implements BodyWriter<T> {
+public class ExceptionWriter implements BodyWriter<Throwable> {
 
    @Override
    public boolean accept(Response response, Object result) throws Exception {

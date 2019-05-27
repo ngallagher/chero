@@ -29,7 +29,6 @@ public class PropertyInjectorBuilder {
          Field[] fields = type.getDeclaredFields();
 
          for (Field field : fields) {
-            Property property = scanner.createProperty(field);
             FieldSetter setter = createSetter(field);
 
             if (setter != null) {
