@@ -61,11 +61,11 @@ The annotations for the core framework
 
 | Annotation      | Description   | 
 | ------------- | ------------- | 
-| @Module       |               |
-| @Import       |               |
-| @Provides       |               |
-| @Component       |               |
-| @Value       |               |
+| @Module       | Specify a module to load components from              |
+| @Import       | Import components from another module              |
+| @Provides       | Provide a component from a module method              |
+| @Component       | Component loaded from the class path              |
+| @Value       | Value taken from the command line a configuration file              |
 | @DefaultValue       |               |
 | @Inject       |               |
 | @Require       |               |
