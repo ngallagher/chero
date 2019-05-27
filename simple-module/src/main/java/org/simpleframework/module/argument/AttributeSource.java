@@ -7,8 +7,8 @@ public enum AttributeSource {
    PROPERTIES(PropertiesReader.class, ".properties"),
    CONF(PropertiesReader.class, ".conf");
    
-   private final Class<? extends AttributeReader> type;
-   private final String extension;
+   public final Class<? extends AttributeReader> type;
+   public final String extension;
    
    private AttributeSource(Class<? extends AttributeReader> type, String extension) {
       this.extension = extension;
@@ -17,7 +17,7 @@ public enum AttributeSource {
    
    public AttributeReader reader() {
       try {
-         return type.getDeclaredConstructor(String.class).newInstance(extension);
+         return type.getDeclaredConstructor().newInstance(extension);
       } catch(Exception e) {
          throw new IllegalStateException("Could not create reader", e);
       }

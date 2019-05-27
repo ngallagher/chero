@@ -27,8 +27,8 @@ public class AttributeCombiner {
       for(AttributeSource source : sources) {
          AttributeReader reader = source.reader();
          
-         if(reader.exists(paths)) {
-            Map<String, String> base = reader.read(paths);
+         if(reader.exists(paths, source.extension)) {
+            Map<String, String> base = reader.read(paths, source.extension);
             base.putAll(map);
             return Collections.unmodifiableMap(base);
          }

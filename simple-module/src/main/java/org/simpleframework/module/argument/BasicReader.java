@@ -1,74 +1,41 @@
 package org.simpleframework.module.argument;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.Reader;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class BasicReader implements AttributeReader {
-   
-   private final String extension;
-
-   public BasicReader(String extension) {
-      this.extension = extension;
-   }
 
    @Override
-   public Map<String, String> read(Set<String> paths) {
+   public Map<String, String> read(Reader reader) {
       Map<String, String> map = new LinkedHashMap<>();
+      LineNumberReader iterator = new LineNumberReader(reader);
 
-      for(String path : paths) {
-         File file = new File(".", path + extension);
+      try {
+         while (true) {
+            String line = iterator.readLine();
 
-         if(file.exists() && map.isEmpty()) {
-            try {
-               InputStream source = new FileInputStream(file);
-               InputStreamReader reader = new InputStreamReader(source, "UTF-8");
-               LineNumberReader iterator = new LineNumberReader(reader);
+            if (line == null) {
+               break;
+            }
+            String token = line.trim();
 
-               try {
-                  while (true) {
-                     String line = iterator.readLine();
+            if (!token.startsWith(";") && !token.startsWith("[")) {
+               int index = token.indexOf("=");
+               int length = token.length();
 
-                     if (line == null) {
-                        break;
-                     }
-                     String token = line.trim();
-
-                     if (!token.startsWith(";") && !token.startsWith("[")) {
-                        int index = token.indexOf("=");
-                        int length = token.length();
-
-                        if (index != -1 && index < length) {
-                           String key = token.substring(0, index).trim();
-                           String value = token.substring(index + 1, length).trim();
-                           
-                           map.put(key, value);
-                        }
-                     }
-                  }
-               } catch (Exception e) {
-                  iterator.close();
+               if (index != -1 && index < length) {
+                  String key = token.substring(0, index).trim();
+                  String value = token.substring(index + 1, length).trim();
+                  
+                  map.put(key, value);
                }
-            } catch(Exception e){}
+            }
          }
+      } catch (Exception e) {
+         throw new IllegalStateException("Could not parse configuration file", e);
       }
       return map;
-   }
-   
-   @Override
-   public boolean exists(Set<String> paths) {
-      for(String path : paths) {
-         File file = new File(".", path + extension);
-   
-         if(file.exists() && file.isFile()) {
-            return true;
-         }
-      }
-      return false;
    }
 }
