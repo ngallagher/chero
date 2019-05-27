@@ -164,10 +164,9 @@ public class DemoApplication {
    
    public static void main(String[] list) throws Exception {
       Application.create(ServerDriver.class)
-         .path("..")
          .module(DemoApplication.class)
          .create(list)
-         .name("Apache/2.2.14")
+         .name("Demo/1.0")
          .session("SESSIONID")
          .threads(10)
          .start()
