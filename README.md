@@ -1,4 +1,4 @@
-![Chero](https://raw.githubusercontent.com/ngallagher/master/chero/simple-module-parent/src/main/resources/logo-small.png)
+![Chero](https://raw.githubusercontent.com/ngallagher/chero/master/simple-module/src/main/resources/logo-small.png)
 
 This provides a basic template for a service. It includes dependency injection and a web framework with
 support for HTTP and WebSocket communication. The dependency injection system is built on the 
