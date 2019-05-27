@@ -66,13 +66,13 @@ The annotations for the core framework
 | @Provides       | Provide a component from a module method              |
 | @Component       | Component loaded from the class path              |
 | @Value       | Value taken from the command line a configuration file              |
-| @DefaultValue       |               |
-| @Inject       |               |
-| @Require       |               |
-| @When       |               |
-| @WhenExists       |               |
-| @Unless       |               |
-| @UnlessExists       |               |
+| @DefaultValue       | Default value used if there is no explicit setting            |
+| @Inject       | Inject a component from the component manager              |
+| @Require       | Determines if a component is required               |
+| @When       | Load the component when the evaluation passes              |
+| @WhenExists       | Load the component if the specified class is a component               |
+| @Unless       | Reject a component if the evaluation passes              |
+| @UnlessExists       | Reject a component if the specified class is a component              |
 
 A complementary library is provided to facilitate exposing functionality though HTTP and WebSockets. This
 framework is largely inspired by [JAX-RS](https://github.com/jax-rs/api) but does not follow the 
