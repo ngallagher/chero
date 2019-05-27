@@ -4,11 +4,11 @@ import java.util.concurrent.CompletableFuture;
 
 import org.simpleframework.http.Response;
 
-public class FutureWriter implements BodyWriter<CompletableFuture>  {
+public class CompletableFutureWriter implements BodyWriter<CompletableFuture>  {
    
    private final ResponseWriter writer;
    
-   public FutureWriter(ResponseWriter writer) {
+   public CompletableFutureWriter(ResponseWriter writer) {
       this.writer = writer;
    }
 

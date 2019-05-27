@@ -138,3 +138,40 @@ The annotations for the core framework
 | @Intercept       |               |
 | @Subscribe      |               |
 | @Entity        |               |
+
+```java
+@Module
+public class DemoApplication {
+   
+   @Path
+   public static class DemoResource {
+      
+      @Value("${message}")
+      private String text;
+      
+      @GET
+      @Path("/.*")
+      @Produces("text/plain")
+      public CompletableFuture<ResponseEntity> helloWorld() {
+         return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
+            .type("text/plain")
+            .cookie("TEST", "123")
+            .entity(text)
+            .create()
+         );
+      }
+   }
+   
+   public static void main(String[] list) throws Exception {
+      Application.create(ServerDriver.class)
+         .path("..")
+         .module(DemoApplication.class)
+         .create(list)
+         .name("Apache/2.2.14")
+         .session("SESSIONID")
+         .threads(10)
+         .start()
+         .bind(8787);
+   }
+}
+```

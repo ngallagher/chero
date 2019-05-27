@@ -29,9 +29,10 @@ import org.simpleframework.module.resource.action.extract.ResponseExtractor;
 import org.simpleframework.module.resource.action.write.BodyWriter;
 import org.simpleframework.module.resource.action.write.ByteArrayWriter;
 import org.simpleframework.module.resource.action.write.CharacterArrayWriter;
+import org.simpleframework.module.resource.action.write.CompletableFutureWriter;
 import org.simpleframework.module.resource.action.write.ExceptionWriter;
-import org.simpleframework.module.resource.action.write.FutureWriter;
 import org.simpleframework.module.resource.action.write.JsonWriter;
+import org.simpleframework.module.resource.action.write.ResponseEntityWriter;
 import org.simpleframework.module.resource.action.write.ResponseWriter;
 import org.simpleframework.module.resource.action.write.StringWriter;
 import org.simpleframework.module.resource.annotation.Filter;
@@ -62,7 +63,8 @@ public class ActionAssembler {
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(builders);
 
-      builders.add(new FutureWriter(router));
+      builders.add(new CompletableFutureWriter(router));
+      builders.add(new ResponseEntityWriter(router));
       builders.add(new JsonWriter());
       builders.add(new ByteArrayWriter());
       builders.add(new CharacterArrayWriter());
