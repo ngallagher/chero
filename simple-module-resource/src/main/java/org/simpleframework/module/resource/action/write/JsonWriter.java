@@ -1,21 +1,21 @@
 package org.simpleframework.module.resource.action.write;
 
-import java.io.PrintStream;
+import static org.simpleframework.module.resource.MediaType.APPLICATION_JSON;
+import static org.simpleframework.module.resource.MediaType.TEXT_JSON;
+
+import java.io.OutputStream;
 
 import org.simpleframework.http.ContentType;
 import org.simpleframework.http.Response;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonWriter implements BodyWriter<Object> {
-   
-   private static final String APPLICATION_JSON = "application/json";
-   private static final String TEXT_JSON = "text/json";
 
-   private final Gson gson;
+   private final ObjectMapper mapper;
    
-   public JsonWriter() {
-      this.gson = new Gson();
+   public JsonWriter(ObjectMapper mapper) {
+      this.mapper = mapper;
    }
    
    @Override
@@ -25,10 +25,10 @@ public class JsonWriter implements BodyWriter<Object> {
       if(type != null && result != null) {
          String value = type.getType();
          
-         if(value.equalsIgnoreCase(APPLICATION_JSON)) {
+         if(value.equalsIgnoreCase(APPLICATION_JSON.value)) {
             return true;
          }
-         if(value.equalsIgnoreCase(TEXT_JSON)) {
+         if(value.equalsIgnoreCase(TEXT_JSON.value)) {
             return true;
          }
       }
@@ -37,11 +37,10 @@ public class JsonWriter implements BodyWriter<Object> {
 
    @Override
    public boolean write(Response response, Object result) throws Exception {
-      PrintStream output = response.getPrintStream();
-      String text = gson.toJson(result);
+      OutputStream output = response.getOutputStream();
       
-      if(text != null) {
-         output.print(text);      
+      if(result != null) {
+         mapper.writeValue(output, result);     
       }      
       return true;
    }

@@ -1,5 +1,7 @@
 package org.simpleframework.module.resource.action.extract;
 
+import static org.simpleframework.module.resource.MediaType.APPLICATION_JSON;
+
 import org.simpleframework.http.ContentType;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -10,18 +12,18 @@ import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.StringConverter;
 import org.simpleframework.module.resource.annotation.Body;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonExtractor implements Extractor<Object> {
    
    private final StringConverter converter;
+   private final ObjectMapper mapper;
    private final Extractor extractor;
-   private final Gson gson;
    
-   public JsonExtractor() {
+   public JsonExtractor(ObjectMapper mapper) {
       this.converter = new StringConverter();
       this.extractor = new BodyExtractor();
-      this.gson = new Gson();
+      this.mapper = mapper;
    }
 
    @Override
@@ -37,13 +39,13 @@ public class JsonExtractor implements Extractor<Object> {
             throw new IllegalStateException("Could not get request or response from model");
          }
          ContentType type = response.getContentType();
-         String value = type.toString();
+         String value = type.getType();
          
-         if(value.equals("application/json")) {
+         if(value.equalsIgnoreCase(APPLICATION_JSON.value)) {
             String body = request.getContent();
             Class require = argument.getType();
             
-            return gson.fromJson(body, require);
+            return mapper.readValue(body, require);
          }
       }
       return null;

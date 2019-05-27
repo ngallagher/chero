@@ -38,6 +38,8 @@ import org.simpleframework.module.resource.action.write.StringWriter;
 import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.Path;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ActionAssembler {
    
    private final ClassFinder interceptorFinder;
@@ -62,16 +64,17 @@ public class ActionAssembler {
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder);
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(writers);
-
+      ObjectMapper mapper = new ObjectMapper();
+      
       writers.add(new CompletableFutureWriter(router));
       writers.add(new ResponseEntityWriter(router));
-      writers.add(new JsonWriter());
+      writers.add(new JsonWriter(mapper));
       writers.add(new ByteArrayWriter());
       writers.add(new CharacterArrayWriter());
       writers.add(new ExceptionWriter());
       writers.add(new StringWriter());      
 
-      extractors.add(new JsonExtractor());
+      extractors.add(new JsonExtractor(mapper));
       extractors.add(new PathExtractor());
       extractors.add(new QueryExtractor());
       extractors.add(new CookieExtractor());

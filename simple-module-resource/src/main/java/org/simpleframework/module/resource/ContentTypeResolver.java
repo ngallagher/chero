@@ -9,7 +9,7 @@ import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.ClassPathReader;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ContentTypeResolver {
    
@@ -17,19 +17,19 @@ public class ContentTypeResolver {
 
    private final Cache<String, String> cache;
    private final Map<String, String> types;
-   private final Gson gson;
+   private final ObjectMapper mapper;
    
    public ContentTypeResolver() {
       this.cache = new LeastRecentlyUsedCache<String, String>(1000);
       this.types = new ConcurrentHashMap<String, String>();
-      this.gson = new Gson();
+      this.mapper = new ObjectMapper();
    }
    
    private Map<String, String> readTypes() {
       if(types.isEmpty()) {
          try {
             Reader reader = ClassPathReader.findResourceAsReader(TYPES_FILE);
-            Map<String, String> map = (Map)gson.fromJson(reader, Map.class);
+            Map<String, String> map = mapper.readValue(reader, Map.class);
             
             types.putAll(map);
          }catch(Exception e) {
