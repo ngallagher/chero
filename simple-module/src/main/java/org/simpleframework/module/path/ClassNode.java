@@ -38,6 +38,10 @@ public interface ClassNode {
       return Collections.emptyList();
    }
    
+   default List<AnnotationNode> getAnnotations() {
+      return Collections.emptyList();
+   }
+   
    URL getResource();
    String getName();  
    Class getType(); 

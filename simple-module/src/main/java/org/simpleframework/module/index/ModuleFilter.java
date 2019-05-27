@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.simpleframework.module.annotation.Component;
+import org.simpleframework.module.annotation.DependsOn;
 import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
@@ -42,6 +43,7 @@ public class ModuleFilter {
    };
 
    private final Map<ClassNode, Boolean> component;
+   private final Map<ClassNode, Boolean> dependent;
    private final Map<ClassNode, Boolean> internal;
    private final Map<ClassNode, Boolean> visible;
    private final Map<ClassNode, Boolean> missing;
@@ -55,6 +57,7 @@ public class ModuleFilter {
       this.mapper = new ComponentMapper();
       this.convertable = new HashSet<>();
       this.component = new HashMap<>();
+      this.dependent = new HashMap<>();
       this.internal = new HashMap<>();
       this.missing = new HashMap<>();
       this.visible = new HashMap<>();
@@ -66,6 +69,12 @@ public class ModuleFilter {
    public boolean isComponent(ClassNode node) {
       return component.computeIfAbsent(node, key -> 
              path.getTypes(Component.class).contains(node));
+      
+   }
+   
+   public boolean isDependent(ClassNode node) {
+      return dependent.computeIfAbsent(node, key -> 
+             path.getTypes(DependsOn.class).contains(node));
       
    }
    

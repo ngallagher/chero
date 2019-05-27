@@ -25,14 +25,14 @@ class DependencyResolver {
       String name = node.getName();
       
       return index.computeIfAbsent(name, key -> {
-         Set<ClassNode> nodes = path.getTypes(Component.class);  
-         ClassNode match = resolve(node, nodes);
-         
+         ClassNode match = resolveMatch(node);
          return new Dependency(node, match);
       });          
    }
    
-   private ClassNode resolve(ClassNode node, Set<ClassNode> nodes) {
+   private ClassNode resolveMatch(ClassNode node) {
+      Set<ClassNode> nodes = path.getTypes(Component.class);  
+      
       if (filter.isVisible(node)) {         
          if(!filter.isComponent(node)) {
             return resolveComponent(node, nodes);
