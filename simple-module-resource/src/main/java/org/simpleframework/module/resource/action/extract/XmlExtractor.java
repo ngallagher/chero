@@ -13,8 +13,6 @@ import org.simpleframework.module.extract.StringConverter;
 import org.simpleframework.module.resource.annotation.Body;
 import org.simpleframework.xml.Serializer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class XmlExtractor implements Extractor<Object> {
    
    private final StringConverter converter;
@@ -39,7 +37,7 @@ public class XmlExtractor implements Extractor<Object> {
          if(request == null || response == null) {
             throw new IllegalStateException("Could not get request or response from model");
          }
-         ContentType type = response.getContentType();
+         ContentType type = request.getContentType();
          String value = type.getType();
          
          if(value.equalsIgnoreCase(APPLICATION_XML.value)) {
