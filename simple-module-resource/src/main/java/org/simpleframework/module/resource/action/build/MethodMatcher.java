@@ -35,7 +35,7 @@ public class MethodMatcher {
             int groups = matcher.groupCount();
             int required = names.size();
 
-            if (groups != required) {
+            if (groups < required) {
                throw new IllegalStateException("Could not extract parameters from " + path);
             }
             for (int i = 0; i < required; i++) {
