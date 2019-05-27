@@ -38,7 +38,7 @@ public class JsonExtractor implements Extractor<Object> {
          if(request == null || response == null) {
             throw new IllegalStateException("Could not get request or response from model");
          }
-         ContentType type = response.getContentType();
+         ContentType type = request.getContentType();
          String value = type.getType();
          
          if(value.equalsIgnoreCase(APPLICATION_JSON.value)) {

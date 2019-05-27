@@ -1,10 +1,5 @@
 package org.simpleframework.module.graph;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.simpleframework.module.path.ClassNode;
 
 class Dependency {

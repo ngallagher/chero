@@ -58,7 +58,7 @@ class ServerContainer implements Container {
             }
          }
       } catch (Throwable cause) {
-         trace.trace(ERROR, cause);
+         trace.trace(ERROR, cause); // FIXME we should have an error response
          
          try {
             if(!method.equalsIgnoreCase(CONNECT)) {
