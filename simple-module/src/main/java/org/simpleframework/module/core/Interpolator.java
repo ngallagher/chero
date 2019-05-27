@@ -80,10 +80,11 @@ public class Interpolator {
       
       if(model != null) {
          Object value = model.get(name);
-   
+         
          if (value != null) {    
             return String.valueOf(value);
          }
+         return System.getProperty(name);
       }
       return null;
    }

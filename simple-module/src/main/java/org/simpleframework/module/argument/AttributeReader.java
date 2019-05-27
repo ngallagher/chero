@@ -34,7 +34,7 @@ public interface AttributeReader {
    
    default boolean exists(Set<String> paths, String extension) {
       for(String path : paths) {
-         Path file = Paths.get(".", path + extension);
+         Path file = Paths.get(path + extension);
          
          if(Files.isRegularFile(file)) {
             return true;

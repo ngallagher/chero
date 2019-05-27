@@ -17,7 +17,7 @@ public enum AttributeSource {
    
    public AttributeReader reader() {
       try {
-         return type.getDeclaredConstructor().newInstance(extension);
+         return type.getDeclaredConstructor().newInstance();
       } catch(Exception e) {
          throw new IllegalStateException("Could not create reader", e);
       }
