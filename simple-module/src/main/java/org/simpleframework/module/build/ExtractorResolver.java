@@ -18,10 +18,6 @@ public class ExtractorResolver {
    private final ComponentManager manager;
    private final StringConverter converter;
 
-   public ExtractorResolver(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors) {
-      this(manager, scanner, extractors, argument -> false);
-   }
-   
    public ExtractorResolver(ComponentManager manager, ConstructorScanner scanner, List<Extractor> extractors, Predicate<Argument> transients) {
       this.converter = new StringConverter();
       this.extractors = extractors;

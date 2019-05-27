@@ -1,5 +1,9 @@
 package org.simpleframework.module.build;
 
+import static org.simpleframework.module.build.Modifier.CONSTRUCTOR;
+import static org.simpleframework.module.build.Modifier.METHOD;
+import static org.simpleframework.module.build.Modifier.REQUIRED;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -40,9 +44,9 @@ public class ParameterScanner {
       boolean required = declaration.isRequired();
       int modifiers = 0;
       
-      modifiers |= constructor ? Modifier.CONSTRUCTOR.mask : 0;
-      modifiers |= required ? Modifier.REQUIRED.mask : 0;
-      modifiers |= !constructor ? Modifier.METHOD.mask : 0;
+      modifiers |= constructor ? CONSTRUCTOR.mask | REQUIRED.mask : 0;
+      modifiers |= required ? REQUIRED.mask : 0;
+      modifiers |= !constructor ? METHOD.mask : 0;
       
       return new Parameter(executable, declaration, generics, modifiers);
    }

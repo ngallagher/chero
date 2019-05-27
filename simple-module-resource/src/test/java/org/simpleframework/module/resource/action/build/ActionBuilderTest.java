@@ -31,7 +31,7 @@ public class ActionBuilderTest extends TestCase {
 
    @Filter("/a/b/c")
    public static class InterceptorA {
-      @Filter(".*")
+      @Path(".*")
       public void addString(Model model) {
          model.set("a", "A");
       }
@@ -39,7 +39,7 @@ public class ActionBuilderTest extends TestCase {
 
    @Filter("/a")
    public static class InterceptorB {
-      @Filter(".*")
+      @Path(".*")
       public void addString(Model model) {
          model.set("b", "B");
       }

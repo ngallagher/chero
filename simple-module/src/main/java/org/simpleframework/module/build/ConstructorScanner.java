@@ -18,12 +18,10 @@ public class ConstructorScanner {
    private final PropertyInjectorBuilder builder;
    private final ArgumentListBuilder arguments;
    private final InstanceManager manager;
-   private final Validator validator;
 
    public ConstructorScanner(ComponentManager manager, List<Extractor> extractors, Predicate<Argument> transients) {
       this.cache = new ConcurrentHashMap<Class, List<Function>>();
-      this.validator = new AnnotationValidator();
-      this.builder = new PropertyInjectorBuilder(manager, this, extractors, validator);
+      this.builder = new PropertyInjectorBuilder(manager, this, extractors, transients);
       this.arguments = new ArgumentListBuilder(manager, this, extractors, transients);
       this.manager = new InstanceManager(manager, transients);
    }

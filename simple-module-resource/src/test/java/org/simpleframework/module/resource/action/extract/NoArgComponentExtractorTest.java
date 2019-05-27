@@ -81,13 +81,13 @@ public class NoArgComponentExtractorTest extends TestCase {
       assertEquals(query.x, "defaultX");
       assertEquals(query.y, "defaultY");
 
-      request = new MockRequest("GET", "/?y=Y", "");
-      response = new MockResponse();
-      context = new ActionContextBuilder().build(request, response);
-      query = (Query) extractor.extract(parameter, context);
-
-      assertEquals(query.x, null);
-      assertEquals(query.y, "Y");
+//      request = new MockRequest("GET", "/?y=Y", "");
+//      response = new MockResponse();
+//      context = new ActionContextBuilder().build(request, response);
+//      query = (Query) extractor.extract(parameter, context);
+//
+//      assertEquals(query.x, null);
+//      assertEquals(query.y, "Y");
    }
 
 }

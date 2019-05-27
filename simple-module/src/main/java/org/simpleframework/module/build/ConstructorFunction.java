@@ -32,7 +32,6 @@ public class ConstructorFunction implements Function {
    }
    
    private <T> T getInstance(Context context) throws Exception {
-      Class type = factory.getDeclaringClass();
       Object instance = manager.get(argument, context);
       
       if(instance == null) {

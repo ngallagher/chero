@@ -18,9 +18,6 @@ import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.ActionContextBuilder;
-import org.simpleframework.module.resource.action.build.ActionScanner;
-import org.simpleframework.module.resource.action.build.MethodDispatcher;
-import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
@@ -28,6 +25,7 @@ import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
 import org.simpleframework.module.resource.annotation.Filter;
+import org.simpleframework.module.resource.annotation.Path;
 import org.simpleframework.module.resource.annotation.QueryParam;
 
 import junit.framework.TestCase;
@@ -46,7 +44,7 @@ public class MethodResolverOrderTest extends TestCase {
 
       Response response;
 
-      @Filter("/.*")
+      @Path("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
@@ -60,7 +58,7 @@ public class MethodResolverOrderTest extends TestCase {
       @Inject
       Response response;
 
-      @Filter("/.*")
+      @Path("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
@@ -73,7 +71,7 @@ public class MethodResolverOrderTest extends TestCase {
       Request request;
       Response response;
 
-      @Filter("/.*")
+      @Path("/.*")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);
@@ -85,7 +83,7 @@ public class MethodResolverOrderTest extends TestCase {
       @Inject
       Request request;
 
-      @Filter("/a")
+      @Path("/a")
       public void fun(Model model) {
          List list = (List) model.get("list");
          list.add(this);

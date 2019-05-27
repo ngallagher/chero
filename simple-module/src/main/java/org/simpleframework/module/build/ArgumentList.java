@@ -38,9 +38,12 @@ public class ArgumentList {
          if (arguments[i] == null) {
             Class type = parameter.getType();
 
+            if (parameter.isRequired()) {
+               throw new IllegalArgumentException("Could not resolve " + type);
+            }  
             if (type.isPrimitive()) {
                arguments[i] = converter.box(type);
-            }
+            }          
          }
       }
       return arguments;
