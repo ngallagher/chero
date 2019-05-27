@@ -8,6 +8,7 @@ import org.simpleframework.http.Cookie;
 import org.simpleframework.http.Status;
 import org.simpleframework.http.message.Message;
 import org.simpleframework.http.message.MessageHeader;
+import org.simpleframework.module.resource.MediaType;
 
 public abstract class ResponseEntity {
    
@@ -81,6 +82,12 @@ public abstract class ResponseEntity {
       @Override
       public ResponseBuilder type(String type) {
          header.setValue(CONTENT_TYPE, type);
+         return this;
+      }
+      
+      @Override
+      public ResponseBuilder type(MediaType type) {
+         header.setValue(CONTENT_TYPE, type.value);
          return this;
       }
 
