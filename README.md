@@ -115,7 +115,7 @@ public class LoginResource {
 
 #### Web Framework
 
-The annotations for the core framework
+The annotations representing HTTP verbs.
 
 | Annotation      | Description   | 
 | ------------- | ------------- | 
@@ -125,6 +125,12 @@ The annotations for the core framework
 | @DELETE       |               |
 | @PATCH       |               |
 | @CONNECT       |               |
+
+The annotations for the core framework.
+
+
+| Annotation      | Description   | 
+| ------------- | ------------- | 
 | @Path       |               |
 | @PathParam       |               |
 | @QueryParam       |               |
@@ -135,7 +141,7 @@ The annotations for the core framework
 | @Produces       |               |
 | @CacheControl       |               |
 | @Attachment       |               |
-| @Intercept       |               |
+| @Filter       |               |
 | @Subscribe      |               |
 | @Entity        |               |
 
