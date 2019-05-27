@@ -53,8 +53,8 @@ public class DependencyCalculator {
                .filter(filter::isMissing)
                .collect(Collectors.toSet());         
          
-         for(ClassNode require : missing) {
-            throw new IllegalStateException("Could not resolve " + require + " for " + name);
+         if(!missing.isEmpty()) {
+            throw new IllegalStateException("Could not resolve " + missing + " for " + name);
          }  
          Set<ClassNode> require = children.stream()
                .map(Dependency::getMatch)

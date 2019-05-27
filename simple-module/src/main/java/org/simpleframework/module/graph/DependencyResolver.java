@@ -27,7 +27,7 @@ public class DependencyResolver {
          Set<ClassNode> nodes = path.getTypes(Component.class);  
          ClassNode match = resolve(node, nodes);
          
-         return new Dependency(node, match, name);
+         return new Dependency(node, match);
       });          
    }
    

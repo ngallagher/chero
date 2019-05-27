@@ -7,11 +7,14 @@ public class Dependency {
    private final ClassNode match;
    private final ClassNode node;
    private final String name;
-   
-   public Dependency(ClassNode node, ClassNode match, String name) {
+
+   public Dependency(ClassNode node) {
+      this(node, node);
+   }
+   public Dependency(ClassNode node, ClassNode match) {
+      this.name = node.getName();
       this.match = match;
       this.node = node;
-      this.name = name;
    }
    
    public boolean isError() {
