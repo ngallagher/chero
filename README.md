@@ -119,31 +119,31 @@ The annotations representing HTTP verbs.
 
 | Annotation      | Description   | 
 | ------------- | ------------- | 
-| @GET       |               |
-| @POST       |               |
-| @PUT       |               |
-| @DELETE       |               |
-| @PATCH       |               |
-| @CONNECT       |               |
+| @GET       | An idempotent method that is used to retrieve or read state             |
+| @POST       | A mutation that updates the state of the service              |
+| @PUT       | An idempotent method that is used o write state              |
+| @DELETE       | A mutation that updates the state of the service               |
+| @PATCH       | A mutation to a specific part of an entity or resource              |
+| @CONNECT       | Used to connect through the service              |
 
 The annotations for the core framework.
 
 
 | Annotation      | Description   | 
 | ------------- | ------------- | 
-| @Path       |               |
-| @PathParam       |               |
-| @QueryParam       |               |
-| @HeaderParam       |               |
-| @CookieParam       |               |
-| @Attribute       |               |
-| @Consumes       |               |
-| @Produces       |               |
-| @CacheControl       |               |
-| @Attachment       |               |
-| @Filter       |               |
-| @Subscribe      |               |
-| @Entity        |               |
+| @Path       | A path annotation specifies a resource             |
+| @PathParam       | A parameter from the path expression              |
+| @QueryParam       | A query parameter from the request entity              |
+| @HeaderParam       | Header from the request entity              |
+| @CookieParam       | Cookie send from the client in the request entity              |
+| @Attribute       | An attribute is something that is attached to the request              |
+| @Consumes       | Specifies the content type accepted              |
+| @Produces       | Specifies the content type represented               |
+| @CacheControl       | Cache control settings for the response               |
+| @Attachment       | Content disposition settings for the response               |
+| @Filter       | Filter executed before the resource              |
+| @Subscribe      | Subscribe to a web socket               |
+| @Entity        | Transient component used to hold request and dependency state              |
 
 ```java
 @Module
