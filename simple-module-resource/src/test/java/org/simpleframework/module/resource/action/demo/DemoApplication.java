@@ -1,6 +1,5 @@
 package org.simpleframework.module.resource.action.demo;
 
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 import org.simpleframework.http.Status;
@@ -15,7 +14,7 @@ import org.simpleframework.module.resource.container.ServerDriver;
 
 @Module
 public class DemoApplication {
-   
+
    @Path
    public static class DemoResource {
       
@@ -27,9 +26,9 @@ public class DemoApplication {
       @Produces("text/plain")
       public CompletableFuture<ResponseEntity> helloWorld() {
          return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
-            .type("application/json")
+            .type("text/plain")
             .cookie("TEST", "123")
-            .entity(Arrays.asList("a", "b", "c"))
+            .entity("hi")
             .create()
          );
       }

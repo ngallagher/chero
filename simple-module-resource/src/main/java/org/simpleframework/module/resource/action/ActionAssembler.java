@@ -26,6 +26,7 @@ import org.simpleframework.module.resource.action.extract.PathExtractor;
 import org.simpleframework.module.resource.action.extract.QueryExtractor;
 import org.simpleframework.module.resource.action.extract.RequestExtractor;
 import org.simpleframework.module.resource.action.extract.ResponseExtractor;
+import org.simpleframework.module.resource.action.extract.XmlExtractor;
 import org.simpleframework.module.resource.action.write.BodyWriter;
 import org.simpleframework.module.resource.action.write.ByteArrayWriter;
 import org.simpleframework.module.resource.action.write.CharacterArrayWriter;
@@ -35,8 +36,10 @@ import org.simpleframework.module.resource.action.write.JsonWriter;
 import org.simpleframework.module.resource.action.write.ResponseEntityWriter;
 import org.simpleframework.module.resource.action.write.ResponseWriter;
 import org.simpleframework.module.resource.action.write.StringWriter;
+import org.simpleframework.module.resource.action.write.XmlWriter;
 import org.simpleframework.module.resource.annotation.Filter;
 import org.simpleframework.module.resource.annotation.Path;
+import org.simpleframework.xml.core.Persister;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -65,16 +68,19 @@ public class ActionAssembler {
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(writers);
       ObjectMapper mapper = new ObjectMapper();
+      Persister persister = new Persister();
       
       writers.add(new CompletableFutureWriter(router));
       writers.add(new ResponseEntityWriter(router));
       writers.add(new JsonWriter(mapper));
+      writers.add(new XmlWriter(persister));
       writers.add(new ByteArrayWriter());
       writers.add(new CharacterArrayWriter());
       writers.add(new ExceptionWriter());
       writers.add(new StringWriter());      
 
       extractors.add(new JsonExtractor(mapper));
+      extractors.add(new XmlExtractor(persister));
       extractors.add(new PathExtractor());
       extractors.add(new QueryExtractor());
       extractors.add(new CookieExtractor());
