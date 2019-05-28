@@ -39,10 +39,10 @@ public class ServiceAssembler {
                   return builder.getValue(context);                 
                } catch(Exception e) {}
             }
-            return null;
          }catch(Exception e) {
             throw new IllegalStateException("Could not start application", e);
          }
+         return null;
       });
       return () -> manager.resolveAll(ComponentListener.class)
             .forEach(ComponentListener::onReady);

@@ -1,14 +1,14 @@
 ![Chero](https://raw.githubusercontent.com/ngallagher/chero/master/simple-module/src/main/resources/logo-small.png)
 
-This provides a basic template for a service. It includes dependency injection and a web framework with
+Chero is a framework for building micro-services. It includes dependency injection and a web framework with
 support for HTTP and WebSocket communication. The dependency injection system is built on the 
 ultra fast [Class Graph](https://github.com/classgraph/classgraph) project and the web 
-framework has a close resemblance to [JAX-RS](https://github.com/jax-rs/api).
+framework has a close resemblance to [JAX-RS](https://github.com/jax-rs/api). 
 
 ### Overview
 
-This framework forms the basis of a lightweight ultra fast dependency injection system. It has been
-largely inspired by [Spring Boot](https://github.com/spring-projects/spring-boot) 
+Chero offers a lightweight ultra fast dependency injection system with strict scoping constraints. It 
+has been largely inspired by [Spring Boot](https://github.com/spring-projects/spring-boot) 
 and [JAX-RS](https://github.com/jax-rs/api). Rather than expanding on the concepts and functionality
 available in these well know libraries, this framework offers a reduced set of features in order
 to provide a much faster and more deterministic dependency injection system. The result is a simpler
@@ -103,6 +103,7 @@ public class LoginResource {
 	
 	@POST
 	@Path("/grant")
+	@Produces("application/json")
 	public AccessGrant grant(
 		@QueryParam("user") String user,
 		@QueryParam("token") String token)
