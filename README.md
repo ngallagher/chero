@@ -7,7 +7,7 @@ framework has a close resemblance to [JAX-RS](https://github.com/jax-rs/api).
 
 The core objective of this project is to provide a suite of frameworks that are simple to reason about
 while offering the benefits of dependency injection and the convenience of declarative annotation 
-driven resources and services. Performance is central, and architectural choices have been made to
+driven resources and services. Performance is central and architectural choices have been made to
 ensure this library is sympathetic to the most demanding scalability requirements. 
 
 ### Overview
