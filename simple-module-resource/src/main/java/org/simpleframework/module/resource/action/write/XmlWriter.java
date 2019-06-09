@@ -7,13 +7,16 @@ import java.io.OutputStream;
 
 import org.simpleframework.http.ContentType;
 import org.simpleframework.http.Response;
+import org.simpleframework.module.extract.StringConverter;
 import org.simpleframework.xml.Serializer;
 
 public class XmlWriter implements BodyWriter<Object> {
 
+   private final StringConverter converter;
    private final Serializer serializer;
    
    public XmlWriter(Serializer serializer) {
+      this.converter = new StringConverter();
       this.serializer = serializer;
    }
    
@@ -23,12 +26,13 @@ public class XmlWriter implements BodyWriter<Object> {
       
       if(type != null && result != null) {
          String value = type.getType();
+         Class real = result.getClass();
          
          if(value.equalsIgnoreCase(APPLICATION_XML.value)) {
-            return true;
+            return !real.isArray() && !converter.accept(real);
          }
          if(value.equalsIgnoreCase(TEXT_XML.value)) {
-            return true;
+            return !real.isArray() && !converter.accept(real);
          }
       }
       return false;
