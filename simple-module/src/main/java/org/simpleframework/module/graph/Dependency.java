@@ -11,6 +11,7 @@ class Dependency {
    public Dependency(ClassNode node) {
       this(node, node);
    }
+   
    public Dependency(ClassNode node, ClassNode match) {
       this.name = node.getName();
       this.match = match;

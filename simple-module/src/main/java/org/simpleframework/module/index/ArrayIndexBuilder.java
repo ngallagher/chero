@@ -1,7 +1,7 @@
 package org.simpleframework.module.index;
 
+import java.util.Hashtable;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.simpleframework.module.path.ArrayNode;
 import org.simpleframework.module.path.ClassNode;
@@ -13,7 +13,7 @@ class ArrayIndexBuilder {
    private final ClassPath path;
    
    public ArrayIndexBuilder(ClassPath path) {
-      this.index = new ConcurrentHashMap<>();
+      this.index = new Hashtable<>();
       this.path = path;
    }
    

@@ -1,8 +1,8 @@
 package org.simpleframework.module.index;
 
 import java.net.URL;
+import java.util.Hashtable;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
@@ -16,7 +16,7 @@ class ReferenceIndexLoader {
    
    public ReferenceIndexLoader(ClassPath path) {
       this.builder = name -> new Reference(path, name);
-      this.index = new ConcurrentHashMap<>();
+      this.index = new Hashtable<>();
    }
 
    public ClassNode loadNode(String name) {

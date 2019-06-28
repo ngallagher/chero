@@ -1,9 +1,9 @@
 package org.simpleframework.module.index;
 
 import java.lang.annotation.Annotation;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -18,8 +18,8 @@ class ClassPathIndex implements ClassPath {
    private final ClassPathLoader loader;
    
    public ClassPathIndex(Map<String, ClassNode> types, Set<String> packages) {
-      this.indexes = new ConcurrentHashMap<>();
       this.loader = new ClassPathLoader(this);
+      this.indexes = new Hashtable<>();
       this.packages = packages;
       this.types = types;
    }

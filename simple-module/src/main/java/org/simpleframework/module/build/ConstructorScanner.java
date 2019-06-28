@@ -1,6 +1,7 @@
 package org.simpleframework.module.build;
 
 import java.lang.reflect.Constructor;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +26,15 @@ public class ConstructorScanner {
    }
    
    public List<Function> createConstructors(Class type) throws Exception {
-      List<Function> matches = new LinkedList<Function>();
+      List<Function> builders = cache.get(type);
    
       if(type != null) {
-         List<Function> builders = cache.get(type);
-      
-         if (builders == null) {
-            PropertyInjector injector = builder.createInjector(type);
-            Constructor[] factories = type.getDeclaredConstructors();
-   
+         PropertyInjector injector = builder.createInjector(type);
+         Constructor[] factories = type.getDeclaredConstructors();
+
+         if(factories.length > 0) {
+            List<Function> matches = new LinkedList<Function>();
+               
             for (Constructor factory : factories) {
                Function builder = createConstructor(injector, factory);
    
@@ -47,9 +48,9 @@ public class ConstructorScanner {
             cache.put(type, matches);
             return matches;
          }
-         return builders;
+         return Collections.emptyList();
       }
-      return matches;
+      return builders;
    }
    
    private Function createConstructor(PropertyInjector injector, Constructor factory) throws Exception {
