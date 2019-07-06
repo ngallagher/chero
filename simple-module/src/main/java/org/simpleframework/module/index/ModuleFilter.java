@@ -3,15 +3,15 @@ package org.simpleframework.module.index;
 import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.DependsOn;
 import org.simpleframework.module.annotation.Module;
+import org.simpleframework.module.common.Cache;
+import org.simpleframework.module.common.CopyOnWriteCache;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
@@ -42,49 +42,49 @@ public class ModuleFilter {
       boolean.class         
    };
 
-   private final Map<ClassNode, Boolean> component;
-   private final Map<ClassNode, Boolean> dependent;
-   private final Map<ClassNode, Boolean> internal;
-   private final Map<ClassNode, Boolean> visible;
-   private final Map<ClassNode, Boolean> missing;
-   private final Map<ClassNode, Boolean> module;
+   private final Cache<ClassNode, Boolean> component;
+   private final Cache<ClassNode, Boolean> dependent;
+   private final Cache<ClassNode, Boolean> internal;
+   private final Cache<ClassNode, Boolean> visible;
+   private final Cache<ClassNode, Boolean> missing;
+   private final Cache<ClassNode, Boolean> module;
    private final ComponentMapper mapper;
    private final Set<String> convertable;
    private final Set<Class> types;
    private final ClassPath path;
    
    public ModuleFilter(ClassPath path, Set<Class> types) {
+      this.component = new CopyOnWriteCache<>();
+      this.dependent = new CopyOnWriteCache<>();
+      this.internal = new CopyOnWriteCache<>();
+      this.missing = new CopyOnWriteCache<>();
+      this.visible = new CopyOnWriteCache<>();
+      this.module = new CopyOnWriteCache<>();
       this.mapper = new ComponentMapper();
       this.convertable = new HashSet<>();
-      this.component = new HashMap<>();
-      this.dependent = new HashMap<>();
-      this.internal = new HashMap<>();
-      this.missing = new HashMap<>();
-      this.visible = new HashMap<>();
-      this.module = new HashMap<>();
       this.types = types;
       this.path = path;      
    }  
    
    public boolean isComponent(ClassNode node) {
-      return component.computeIfAbsent(node, key -> 
+      return component.fetch(node, key -> 
              path.getTypes(Component.class).contains(node));
       
    }
    
    public boolean isDependent(ClassNode node) {
-      return dependent.computeIfAbsent(node, key -> 
+      return dependent.fetch(node, key -> 
              path.getTypes(DependsOn.class).contains(node));
       
    }
    
    public boolean isModule(ClassNode node) {
-      return module.computeIfAbsent(node, key -> 
+      return module.fetch(node, key -> 
          path.getTypes(Module.class).contains(node));
    }
    
    public boolean isVisible(ClassNode node) {
-      return visible.computeIfAbsent(node, key -> {
+      return visible.fetch(node, key -> {
          String name = node.getName();
          return path.getPackages()
                .stream()
@@ -93,7 +93,7 @@ public class ModuleFilter {
    }
    
    public boolean isInternal(ClassNode node) {
-      return internal.computeIfAbsent(node, key -> {
+      return internal.fetch(node, key -> {
          String name = node.getName();
          return types.stream()
                .map(mapper::expand)
@@ -111,7 +111,7 @@ public class ModuleFilter {
             .forEach(convertable::add);
       }
       String name = node.getName();
-      return missing.computeIfAbsent(node, key -> 
+      return missing.fetch(node, key -> 
             !convertable.contains(name) && 
             !node.isEnum() && 
             !isInternal(node)); 

@@ -1,26 +1,26 @@
 package org.simpleframework.module.index;
 
 import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
+import org.simpleframework.module.common.Cache;
+import org.simpleframework.module.common.CopyOnWriteCache;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
 class ReferenceIndexLoader {
    
    private final Function<String, Reference> builder;
-   private final Map<String, Reference> index;
+   private final Cache<String, Reference> index;
    
    public ReferenceIndexLoader(ClassPath path) {
       this.builder = name -> new Reference(path, name);
-      this.index = new Hashtable<>();
+      this.index = new CopyOnWriteCache<>();
    }
 
    public ClassNode loadNode(String name) {
-      return index.computeIfAbsent(name, builder).getNode();
+      return index.fetch(name, builder).getNode();
    }
    
    private static class Reference {

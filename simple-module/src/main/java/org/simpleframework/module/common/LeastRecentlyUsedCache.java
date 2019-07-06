@@ -1,7 +1,9 @@
 package org.simpleframework.module.common;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.simpleframework.module.common.LeastRecentlyUsedMap.RemovalListener;
 
@@ -41,10 +43,29 @@ public class LeastRecentlyUsedCache<K, V> implements Cache<K, V> {
    }
 
    @Override
+   public synchronized Collection<V> values() {
+      return cache.values();
+   }
+   
+   @Override
    public synchronized V fetch(K key) {
       return cache.get(key);
    }
 
+   @Override
+   public V fetch(K key, Function<K, V> builder) {
+      V value = cache.get(key);
+      
+      if(value == null) {
+         value = builder.apply(key);
+         
+         if(value != null) {
+            cache(key, value);
+         }
+      }
+      return value;
+   } 
+   
    @Override
    public synchronized V cache(K key, V value) {
       return cache.put(key, value);

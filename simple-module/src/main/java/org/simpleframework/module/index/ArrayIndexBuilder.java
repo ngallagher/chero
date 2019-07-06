@@ -1,24 +1,23 @@
 package org.simpleframework.module.index;
 
-import java.util.Hashtable;
-import java.util.Map;
-
+import org.simpleframework.module.common.Cache;
+import org.simpleframework.module.common.CopyOnWriteCache;
 import org.simpleframework.module.path.ArrayNode;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
 class ArrayIndexBuilder {
    
-   private final Map<String, ArrayNode> index;
+   private final Cache<String, ArrayNode> index;
    private final ClassPath path;
    
    public ArrayIndexBuilder(ClassPath path) {
-      this.index = new Hashtable<>();
+      this.index = new CopyOnWriteCache<>();
       this.path = path;
    }
    
    public ArrayNode create(String name) {     
-      return index.computeIfAbsent(name, this::resolve);
+      return index.fetch(name, this::resolve);
    }
 
    private ArrayNode resolve(String name) {
