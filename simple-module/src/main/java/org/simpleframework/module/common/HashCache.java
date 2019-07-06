@@ -1,30 +1,17 @@
 package org.simpleframework.module.common;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.simpleframework.module.common.LeastRecentlyUsedMap.RemovalListener;
-
-public class LeastRecentlyUsedCache<K, V> implements Cache<K, V> {
+public class HashCache<K, V> implements Cache<K, V> {
 
    private final Map<K, V> cache;
 
-   public LeastRecentlyUsedCache() {
-      this(null);
-   }
-
-   public LeastRecentlyUsedCache(int capacity) {
-      this(null, capacity);
-   }
-
-   public LeastRecentlyUsedCache(RemovalListener<K, V> removalListener) {
-      this(removalListener, 100);
-   }
-
-   public LeastRecentlyUsedCache(RemovalListener<K, V> removalListener, int capacity) {
-      this.cache = new LeastRecentlyUsedMap<K, V>(removalListener, capacity);
+   public HashCache() {
+      this.cache = new HashMap<K, V>();
    }
 
    @Override
@@ -72,7 +59,7 @@ public class LeastRecentlyUsedCache<K, V> implements Cache<K, V> {
    }
    
    @Override
-   public synchronized void cache(Map<K, V> values) {
+   public void cache(Map<K, V> values) {
       cache.putAll(values);
    }
    

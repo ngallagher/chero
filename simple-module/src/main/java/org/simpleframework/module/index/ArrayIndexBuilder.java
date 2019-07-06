@@ -1,7 +1,7 @@
 package org.simpleframework.module.index;
 
 import org.simpleframework.module.common.Cache;
-import org.simpleframework.module.common.CopyOnWriteCache;
+import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.path.ArrayNode;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
@@ -12,7 +12,7 @@ class ArrayIndexBuilder {
    private final ClassPath path;
    
    public ArrayIndexBuilder(ClassPath path) {
-      this.index = new CopyOnWriteCache<>();
+      this.index = new HashCache<>();
       this.path = path;
    }
    

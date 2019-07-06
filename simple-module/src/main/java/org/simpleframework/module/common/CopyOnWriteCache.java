@@ -74,6 +74,11 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    }
 
    @Override
+   public void cache(Map<K, V> values) {
+      updater.cache(values);
+   }
+   
+   @Override
    public void clear() {
       updater.clear();
    }
@@ -100,6 +105,14 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
          this.size = size;
       }
 
+      public synchronized void cache(Map<K, V> values) {
+         Map<K, V> copy = new HashMap<K, V>(size, density);
+         
+         copy.putAll(cache);
+         copy.putAll(values);
+         cache = copy;
+      }
+      
       public synchronized V cache(K key, V value) {
          V existing = cache.get(key);
          

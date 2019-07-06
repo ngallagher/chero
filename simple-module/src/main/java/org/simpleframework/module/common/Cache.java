@@ -1,6 +1,7 @@
 package org.simpleframework.module.common;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -13,6 +14,7 @@ public interface Cache<K, V> {
    boolean isEmpty();
    boolean contains(K key);
    V cache(K key, V value);
+   void cache(Map<K, V> values);
    void clear();
    int size();
 }

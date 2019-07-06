@@ -1,7 +1,7 @@
 package org.simpleframework.module.index;
 
 import org.simpleframework.module.common.Cache;
-import org.simpleframework.module.common.CopyOnWriteCache;
+import org.simpleframework.module.common.LeastRecentlyUsedCache;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
@@ -12,9 +12,13 @@ class ClassPathLoader {
    private final ArrayIndexBuilder builder;
    
    public ClassPathLoader(ClassPath path) {
+      this(path, 10000);
+   }
+   
+   public ClassPathLoader(ClassPath path, int capacity) {
+      this.index = new LeastRecentlyUsedCache<>(capacity);
       this.loader = new ReferenceIndexLoader(path);
       this.builder = new ArrayIndexBuilder(path);
-      this.index = new CopyOnWriteCache<>();
    }
 
    public ClassNode loadNode(String name) {

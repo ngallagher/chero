@@ -1,7 +1,9 @@
 package org.simpleframework.module.index;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -31,8 +33,9 @@ public class ClassPathBuilder {
       Set<String> packages = scope.getPackages();
       
       if(!packages.isEmpty()) {
-         Cache<String, ClassNode> nodes = new CopyOnWriteCache<>();
-         ClassPath path = new ClassPathIndex(nodes, packages);
+         Map<String, ClassNode> nodes = new HashMap<>();
+         Cache<String, ClassNode> cache = new CopyOnWriteCache<>();
+         ClassPath path = new ClassPathIndex(cache, packages);
          Function<ClassInfo, ClassIndex> converter = info -> new ClassIndex(path, info);         
          Iterator<ClassIndex> iterator = scope.getGraph()
                .scan()
@@ -46,8 +49,9 @@ public class ClassPathBuilder {
                ClassNode next = iterator.next();
                String name = next.getName();
                
-               nodes.cache(name, next);
+               nodes.put(name, next);
             }
+            cache.cache(nodes);
             return path;
          }
          return path;
