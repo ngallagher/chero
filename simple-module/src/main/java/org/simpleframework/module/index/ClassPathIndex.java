@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.simpleframework.module.common.Cache;
-import org.simpleframework.module.common.LeastRecentlyUsedCache;
+import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
@@ -18,12 +18,8 @@ class ClassPathIndex implements ClassPath {
    private final ClassPathLoader loader;
    
    public ClassPathIndex(Cache<String, ClassNode> types, Set<String> packages) {
-      this(types, packages, 10000);
-   }
-   
-   public ClassPathIndex(Cache<String, ClassNode> types, Set<String> packages, int capacity) {
-      this.indexes = new LeastRecentlyUsedCache<>(capacity);
-      this.loader = new ClassPathLoader(this, capacity);
+      this.loader = new ClassPathLoader(this);
+      this.indexes = new HashCache<>();
       this.packages = packages;
       this.types = types;
    }

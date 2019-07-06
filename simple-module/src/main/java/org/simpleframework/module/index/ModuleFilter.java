@@ -11,7 +11,7 @@ import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.DependsOn;
 import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.common.Cache;
-import org.simpleframework.module.common.CopyOnWriteCache;
+import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
@@ -54,14 +54,14 @@ public class ModuleFilter {
    private final ClassPath path;
    
    public ModuleFilter(ClassPath path, Set<Class> types) {
-      this.component = new CopyOnWriteCache<>();
-      this.dependent = new CopyOnWriteCache<>();
-      this.internal = new CopyOnWriteCache<>();
-      this.missing = new CopyOnWriteCache<>();
-      this.visible = new CopyOnWriteCache<>();
-      this.module = new CopyOnWriteCache<>();
       this.mapper = new ComponentMapper();
       this.convertable = new HashSet<>();
+      this.component = new HashCache<>();
+      this.dependent = new HashCache<>();
+      this.internal = new HashCache<>();
+      this.missing = new HashCache<>();
+      this.visible = new HashCache<>();
+      this.module = new HashCache<>();
       this.types = types;
       this.path = path;      
    }  

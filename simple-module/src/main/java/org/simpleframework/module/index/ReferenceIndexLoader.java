@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 import org.simpleframework.module.common.Cache;
-import org.simpleframework.module.common.CopyOnWriteCache;
+import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
@@ -16,7 +16,7 @@ class ReferenceIndexLoader {
    
    public ReferenceIndexLoader(ClassPath path) {
       this.builder = name -> new Reference(path, name);
-      this.index = new CopyOnWriteCache<>();
+      this.index = new HashCache<>();
    }
 
    public ClassNode loadNode(String name) {
