@@ -59,7 +59,7 @@ public class HashCache<K, V> implements Cache<K, V> {
    }
    
    @Override
-   public void cache(Map<K, V> values) {
+   public synchronized void cache(Map<K, V> values) {
       cache.putAll(values);
    }
    
