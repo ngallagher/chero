@@ -70,7 +70,7 @@ public class ConstructorFunction implements Function {
    }
 
    @Override
-   public Class[] getParameters(){
+   public Parameter[] getParameters(){
       return arguments.require();
    }
    

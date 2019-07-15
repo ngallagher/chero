@@ -73,7 +73,7 @@ public class MethodExecutor {
          attributes.putAll(parameters);
       }
       if (!response.isCommitted()) {
-         header.applyHeader(context);
+         header.apply(context);
       }
    }
    

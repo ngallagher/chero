@@ -16,11 +16,11 @@ public class ArgumentList {
       this.parameters = parameters;
    }
    
-   public Class[] require() {
-      Class[] types = new Class[parameters.length];
+   public Parameter[] require() {
+      Parameter[] types = new Parameter[parameters.length];
 
       for (int i = 0; i < parameters.length; i++) {
-         types[i] = parameters[i].getType();
+         types[i] = parameters[i];
       }
       return types;
    }

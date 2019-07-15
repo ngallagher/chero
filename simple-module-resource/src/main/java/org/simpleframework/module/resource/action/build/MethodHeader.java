@@ -5,11 +5,11 @@ import static org.simpleframework.http.Protocol.CONTENT_DISPOSITION;
 import static org.simpleframework.http.Protocol.CONTENT_TYPE;
 
 import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
@@ -25,8 +25,12 @@ public class MethodHeader {
    public MethodHeader() {
       this.headers = new LinkedHashMap<String, String>();
    }
+   
+   public Map<String, String> headers() {
+      return Collections.unmodifiableMap(headers);
+   }
 
-   public void applyHeader(Context context) {
+   public void apply(Context context) {
       Set<String> names = headers.keySet();
 
       if (!names.isEmpty()) {
@@ -47,19 +51,19 @@ public class MethodHeader {
       }
    }
 
-   public void extractHeader(Annotation annotation) {
+   public void extract(Annotation annotation) {
       if (annotation instanceof Attachment) {
-         extractHeader((Attachment) annotation);
+         extract((Attachment) annotation);
       }
       if (annotation instanceof Produces) {
-         extractHeader((Produces) annotation);
+         extract((Produces) annotation);
       }
       if (annotation instanceof CacheControl) {
-         extractHeader((CacheControl) annotation);
+         extract((CacheControl) annotation);
       }
    }
 
-   private void extractHeader(Produces type) {
+   private void extract(Produces type) {
       String value = type.value();
 
       if (!value.isEmpty()) {
@@ -67,7 +71,7 @@ public class MethodHeader {
       }
    }
 
-   private void extractHeader(CacheControl control) {
+   private void extract(CacheControl control) {
       String type = control.value();
 
       if (!type.isEmpty()) {
@@ -75,7 +79,7 @@ public class MethodHeader {
       }
    }
 
-   private void extractHeader(Attachment disposition) {
+   private void extract(Attachment disposition) {
       String type = disposition.value();
 
       if (!type.isEmpty()) {

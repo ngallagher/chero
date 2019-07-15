@@ -7,6 +7,6 @@ import org.simpleframework.module.core.Context;
 public interface Function extends AnnotatedElement {
    <T> T getValue(Context context) throws Exception;
    float getScore(Context context) throws Exception;
-   Class[] getParameters() throws Exception;
+   Parameter[] getParameters();
    String getName();
 }

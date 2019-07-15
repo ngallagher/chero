@@ -97,7 +97,7 @@ public class ActionScanner {
          MethodHeader header = new MethodHeader();
    
          for (Annotation annotation : annotations) {
-            header.extractHeader(annotation);
+            header.extract(annotation);
          }
          return header;
       }

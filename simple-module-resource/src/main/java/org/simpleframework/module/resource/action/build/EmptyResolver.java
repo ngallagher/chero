@@ -22,4 +22,9 @@ public class EmptyResolver implements MethodResolver {
       return Collections.emptyList();
    }
 
+   @Override
+   public List<MethodDispatcher> resolveAll(Context context) throws Exception {
+      return Collections.emptyList();
+   }
+
 }

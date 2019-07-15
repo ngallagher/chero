@@ -110,6 +110,23 @@ public class MethodDispatcherResolver implements MethodResolver {
       }
       return Collections.emptyList();
    }
+   
+   @Override
+   public synchronized List<MethodDispatcher> resolveAll(Context context) throws Exception {
+      List<Match> matches = matches();
+
+      if (matches != null) {
+         List<MethodDispatcher> list = new ArrayList<MethodDispatcher>();
+
+         for (Match match : matches) {
+            for (MethodDispatcher dispatcher : match.dispatchers) {
+               list.add(dispatcher);
+            }
+         }
+         return list;
+      }
+      return Collections.emptyList();
+   }
 
    private synchronized MatchGroup match(Context context) throws Exception {
       String normalized = resolver.resolve(context);
