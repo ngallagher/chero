@@ -17,16 +17,15 @@ import org.simpleframework.module.service.ServiceBinder;
 public class ServerDriver implements Driver<Server> {
 
    private final ComponentManager manager;
-   private final Schema schema;
    
    public ServerDriver() {
       this.manager = new ComponentStore();
-      this.schema = new Schema(null);
    }
    
    @Override
    public Server create(ClassPath path, Context context) throws Exception {
       List<Extractor> extractors = new LinkedList<>();  
+      Schema schema = new ServerSchema(context);
       ServiceAssembler assembler = new ServiceAssembler(manager, extractors, argument -> false);
       ServiceBinder binder = new ServiceBinder(assembler, manager, path);
       ServerBuilder builder = new ServerBuilder(binder, manager, path, schema);

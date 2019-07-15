@@ -35,7 +35,7 @@ public class DemoApplication {
       
       @Inject
       private DemoService service;
-      
+
       @GET
       @Path("/.*")
       @Produces("text/plain")

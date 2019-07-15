@@ -1,7 +1,5 @@
 package org.simpleframework.module.resource.action;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-
 import java.util.List;
 
 import org.simpleframework.module.build.ConstructorScanner;
@@ -18,6 +16,7 @@ import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.ClassFinder;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.ComponentFinder;
+import org.simpleframework.module.resource.action.build.JsonMapper;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
 import org.simpleframework.module.resource.action.extract.BodyExtractor;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
@@ -65,7 +64,7 @@ public class ActionAssembler {
    
    public ActionMatcher assemble(List<Extractor> extractors, List<BodyWriter> writers) {
       Persister persister = new Persister();
-      ObjectMapper mapper = new ObjectMapper().configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+      ObjectMapper mapper = new JsonMapper();
       ConstructorScanner constructorScanner = new ConstructorScanner(manager, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
