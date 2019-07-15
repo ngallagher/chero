@@ -21,14 +21,6 @@ public class MethodDescription implements ActionDescription {
    }
    
    @Override
-   public String getTarget() {
-      String method = matcher.verb();
-      String pattern = matcher.pattern();
-      
-      return String.format("%s %s", method, pattern);
-   }
-   
-   @Override
    public List<Parameter> getParameters() {
       Parameter[] parameters = function.getParameters();
       

@@ -9,7 +9,6 @@ public interface ActionDescription {
    List<Parameter> getParameters();
    Map<String, String> getHeaders();
    String getDescription();
-   String getTarget();
    String getMethod();
    String getPath();
 }
