@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.resource.action.ActionDescription;
 
 public class MethodDescription implements ActionDescription {
    
@@ -21,7 +23,7 @@ public class MethodDescription implements ActionDescription {
    }
    
    @Override
-   public List<Parameter> getParameters() {
+   public List<Argument> getArguments() {
       Parameter[] parameters = function.getParameters();
       
       if(parameters.length > 0) {

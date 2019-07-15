@@ -21,10 +21,4 @@ public class EmptyResolver implements MethodResolver {
    public List<MethodDispatcher> resolveBestLast(Context context) throws Exception {
       return Collections.emptyList();
    }
-
-   @Override
-   public List<MethodDispatcher> resolveAll(Context context) throws Exception {
-      return Collections.emptyList();
-   }
-
 }

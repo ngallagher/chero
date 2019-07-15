@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.simpleframework.module.resource.action.build.ActionDescription;
-
 public class Schema {
 
    private final Function<String, Set<ActionDescription>> builder;

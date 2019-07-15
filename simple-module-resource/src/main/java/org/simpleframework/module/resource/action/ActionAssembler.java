@@ -52,13 +52,15 @@ public class ActionAssembler {
    private final ComponentManager manager;
    private final ComponentFilter filter;
    private final Validator validator;
+   private final Schema schema;
    
-   public ActionAssembler(ComponentManager manager, ClassPath path) {
+   public ActionAssembler(ComponentManager manager, ClassPath path, Schema schema) {
       this.interceptorFinder = new ComponentFinder(path, Filter.class);
       this.serviceFinder = new ComponentFinder(path, Path.class);
       this.validator = new AnnotationValidator();
       this.filter = new ComponentFilter();
       this.manager = manager;
+      this.schema = schema;
    }
    
    public ActionMatcher assemble(List<Extractor> extractors, List<BodyWriter> writers) {
@@ -68,7 +70,7 @@ public class ActionAssembler {
       MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
       MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(actionScanner, interceptorFinder);
-      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder);
+      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder, schema);
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(writers);
       

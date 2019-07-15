@@ -10,15 +10,18 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ValueExtractor;
 import org.simpleframework.module.path.ClassPath;
+import org.simpleframework.module.resource.action.Schema;
 import org.simpleframework.module.service.ServiceAssembler;
 import org.simpleframework.module.service.ServiceBinder;
 
 public class ServerDriver implements Driver<Server> {
 
    private final ComponentManager manager;
+   private final Schema schema;
    
    public ServerDriver() {
       this.manager = new ComponentStore();
+      this.schema = new Schema(null);
    }
    
    @Override
@@ -26,11 +29,12 @@ public class ServerDriver implements Driver<Server> {
       List<Extractor> extractors = new LinkedList<>();  
       ServiceAssembler assembler = new ServiceAssembler(manager, extractors, argument -> false);
       ServiceBinder binder = new ServiceBinder(assembler, manager, path);
-      ServerBuilder builder = new ServerBuilder(binder, manager, path);
+      ServerBuilder builder = new ServerBuilder(binder, manager, path, schema);
       Extractor extractor = new ValueExtractor();
       
       binder.register(path);
       binder.register(context);
+      binder.register(schema);
       binder.register(manager);
       extractors.add(extractor);
       

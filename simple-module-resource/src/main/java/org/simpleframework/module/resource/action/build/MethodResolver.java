@@ -8,5 +8,4 @@ public interface MethodResolver {
    MethodDispatcher resolveBest(Context context) throws Exception;
    List<MethodDispatcher> resolveBestFirst(Context context) throws Exception;
    List<MethodDispatcher> resolveBestLast(Context context) throws Exception;
-   List<MethodDispatcher> resolveAll(Context context) throws Exception;
 }

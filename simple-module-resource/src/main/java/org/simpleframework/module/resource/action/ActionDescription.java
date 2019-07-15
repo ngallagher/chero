@@ -1,12 +1,12 @@
-package org.simpleframework.module.resource.action.build;
+package org.simpleframework.module.resource.action;
 
 import java.util.List;
 import java.util.Map;
 
-import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.build.Argument;
 
 public interface ActionDescription {
-   List<Parameter> getParameters();
+   List<Argument> getArguments();
    Map<String, String> getHeaders();
    String getDescription();
    String getMethod();

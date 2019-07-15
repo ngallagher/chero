@@ -14,21 +14,28 @@ import java.util.regex.Pattern;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 import org.simpleframework.module.core.Context;
+import org.simpleframework.module.resource.action.Schema;
 
 public class MethodDispatcherResolver implements MethodResolver {
 
    private final Cache<String, MatchGroup> cache;
    private final List<Match> matches;
-   private final ClassFinder finder;
    private final ActionScanner scanner;
    private final PathResolver resolver;
-   
+   private final ClassFinder finder;
+   private final Schema schema;
+
    public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder) {
+      this(scanner, finder, null);
+   }
+   
+   public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder, Schema schema) {
       this.cache = new LeastRecentlyUsedCache<String, MatchGroup>(1000);
       this.matches = new LinkedList<Match>();
       this.resolver = new PathResolver();
       this.scanner = scanner;
       this.finder = finder;
+      this.schema = schema;
    }
 
    @Override
@@ -110,23 +117,6 @@ public class MethodDispatcherResolver implements MethodResolver {
       }
       return Collections.emptyList();
    }
-   
-   @Override
-   public synchronized List<MethodDispatcher> resolveAll(Context context) throws Exception {
-      List<Match> matches = matches();
-
-      if (matches != null) {
-         List<MethodDispatcher> list = new ArrayList<MethodDispatcher>();
-
-         for (Match match : matches) {
-            for (MethodDispatcher dispatcher : match.dispatchers) {
-               list.add(dispatcher);
-            }
-         }
-         return list;
-      }
-      return Collections.emptyList();
-   }
 
    private synchronized MatchGroup match(Context context) throws Exception {
       String normalized = resolver.resolve(context);
@@ -162,6 +152,11 @@ public class MethodDispatcherResolver implements MethodResolver {
                if (!dispatchers.isEmpty()) {
                   Match match = new Match(dispatchers, pattern);
                   matches.add(match);
+               }
+               if(schema != null) {
+                  for(MethodDispatcher dispatcher : dispatchers) {
+                     dispatcher.define(schema);
+                  }
                }
             }
          }
