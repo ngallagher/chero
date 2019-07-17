@@ -1,6 +1,7 @@
 package org.simpleframework.module.resource.action.build;
 
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,17 +9,22 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.simpleframework.module.build.Parameter;
+import org.simpleframework.module.extract.StringConverter;
 import org.simpleframework.module.resource.annotation.CONNECT;
+import org.simpleframework.module.resource.annotation.PathParam;
 
 public class MethodMatcher {
 
    private final Class<? extends Annotation> verb;
    private final PathParser expression;
-   private final String ignore;
+   private final MethodPath path;
+   private final PathIndex index;
 
-   public MethodMatcher(Class<? extends Annotation> verb, String ignore, String... path) {
-      this.expression = new PathParser(path);
-      this.ignore = ignore;
+   public MethodMatcher(Class<? extends Annotation> verb, MethodPath path, Parameter... parameters) {
+      this.index = new PathIndex(parameters);
+      this.expression = new PathParser(path, index);
+      this.path = path;
       this.verb = verb;
    }
 
@@ -58,7 +64,37 @@ public class MethodMatcher {
    }
    
    public String ignore() {
-      return ignore;
+      return path.getIgnore();
+   }
+   
+   private static class PathIndex {
+      
+      private final StringConverter converter;
+      private final Map<String, Class> types;
+      private final Parameter[] parameters;
+      
+      public PathIndex(Parameter[] parameters) {
+         this.types = new HashMap<String, Class>();
+         this.converter = new StringConverter();
+         this.parameters = parameters;
+      }
+      
+      public Class resolve(String name) {
+         if(types.isEmpty()) {
+            for(Parameter parameter : parameters) {
+               PathParam label = parameter.getAnnotation(PathParam.class);
+               
+               if(label != null) {
+                  String value = label.value();
+                  Class type = parameter.getType();
+                  Class real = converter.convert(type);
+                  
+                  types.put(value, real);
+               }
+            }
+         }
+         return types.get(name);
+      }
    }
 
    private static class PathParser {
@@ -66,11 +102,13 @@ public class MethodMatcher {
       private List<PathSegment> segments;
       private StringBuilder builder;
       private PathSegment segment;
+      private PathIndex index;
 
-      public PathParser(String... parts) {
+      public PathParser(MethodPath path, PathIndex index) {
          this.segments = new LinkedList<PathSegment>();
          this.builder = new StringBuilder();
-         this.parse(parts);
+         this.index = index;
+         this.parse(path);
       }
 
       public List<String> names() {
@@ -98,7 +136,15 @@ public class MethodMatcher {
          return builder.toString();
       }
 
-      public void parse(String... parts) {
+      public void parse(MethodPath path) {
+         String[] parts = path.getPaths();
+         
+         if(parts.length > 0) {
+            parse(parts);
+         }
+      }
+      
+      public void parse(String[] parts) {
          String path = join(parts);
          char[] data = path.toCharArray();
 
@@ -159,7 +205,7 @@ public class MethodMatcher {
          if (segment != null) {
             segments.add(segment);
          }
-         segment = new PathSegment();
+         segment = new PathSegment(index);
       }
 
       public void createToken(TokenType type) {
@@ -181,9 +227,11 @@ public class MethodMatcher {
    private static class PathSegment {
 
       private final List<Token> tokens;
-
-      public PathSegment() {
+      private final PathIndex index;
+      
+      public PathSegment(PathIndex index) {
          this.tokens = new LinkedList<Token>();
+         this.index = index;
       }
 
       public List<String> names() {
@@ -203,7 +251,10 @@ public class MethodMatcher {
          StringBuilder builder = new StringBuilder();
 
          for (Token token : tokens) {
-            String pattern = token.pattern();
+            String name = token.name();
+            Class type = index.resolve(name);
+            String pattern = token.pattern(type);
+
             builder.append(pattern);
          }
          return builder.toString();
@@ -239,8 +290,26 @@ public class MethodMatcher {
          return null;
       }
 
-      public String pattern() {
+      public String pattern(Class real) {
          if (type == TokenType.PARAMETER) {
+            if(real == Double.class) {
+               return "([0-9\\.]+)";
+            }
+            if(real == Float.class) {
+               return "([0-9\\.]+)";
+            }
+            if(real == Integer.class) {
+               return "([0-9]+)";
+            }
+            if(real == Long.class) {
+               return "([0-9]+)";
+            }
+            if(real == Short.class) {
+               return "([0-9]+)";
+            }
+            if(real == Byte.class) {
+               return "([0-9]+)";
+            }
             return "(.+?)";
          }
          return text;

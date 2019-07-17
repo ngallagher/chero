@@ -94,7 +94,7 @@ public class StringConverter {
       return false;
    }
    
-   private Class convert(Class type) {
+   public Class convert(Class type) {
       if (type == String.class) {
          return String.class;
       }      

@@ -2,19 +2,19 @@ package org.simpleframework.module.resource.action.build;
 
 public class MethodPath {
 
+   private final String[] paths;
    private final String ignore;
-   private final String match;
    
-   public MethodPath(String ignore, String match) {
+   public MethodPath(String ignore, String... paths) {
       this.ignore = ignore;
-      this.match = match;
+      this.paths = paths;
+   }
+   
+   public String[] getPaths() {
+      return paths;
    }
    
    public String getIgnore() {
       return ignore;
-   }
-   
-   public String getMatch() {
-      return match;
    }
 }

@@ -19,7 +19,7 @@ public class Declaration {
       this.required = required;
       this.type = type;
    }
-   
+
    public boolean isRequired() {
       return required;
    }

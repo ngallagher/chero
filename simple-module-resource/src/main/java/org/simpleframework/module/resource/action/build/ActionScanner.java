@@ -10,21 +10,19 @@ import java.util.Map;
 
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.MethodScanner;
+import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.resource.annotation.GET;
-import org.simpleframework.module.resource.annotation.Ignore;
 import org.simpleframework.module.resource.annotation.Verb;
 
 public class ActionScanner {
 
    private final MethodPathBuilder builder;
-   private final PathFormatter formatter;
    private final MethodScanner scanner;
    private final Validator validator;
 
    public ActionScanner(MethodScanner scanner, Validator validator) {
       this.builder = new MethodPathBuilder();
-      this.formatter = new PathFormatter();
       this.validator = validator;
       this.scanner = scanner;
    }
@@ -56,29 +54,18 @@ public class ActionScanner {
    }
    
    private MethodMatcher createMatcher(Function function, String typePath, String methodPath) throws Exception {
-      String methodName = function.getName();
-      Ignore ignore = function.getAnnotation(Ignore.class);
       Annotation[] annotations = function.getAnnotations(); 
-      String realPath = builder.create(methodPath, methodName);
-      String parentPath = "/";
-      String ignorePath = "";
+      Parameter[] parameters = function.getParameters();
+      MethodPath path = builder.createPath(function, typePath, methodPath);
       
-      if (ignore != null) {
-         ignorePath = ignore.value();
-         formatter.formatPath(ignorePath);
-      }
-      if (typePath != null) {
-         parentPath = formatter.formatPath(typePath);
-      }
       for(Annotation annotation : annotations) {
          Class<? extends Annotation> methodVerb = annotation.annotationType();
          
          if(methodVerb.isAnnotationPresent(Verb.class)) {
-            return new MethodMatcher(methodVerb, ignorePath, parentPath, realPath);
+            return new MethodMatcher(methodVerb, path, parameters);
          }
       }
-      return new MethodMatcher(GET.class, ignorePath, parentPath, realPath);
- 
+      return new MethodMatcher(GET.class, path, parameters);
    }
 
    private MethodDispatcher createDispatcher(MethodMatcher matcher, Function function) throws Exception {
