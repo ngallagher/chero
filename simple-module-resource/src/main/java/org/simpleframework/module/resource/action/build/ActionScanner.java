@@ -55,17 +55,23 @@ public class ActionScanner {
    
    private MethodMatcher createMatcher(Function function, String typePath, String methodPath) throws Exception {
       Annotation[] annotations = function.getAnnotations(); 
+      MethodCompiler compiler = createCompiler(function, typePath, methodPath);
+      
+      for(Annotation annotation : annotations) {
+         Class<? extends Annotation> verb = annotation.annotationType();
+         
+         if(verb.isAnnotationPresent(Verb.class)) {
+            return compiler.compile(verb);
+         }
+      }
+      return compiler.compile(GET.class);
+   }
+   
+   private MethodCompiler createCompiler(Function function, String typePath, String methodPath) throws Exception {
       Parameter[] parameters = function.getParameters();
       PathPattern pattern = builder.createPattern(function, typePath, methodPath);
       
-      for(Annotation annotation : annotations) {
-         Class<? extends Annotation> methodVerb = annotation.annotationType();
-         
-         if(methodVerb.isAnnotationPresent(Verb.class)) {
-            return new MethodMatcher(methodVerb, pattern, parameters);
-         }
-      }
-      return new MethodMatcher(GET.class, pattern, parameters);
+      return new MethodCompiler(pattern, parameters);
    }
 
    private MethodDispatcher createDispatcher(MethodMatcher matcher, Function function) throws Exception {
