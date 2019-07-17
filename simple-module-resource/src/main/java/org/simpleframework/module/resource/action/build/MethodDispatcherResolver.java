@@ -2,7 +2,6 @@ package org.simpleframework.module.resource.action.build;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import org.simpleframework.module.resource.action.Schema;
 
 public class MethodDispatcherResolver implements MethodResolver {
 
-   private final Cache<String, MatchGroup> cache;
+   private final Cache<String, List<MethodMatch>> cache;
    private final MethodMatchIndexer matcher;
    private final PathResolver resolver;
 
@@ -22,20 +21,20 @@ public class MethodDispatcherResolver implements MethodResolver {
    }
    
    public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder, Schema schema) {
-      this.cache = new LeastRecentlyUsedCache<String, MatchGroup>(5000);
+      this.cache = new LeastRecentlyUsedCache<String, List<MethodMatch>>(5000);
       this.matcher = new MethodMatchIndexer(scanner, finder, schema);
       this.resolver = new PathResolver();
    }
 
    @Override
    public MethodDispatcher resolveBest(Context context) throws Exception {
-      MatchGroup group = match(context);
+      List<MethodMatch> matches = matchBestFirst(context);
 
-      if (group != null) {
+      if (matches != null) {
          MethodDispatcher result = null;
          float best = 0f;
 
-         for (MethodMatch match : group.matches) {
+         for (MethodMatch match : matches) {
             Iterable<MethodDispatcher> dispatchers = match.actions();
             String pattern = match.expression();
             int length = pattern.length();
@@ -51,7 +50,7 @@ public class MethodDispatcherResolver implements MethodResolver {
             }
          }
          if (result == null) {
-            for (MethodMatch match : group.matches) {
+            for (MethodMatch match : matches) {
                Iterable<MethodDispatcher> dispatchers = match.actions();
                
                for (MethodDispatcher dispatcher : dispatchers) {
@@ -70,12 +69,12 @@ public class MethodDispatcherResolver implements MethodResolver {
 
    @Override
    public List<MethodDispatcher> resolveBestFirst(Context context) throws Exception {
-      MatchGroup group = match(context);
+      List<MethodMatch> matches = matchBestFirst(context);
 
-      if (group != null) {
+      if (matches != null) {
          List<MethodDispatcher> list = new ArrayList<MethodDispatcher>();
 
-         for (MethodMatch match : group.matches) {
+         for (MethodMatch match : matches) {
             Iterable<MethodDispatcher> dispatchers = match.actions();
             
             for (MethodDispatcher dispatcher : dispatchers) {
@@ -93,12 +92,12 @@ public class MethodDispatcherResolver implements MethodResolver {
 
    @Override
    public List<MethodDispatcher> resolveBestLast(Context context) throws Exception {
-      MatchGroup group = match(context);
+      List<MethodMatch> matches = matchBestFirst(context);
 
-      if (group != null) {
+      if (matches != null) {
          LinkedList<MethodDispatcher> list = new LinkedList<MethodDispatcher>();
 
-         for (MethodMatch match : group.matches) {
+         for (MethodMatch match : matches) {
             Iterable<MethodDispatcher> dispatchers = match.actions();
             
             for (MethodDispatcher dispatcher : dispatchers) {
@@ -114,43 +113,28 @@ public class MethodDispatcherResolver implements MethodResolver {
       return Collections.emptyList();
    }
    
-   private MatchGroup match(Context context) throws Exception {
+   private List<MethodMatch> matchBestFirst(Context context) throws Exception {
       String normalized = resolver.resolve(context);
 
       if (!cache.contains(normalized)) {
          List<MethodMatch> matches = matcher.matches();
 
          if (!matches.isEmpty()) {
-            MatchGroup group = new MatchGroup(normalized);
+            List<MethodMatch> group = new ArrayList<MethodMatch>();
 
             for (MethodMatch match : matches) {
                if (match.matches(normalized)) {
                   group.add(match);
                }
             }
-            cache.cache(normalized, group);
+            List<MethodMatch> value = Collections.unmodifiableList(group);
+            
+            if(!group.isEmpty()) {
+               Collections.sort(group);
+            }
+            cache.cache(normalized, value); // cache immutable
          }
       }
       return cache.fetch(normalized);
-   }
-
-   public static class MatchGroup implements Iterable<MethodMatch> {
-
-      private final List<MethodMatch> matches;
-      private final String path;
-
-      public MatchGroup(String path) {
-         this.matches = new ArrayList<MethodMatch>();
-         this.path = path;
-      }
-
-      public Iterator<MethodMatch> iterator() {
-         return matches.iterator();
-      }
-
-      public void add(MethodMatch match) {
-         matches.add(match);
-         Collections.sort(matches); // slow ?
-      }
    }
 }
