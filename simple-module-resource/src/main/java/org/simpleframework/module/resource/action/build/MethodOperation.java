@@ -8,15 +8,15 @@ import java.util.Map;
 import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.Parameter;
-import org.simpleframework.module.resource.action.ActionDescription;
+import org.simpleframework.module.resource.action.Operation;
 
-public class MethodDescription implements ActionDescription {
+public class MethodOperation implements Operation {
    
    private final MethodMatcher matcher;
    private final MethodHeader header;
    private final Function function;
    
-   public MethodDescription(MethodMatcher matcher, MethodHeader header, Function function) {
+   public MethodOperation(MethodMatcher matcher, MethodHeader header, Function function) {
       this.function = function;
       this.header = header;
       this.matcher = matcher;

@@ -6,27 +6,27 @@ import org.simpleframework.http.Request;
 import org.simpleframework.module.build.Function;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Model;
-import org.simpleframework.module.resource.action.ActionDescription;
+import org.simpleframework.module.resource.action.Operation;
 import org.simpleframework.module.resource.action.Schema;
 
 public class MethodDispatcher {
 
-   private final MethodDescription description;
+   private final MethodOperation operation;
    private final MethodExecutor executor;
 
    public MethodDispatcher(MethodMatcher matcher, MethodHeader header, Function function) {
       this.executor = new MethodExecutor(matcher, header, function);
-      this.description = new MethodDescription(matcher, header, function);
+      this.operation = new MethodOperation(matcher, header, function);
    }
 
    public void define(Schema schema) throws Exception {
-      String method = description.getMethod();
-      Set<ActionDescription> actions = schema.getActions(method);
+      String method = operation.getMethod();
+      Set<Operation> actions = schema.getOperations(method);
       
       if(actions == null) {
          throw new IllegalStateException("Could not define action for " + executor);
       }
-      actions.add(description);
+      actions.add(operation);
    }
    
    public Object execute(Context context) throws Exception {
