@@ -24,27 +24,30 @@ public class MethodMatcher {
    }
 
    public Map<String, String> evaluate(String path) {
-      Map<String, String> parameters = new LinkedHashMap<String, String>();
-
-      if (!path.isEmpty()) {
-         Matcher matcher = pattern.matcher(path);
-
-         if (matcher.matches()) {
-            int groups = matcher.groupCount();
-            int required = tokens.size();
-
-            if (groups < required) {
-               throw new IllegalStateException("Could not extract parameters from " + path);
-            }
-            for (int i = 0; i < required; i++) {
-               String name = tokens.get(i);
-               String token = matcher.group(i + 1);
-
-               parameters.put(name, token);
+      if(!tokens.isEmpty()) {
+         Map<String, String> parameters = new LinkedHashMap<String, String>();
+   
+         if (!path.isEmpty()) {
+            Matcher matcher = pattern.matcher(path);
+   
+            if (matcher.matches()) {
+               int groups = matcher.groupCount();
+               int required = tokens.size();
+   
+               if (groups < required) {
+                  throw new IllegalStateException("Could not extract parameters from " + path);
+               }
+               for (int i = 0; i < required; i++) {
+                  String name = tokens.get(i);
+                  String token = matcher.group(i + 1);
+   
+                  parameters.put(name, token);
+               }
             }
          }
+         return Collections.unmodifiableMap(parameters);
       }
-      return parameters;
+      return Collections.emptyMap();
    }
    
    public String pattern() {
