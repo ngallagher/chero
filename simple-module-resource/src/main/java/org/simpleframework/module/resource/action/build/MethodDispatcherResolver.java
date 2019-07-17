@@ -69,7 +69,7 @@ public class MethodDispatcherResolver implements MethodResolver {
    }
 
    @Override
-   public Iterable<MethodDispatcher> resolveBestFirst(Context context) throws Exception {
+   public List<MethodDispatcher> resolveBestFirst(Context context) throws Exception {
       MatchGroup group = match(context);
 
       if (group != null) {
@@ -92,7 +92,7 @@ public class MethodDispatcherResolver implements MethodResolver {
    }
 
    @Override
-   public Iterable<MethodDispatcher> resolveBestLast(Context context) throws Exception {
+   public List<MethodDispatcher> resolveBestLast(Context context) throws Exception {
       MatchGroup group = match(context);
 
       if (group != null) {
