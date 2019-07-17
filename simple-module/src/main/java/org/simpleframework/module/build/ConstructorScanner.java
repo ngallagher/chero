@@ -28,7 +28,7 @@ public class ConstructorScanner {
    public List<Function> createConstructors(Class type) throws Exception {
       List<Function> builders = cache.get(type);
    
-      if(type != null) {
+      if(builders == null) {
          PropertyInjector injector = builder.createInjector(type);
          Constructor[] factories = type.getDeclaredConstructors();
 
