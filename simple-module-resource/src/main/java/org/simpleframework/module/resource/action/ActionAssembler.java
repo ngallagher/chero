@@ -16,7 +16,6 @@ import org.simpleframework.module.resource.action.build.ActionScanner;
 import org.simpleframework.module.resource.action.build.ClassFinder;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.ComponentFinder;
-import org.simpleframework.module.resource.action.build.JsonMapper;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
 import org.simpleframework.module.resource.action.extract.BodyExtractor;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;

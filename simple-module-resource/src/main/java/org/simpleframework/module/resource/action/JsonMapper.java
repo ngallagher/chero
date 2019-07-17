@@ -1,4 +1,4 @@
-package org.simpleframework.module.resource.action.build;
+package org.simpleframework.module.resource.action;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.PUBLIC_ONLY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.GETTER;
