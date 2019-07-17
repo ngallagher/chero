@@ -1,8 +1,8 @@
 package org.simpleframework.module.resource.action.build;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,14 +70,14 @@ public class MethodCompiler {
       private PathIndex index;
 
       public PathParser(PathPattern path, PathIndex index) {
-         this.segments = new LinkedList<PathSegment>();
+         this.segments = new ArrayList<PathSegment>();
          this.builder = new StringBuilder();
          this.index = index;
          this.parse(path);
       }
 
       public List<String> names() {
-         List<String> list = new LinkedList<String>();
+         List<String> list = new ArrayList<String>();
 
          for (PathSegment segment : segments) {
             List<String> names = segment.names();
@@ -195,12 +195,12 @@ public class MethodCompiler {
       private final PathIndex index;
       
       public PathSegment(PathIndex index) {
-         this.tokens = new LinkedList<Token>();
+         this.tokens = new ArrayList<Token>();
          this.index = index;
       }
 
       public List<String> names() {
-         List<String> list = new LinkedList<String>();
+         List<String> list = new ArrayList<String>();
 
          for (Token token : tokens) {
             String name = token.name();
