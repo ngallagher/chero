@@ -1,17 +1,15 @@
 package org.simpleframework.module.resource.action.build;
 
-import java.util.List;
-
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.resource.action.Action;
 
 public class MethodAction implements Action {
 
-   private final List<MethodDispatcher> interceptors;
+   private final Iterable<MethodDispatcher> interceptors;
    private final MethodDispatcher dispatcher;
 
-   public MethodAction(List<MethodDispatcher> interceptors, MethodDispatcher dispatcher) {
+   public MethodAction(Iterable<MethodDispatcher> interceptors, MethodDispatcher dispatcher) {
       this.interceptors = interceptors;
       this.dispatcher = dispatcher;
    }

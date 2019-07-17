@@ -1,7 +1,5 @@
 package org.simpleframework.module.resource.action.build;
 
-import java.util.List;
-
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.resource.action.Action;
 import org.simpleframework.module.resource.action.ActionResolver;
@@ -21,7 +19,7 @@ public class ActionBuilder implements ActionResolver {
    }
 
    public Action resolve(Context context) throws Exception {
-      List<MethodDispatcher> dispatchers = interceptors.resolveBestLast(context);
+      Iterable<MethodDispatcher> dispatchers = interceptors.resolveBestLast(context);
       MethodDispatcher dispatcher = actions.resolveBest(context);
 
       if (dispatcher != null) {
