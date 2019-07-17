@@ -1,11 +1,11 @@
 package org.simpleframework.module.resource.action.build;
 
-public class MethodPath {
+public class PathPattern {
 
    private final String[] paths;
    private final String ignore;
    
-   public MethodPath(String ignore, String... paths) {
+   public PathPattern(String ignore, String... paths) {
       this.ignore = ignore;
       this.paths = paths;
    }

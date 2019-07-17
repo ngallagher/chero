@@ -37,7 +37,7 @@ public class PathExpressionTest extends TestCase {
    
    public void testPatternForInteger() throws Exception {
       Parameter integer = createParameterOf(int.class, "id");
-      MethodPath path = new MethodPath(null, "/", "/path/other/{id}") ;
+      PathPattern path = new PathPattern(null, "/", "/path/other/{id}") ;
       MethodMatcher parser = new MethodMatcher(GET.class, path, integer);
       Map<String, String> parameters = parser.evaluate("/path/other/10");
 
@@ -49,7 +49,7 @@ public class PathExpressionTest extends TestCase {
    public void testPatternForIntegerAndDouble() throws Exception {
       Parameter integer = createParameterOf(int.class, "id");
       Parameter decimal = createParameterOf(Float.class, "factor");
-      MethodPath path = new MethodPath(null, "/", "/path/other/{id}/top/{factor}");
+      PathPattern path = new PathPattern(null, "/", "/path/other/{id}/top/{factor}");
       MethodMatcher parser = new MethodMatcher(GET.class, path, integer, decimal);
       Map<String, String> parameters = parser.evaluate("/path/other/10/top/11.0");
 
@@ -60,7 +60,7 @@ public class PathExpressionTest extends TestCase {
    }
    
    public void testSlash() throws Exception {
-      MethodPath path = new MethodPath(null, "/");
+      PathPattern path = new PathPattern(null, "/");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/path/1/path.2");
 
@@ -68,7 +68,7 @@ public class PathExpressionTest extends TestCase {
    }
 
    public void testSimpleExpressions() throws Exception {
-      MethodPath path = new MethodPath(null, "/{param}/.*");
+      PathPattern path = new PathPattern(null, "/{param}/.*");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/path/1/path.2");
 
@@ -77,7 +77,7 @@ public class PathExpressionTest extends TestCase {
    }
 
    public void testExpressions() throws Exception {
-      MethodPath path = new MethodPath(null, "/path/{param1}/path.{param2}");
+      PathPattern path = new PathPattern(null, "/path/{param1}/path.{param2}");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/path/1/path.2");
 
@@ -87,7 +87,7 @@ public class PathExpressionTest extends TestCase {
    }
 
    public void testMultipleParts() throws Exception {
-      MethodPath path = new MethodPath(null, "/rootPath/{x}", "/path/{param1}/path.{param2}");
+      PathPattern path = new PathPattern(null, "/rootPath/{x}", "/path/{param1}/path.{param2}");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/rootPath/test/path/1/path.2");
 
@@ -98,7 +98,7 @@ public class PathExpressionTest extends TestCase {
    }
 
    public void testMultiplePartsThatMayNotConnectWell() throws Exception {
-      MethodPath path = new MethodPath(null, "/rootPath/{x}/", "path/{param1}/path.{param2}");
+      PathPattern path = new PathPattern(null, "/rootPath/{x}/", "path/{param1}/path.{param2}");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/rootPath/test/path/1/path.2");
 
@@ -108,7 +108,7 @@ public class PathExpressionTest extends TestCase {
    }
 
    public void testMoreMultiplePartsThatMayNotConnectWell() throws Exception {
-      MethodPath path = new MethodPath(null, "/rootPath/{x}", "path/{param1}/path.{param2}");
+      PathPattern path = new PathPattern(null, "/rootPath/{x}", "path/{param1}/path.{param2}");
       MethodMatcher parser = new MethodMatcher(GET.class, path);
       Map<String, String> parameters = parser.evaluate("/rootPath/test/path/1/path.2");
 

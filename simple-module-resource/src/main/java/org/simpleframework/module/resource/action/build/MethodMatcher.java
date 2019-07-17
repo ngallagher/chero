@@ -18,10 +18,10 @@ public class MethodMatcher {
 
    private final Class<? extends Annotation> verb;
    private final PathParser expression;
-   private final MethodPath path;
+   private final PathPattern path;
    private final PathIndex index;
 
-   public MethodMatcher(Class<? extends Annotation> verb, MethodPath path, Parameter... parameters) {
+   public MethodMatcher(Class<? extends Annotation> verb, PathPattern path, Parameter... parameters) {
       this.index = new PathIndex(parameters);
       this.expression = new PathParser(path, index);
       this.path = path;
@@ -104,7 +104,7 @@ public class MethodMatcher {
       private PathSegment segment;
       private PathIndex index;
 
-      public PathParser(MethodPath path, PathIndex index) {
+      public PathParser(PathPattern path, PathIndex index) {
          this.segments = new LinkedList<PathSegment>();
          this.builder = new StringBuilder();
          this.index = index;
@@ -136,7 +136,7 @@ public class MethodMatcher {
          return builder.toString();
       }
 
-      public void parse(MethodPath path) {
+      public void parse(PathPattern path) {
          String[] parts = path.getPaths();
          
          if(parts.length > 0) {
