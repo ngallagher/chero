@@ -24,7 +24,11 @@ public class ContentTypeResolver {
    }
    
    public ContentTypeResolver(String file) {
-      this.cache = new LeastRecentlyUsedCache<String, String>(1000);
+      this(file, 5000);
+   }
+   
+   public ContentTypeResolver(String file, int capacity) {
+      this.cache = new LeastRecentlyUsedCache<String, String>(capacity);
       this.types = new ConcurrentHashMap<String, String>();
       this.reader = new ContentTypeReader();
       this.file = file;
