@@ -30,7 +30,7 @@ public class DemoApplication {
       }
    }
 
-   @Path
+   @Path("/some/{id}")
    public static class DemoResource {
       
       @Inject
@@ -39,11 +39,11 @@ public class DemoApplication {
       @GET
       @Path("/.*")
       @Produces("text/plain")
-      public CompletableFuture<ResponseEntity> helloWorld() {
+      public CompletableFuture<ResponseEntity> helloWorld(@PathParam("id") String id) {
          return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
             .type(MediaType.TEXT_PLAIN)
             .cookie("TEST", "123")
-            .entity(service.message())
+            .entity(service.message() + " " + id)
             .create()
          );
       }
