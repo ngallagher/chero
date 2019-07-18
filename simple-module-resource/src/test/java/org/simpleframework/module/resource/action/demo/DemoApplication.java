@@ -1,5 +1,6 @@
 package org.simpleframework.module.resource.action.demo;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
 import org.simpleframework.http.Status;
@@ -35,6 +36,17 @@ public class DemoApplication {
       
       @Inject
       private DemoService service;
+      
+      @GET
+      @Path("/ping")
+      @Produces("text/plain")
+      public ResponseEntity ping(@PathParam("id") String id) {
+         return ResponseEntity.create(Status.OK)
+            .type(MediaType.TEXT_PLAIN)
+            .cookie("TEST", "123")
+            .entity(LocalDateTime.now())
+            .create();
+      }
 
       @GET
       @Path("/.*")

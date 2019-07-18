@@ -8,12 +8,14 @@ import org.simpleframework.http.Response;
 public class ResponseWriter {
 
    private final List<BodyWriter> builders;
+   private final BodyWriter writer;
 
    public ResponseWriter() {
       this(Collections.EMPTY_LIST);
    }
 
    public ResponseWriter(List<BodyWriter> builders) {
+      this.writer = new ObjectWriter();
       this.builders = builders;
    }
 
@@ -23,6 +25,6 @@ public class ResponseWriter {
             return builder.write(response, result);            
          }
       }      
-      return true;
+      return writer.write(response, result);
    }
 }

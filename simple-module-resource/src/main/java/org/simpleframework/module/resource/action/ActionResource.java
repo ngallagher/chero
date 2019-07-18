@@ -1,6 +1,5 @@
 package org.simpleframework.module.resource.action;
 
-import static org.simpleframework.http.Method.CONNECT;
 import static org.simpleframework.module.resource.ResourceEvent.ERROR;
 
 import org.simpleframework.http.Request;
