@@ -50,15 +50,18 @@ public class ContentTypeResolver {
    
    private String matchPath(String path) {
       Map<String, String> types = readTypes();
-      Set<String> expressions = types.keySet();
-      String token = path.toLowerCase();
-
-      for (String expression : expressions) {         
-         if (token.equalsIgnoreCase(expression) || token.matches(expression)) {
-            String type = types.get(expression);
-            
-            if(type != null) {             
-               return type;
+      
+      if(!types.isEmpty()) {
+         Set<String> extensions = types.keySet();
+         String token = path.toLowerCase();
+   
+         for (String extension : extensions) {         
+            if (token.endsWith(extension)) {
+               String type = types.get(extension);
+               
+               if(type != null) {             
+                  return type;
+               }
             }
          }
       }

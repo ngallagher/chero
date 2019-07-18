@@ -10,7 +10,6 @@ import java.util.Map;
 public class ContentTypeReader {
    
    private static final String DEFAULT_COMMENT = "#";
-   private static final String DEFAULT_PREFIX = ".*\\.";
    
    private final String comment;
 
@@ -33,12 +32,11 @@ public class ContentTypeReader {
             String token = line.trim();
             
             if(!token.isEmpty() && !line.startsWith(comment)) {
-               System.err.println(token);
-               String[] parts = token.split("\\s+");
+               String[] parts = token.toLowerCase().split("\\s+");
                String type = parts[0];
                
                for(int i = 1; i < parts.length; i++) {
-                  types.put(DEFAULT_PREFIX + parts[i], type);
+                  types.put("." + parts[i], type);
                }
             }
             line = iterator.readLine();
