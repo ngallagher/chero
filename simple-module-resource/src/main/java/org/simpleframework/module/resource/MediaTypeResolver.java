@@ -9,28 +9,28 @@ import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.ClassPathReader;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 
-public class ContentTypeResolver {
+public class MediaTypeResolver {
    
    private static final String DEFAULT_TYPE = "application/octet-stream";
    private static final String DEFAULT_FILE = "mime.types";
 
    private final Cache<String, String> cache;
    private final Map<String, String> types;
-   private final ContentTypeReader reader;
+   private final MediaTypeReader reader;
    private final String file;
    
-   public ContentTypeResolver() {
+   public MediaTypeResolver() {
       this(DEFAULT_FILE);
    }
    
-   public ContentTypeResolver(String file) {
+   public MediaTypeResolver(String file) {
       this(file, 5000);
    }
    
-   public ContentTypeResolver(String file, int capacity) {
+   public MediaTypeResolver(String file, int capacity) {
       this.cache = new LeastRecentlyUsedCache<String, String>(capacity);
       this.types = new ConcurrentHashMap<String, String>();
-      this.reader = new ContentTypeReader();
+      this.reader = new MediaTypeReader();
       this.file = file;
    }  
 

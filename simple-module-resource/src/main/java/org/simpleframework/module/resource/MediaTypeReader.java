@@ -7,17 +7,17 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ContentTypeReader {
+public class MediaTypeReader {
    
    private static final String DEFAULT_COMMENT = "#";
    
    private final String comment;
 
-   public ContentTypeReader() {
+   public MediaTypeReader() {
       this(DEFAULT_COMMENT);
    }
    
-   public ContentTypeReader(String comment) {
+   public MediaTypeReader(String comment) {
       this.comment = comment;
    }
 
