@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ContentTypeReader {
@@ -23,7 +23,7 @@ public class ContentTypeReader {
 
    public Map<String, String> read(Reader reader) throws IOException {
       LineNumberReader iterator = new LineNumberReader(reader);
-      Map<String, String> types = new HashMap<String, String>();
+      Map<String, String> types = new LinkedHashMap<String, String>();
       
       try {
          String line = iterator.readLine();
