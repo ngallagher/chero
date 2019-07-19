@@ -17,6 +17,7 @@ import org.simpleframework.module.resource.action.build.ClassFinder;
 import org.simpleframework.module.resource.action.build.ComponentFilter;
 import org.simpleframework.module.resource.action.build.ComponentFinder;
 import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
+import org.simpleframework.module.resource.action.build.MethodMatchIndexer;
 import org.simpleframework.module.resource.action.extract.BodyExtractor;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
@@ -67,8 +68,10 @@ public class ActionAssembler {
       ConstructorScanner constructorScanner = new ConstructorScanner(manager, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(actionScanner, interceptorFinder);
-      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(actionScanner, serviceFinder, schema);
+      MethodMatchIndexer interceptorIndexer = new MethodMatchIndexer(actionScanner, serviceFinder);
+      MethodMatchIndexer serviceIndexer = new MethodMatchIndexer(actionScanner, serviceFinder, schema);
+      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(interceptorIndexer);
+      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(serviceIndexer);
       ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
       ResponseWriter router = new ResponseWriter(writers);
       

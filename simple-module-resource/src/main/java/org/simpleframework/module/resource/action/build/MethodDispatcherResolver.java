@@ -8,22 +8,17 @@ import java.util.List;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.LeastRecentlyUsedCache;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.resource.action.Schema;
 
 public class MethodDispatcherResolver implements MethodResolver {
 
    private final Cache<String, List<MethodMatch>> cache;
-   private final MethodMatchIndexer matcher;
+   private final MethodMatchIndexer indexer;
    private final PathResolver resolver;
 
-   public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder) {
-      this(scanner, finder, null);
-   }
-   
-   public MethodDispatcherResolver(ActionScanner scanner, ClassFinder finder, Schema schema) {
+   public MethodDispatcherResolver(MethodMatchIndexer indexer) {
       this.cache = new LeastRecentlyUsedCache<String, List<MethodMatch>>(5000);
-      this.matcher = new MethodMatchIndexer(scanner, finder, schema);
       this.resolver = new PathResolver();
+      this.indexer = indexer;
    }
 
    @Override
@@ -117,7 +112,7 @@ public class MethodDispatcherResolver implements MethodResolver {
       String normalized = resolver.resolve(context);
 
       if (!cache.contains(normalized)) {
-         List<MethodMatch> matches = matcher.matches();
+         List<MethodMatch> matches = indexer.matches();
 
          if (!matches.isEmpty()) {
             List<MethodMatch> group = new ArrayList<MethodMatch>();

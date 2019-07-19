@@ -38,6 +38,22 @@ public class DemoApplication {
       private DemoService service;
       
       @GET
+      @Path("/delay")
+      @Produces("text/plain")
+      public CompletableFuture<ResponseEntity> delay(@PathParam("id") String id) {
+         return CompletableFuture.supplyAsync(() -> {
+            try {
+               Thread.sleep(10000);
+            }catch(Exception e) {}
+            return ResponseEntity.create(Status.OK)
+               .type(MediaType.TEXT_PLAIN)
+               .cookie("TEST", "123")
+               .entity(service.message() + " " + id)
+               .create();
+         });
+      }
+      
+      @GET
       @Path("/ping")
       @Produces("text/plain")
       public ResponseEntity ping(@PathParam("id") String id) {

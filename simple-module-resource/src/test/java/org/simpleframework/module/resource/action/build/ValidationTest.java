@@ -97,7 +97,8 @@ public class ValidationTest extends TestCase {
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
+      MethodMatchIndexer indexer = new MethodMatchIndexer(scanner, finder);
+      MethodDispatcherResolver resolver = new MethodDispatcherResolver(indexer);
       MockRequest request = new MockRequest("GET", "/some-path/update-component?a=niall.gallagher@rbs.com&enum=X", "");
       MockResponse response = new MockResponse(System.out);
       Context context = new RequestContextBuilder().build(request, response);

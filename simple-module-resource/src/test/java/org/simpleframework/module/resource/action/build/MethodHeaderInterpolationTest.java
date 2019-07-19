@@ -12,14 +12,10 @@ import org.simpleframework.module.core.AnnotationValidator;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.ComponentStore;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Validator;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.ModelExtractor;
 import org.simpleframework.module.resource.action.RequestContextBuilder;
-import org.simpleframework.module.resource.action.build.ActionScanner;
-import org.simpleframework.module.resource.action.build.MethodDispatcher;
-import org.simpleframework.module.resource.action.build.MethodDispatcherResolver;
 import org.simpleframework.module.resource.action.extract.CookieExtractor;
 import org.simpleframework.module.resource.action.extract.HeaderExtractor;
 import org.simpleframework.module.resource.action.extract.PartExtractor;
@@ -63,7 +59,9 @@ public class MethodHeaderInterpolationTest extends TestCase {
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
+      
+      MethodMatchIndexer indexer = new MethodMatchIndexer(scanner, finder);
+      MethodDispatcherResolver resolver = new MethodDispatcherResolver(indexer);
       MockRequest request = new MockRequest("GET", "/export?token=reportSpreadSheet", "");
       MockResponse response = new MockResponse(System.out);
       Context context = new RequestContextBuilder().build(request, response);

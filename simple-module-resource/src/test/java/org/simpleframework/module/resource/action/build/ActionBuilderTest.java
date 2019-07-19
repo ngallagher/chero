@@ -100,8 +100,10 @@ public class ActionBuilderTest extends TestCase {
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
       
-      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(scanner, interceptorFinder);
-      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(scanner, serviceFinder);
+      MethodMatchIndexer interceptorIndexer = new MethodMatchIndexer(scanner, interceptorFinder);
+      MethodMatchIndexer serviceIndexer = new MethodMatchIndexer(scanner, serviceFinder);
+      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(interceptorIndexer);
+      MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(serviceIndexer);
       ActionBuilder builder = new ActionBuilder(serviceResolver, interceptorResolver);
 
       // Test resolution on showA

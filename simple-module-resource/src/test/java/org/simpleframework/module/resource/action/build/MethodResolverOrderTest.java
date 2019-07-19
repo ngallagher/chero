@@ -106,7 +106,8 @@ public class MethodResolverOrderTest extends TestCase {
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
+      MethodMatchIndexer indexer = new MethodMatchIndexer(scanner, finder);
+      MethodDispatcherResolver resolver = new MethodDispatcherResolver(indexer);
       MockRequest request = new MockRequest("GET", "/a/b/c/d/blah?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
       Context context = new RequestContextBuilder().build(request, response);

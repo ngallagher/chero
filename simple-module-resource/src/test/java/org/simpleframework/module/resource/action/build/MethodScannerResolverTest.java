@@ -104,7 +104,8 @@ public class MethodScannerResolverTest extends TestCase {
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
+      MethodMatchIndexer indexer = new MethodMatchIndexer(scanner, finder);
+      MethodDispatcherResolver resolver = new MethodDispatcherResolver(indexer);
       MockRequest request = new MockRequest("GET", "/context-path/list-people?person=niall.gallagher@rbs.com&enum=X", "");
       request.setCookie("SSOID", "XYZ");
       request.setCookie("SSOSESSION", "ABC");
@@ -130,7 +131,8 @@ public class MethodScannerResolverTest extends TestCase {
       ConstructorScanner constructorScanner = new ConstructorScanner(dependencySystem, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(dependencySystem, constructorScanner, extractors, filter);
       ActionScanner scanner = new ActionScanner(methodScanner, validator);
-      MethodDispatcherResolver resolver = new MethodDispatcherResolver(scanner, finder);
+      MethodMatchIndexer indexer = new MethodMatchIndexer(scanner, finder);
+      MethodDispatcherResolver resolver = new MethodDispatcherResolver(indexer);
       MockRequest request = new MockRequest("GET", "/list-people?person=niall.gallagher@rbs.com", "");
       request.setCookie("SSOID", "XYZ");
       request.setCookie("SSOSESSION", "ABC");
