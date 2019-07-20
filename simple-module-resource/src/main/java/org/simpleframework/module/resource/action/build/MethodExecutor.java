@@ -50,8 +50,12 @@ public class MethodExecutor {
          String normal = path.getPath();
          String ignore = matcher.ignore();
          
-         if(ignore.isEmpty() || !normal.matches(ignore)) {  
-            return function.getScore(context);
+         if(ignore.isEmpty() || !normal.matches(ignore)) { 
+            float score = header.score(context);
+            
+            if(score > 0) {
+               return function.getScore(context);
+            }
          }
       }
       return MIN_VALUE;

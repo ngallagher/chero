@@ -25,14 +25,28 @@ public class XmlWriter implements BodyWriter<Object> {
       ContentType type = response.getContentType();
       
       if(type != null && result != null) {
-         String value = type.getType();
          Class real = result.getClass();
+         String value = type.getType();
+         String primary = type.getPrimary();
+         String secondary = type.getSecondary();
          
          if(value.equalsIgnoreCase(APPLICATION_XML.value)) {
             return !real.isArray() && !converter.accept(real);
          }
          if(value.equalsIgnoreCase(TEXT_XML.value)) {
             return !real.isArray() && !converter.accept(real);
+         }
+         if(primary.equalsIgnoreCase(APPLICATION_XML.primary)) {
+            int index = secondary.indexOf("+");
+            
+            if(index > 0) {
+               int length = secondary.length();
+               String token = secondary.substring(index + 1, length);
+               
+               if(token.equalsIgnoreCase(APPLICATION_XML.secondary)) {
+                  return !real.isArray() && !converter.accept(real);
+               }
+            }
          }
       }
       return false;

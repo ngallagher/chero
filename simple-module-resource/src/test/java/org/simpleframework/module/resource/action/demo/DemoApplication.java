@@ -38,6 +38,16 @@ public class DemoApplication {
       private DemoService service;
       
       @GET
+      @Path("/value")
+      @Produces({"application/json", "application/vnd.exchange-v1+json"})
+      public ResponseEntity value(@PathParam("id") String id) {
+         return ResponseEntity.create(Status.OK)
+            .cookie("TEST", "123")
+            .entity("{\"id\": 12}")
+            .create();
+      }
+      
+      @GET
       @Path("/delay")
       @Produces("text/plain")
       public CompletableFuture<ResponseEntity> delay(@PathParam("id") String id) {
@@ -62,18 +72,6 @@ public class DemoApplication {
             .cookie("TEST", "123")
             .entity(LocalDateTime.now())
             .create();
-      }
-
-      @GET
-      @Path("/.*")
-      @Produces("text/plain")
-      public CompletableFuture<ResponseEntity> helloWorld(@PathParam("id") String id) {
-         return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
-            .type(MediaType.TEXT_PLAIN)
-            .cookie("TEST", "123")
-            .entity(service.message() + " " + id)
-            .create()
-         );
       }
       
       @GET
