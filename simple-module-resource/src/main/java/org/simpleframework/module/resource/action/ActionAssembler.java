@@ -68,7 +68,7 @@ public class ActionAssembler {
       ConstructorScanner constructorScanner = new ConstructorScanner(manager, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
-      MethodMatchIndexer interceptorIndexer = new MethodMatchIndexer(actionScanner, serviceFinder);
+      MethodMatchIndexer interceptorIndexer = new MethodMatchIndexer(actionScanner, interceptorFinder);
       MethodMatchIndexer serviceIndexer = new MethodMatchIndexer(actionScanner, serviceFinder, schema);
       MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(interceptorIndexer);
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(serviceIndexer);
@@ -77,10 +77,10 @@ public class ActionAssembler {
       
       writers.add(new CompletableFutureWriter(router));
       writers.add(new ResponseEntityWriter(router));
-      writers.add(new JsonWriter(mapper));
-      writers.add(new XmlWriter(persister));
       writers.add(new ByteArrayWriter());
       writers.add(new CharacterArrayWriter());
+      writers.add(new JsonWriter(mapper));
+      writers.add(new XmlWriter(persister));
       writers.add(new ExceptionWriter());
       writers.add(new StringWriter());      
 
