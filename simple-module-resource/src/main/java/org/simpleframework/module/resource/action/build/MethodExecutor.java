@@ -53,7 +53,7 @@ public class MethodExecutor {
          if(ignore.isEmpty() || !normal.matches(ignore)) { 
             float score = header.score(context);
             
-            if(score > 0) {
+            if(score > 0f) {
                return function.getScore(context);
             }
          }

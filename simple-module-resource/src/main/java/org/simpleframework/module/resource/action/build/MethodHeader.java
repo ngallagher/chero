@@ -1,6 +1,6 @@
 package org.simpleframework.module.resource.action.build;
 
-import static java.lang.Float.MIN_VALUE;
+import static java.lang.Integer.MIN_VALUE;
 import static org.simpleframework.http.Protocol.CACHE_CONTROL;
 import static org.simpleframework.http.Protocol.CONTENT_DISPOSITION;
 

@@ -17,8 +17,8 @@ public class MediaTypeMatcher {
    private final List<String> types;
    
    public MediaTypeMatcher(List<String> types) {
-      this.starts = (pattern, type) -> pattern.startsWith("*/") || pattern.startsWith(type);
-      this.ends = (pattern, type) -> pattern.endsWith("/*") || pattern.endsWith(type);
+      this.starts = (pattern, type) -> pattern.equals("*/") || type.startsWith(pattern);
+      this.ends = (pattern, type) -> pattern.equals("/*") || type.endsWith(pattern);
       this.cache = new LeastRecentlyUsedCache<>();
       this.types = types;
    }
@@ -36,10 +36,14 @@ public class MediaTypeMatcher {
       List<String> accepts = request.getValues(ACCEPT);
       
       for(String accept : accepts) {
+         int length = accept.length();
+         int index = accept.indexOf("/");
          String pattern = accept.toLowerCase();
+         String primary = pattern.substring(0, index + 1); // "application/"
+         String secondary = pattern.substring(index, length); // "/json"
          
          for(String type : types) {
-            if(starts.apply(pattern, type) && ends.apply(pattern, type)) {
+            if(starts.apply(primary, type) && ends.apply(secondary, type)) {
                return type;
             }
          }  
