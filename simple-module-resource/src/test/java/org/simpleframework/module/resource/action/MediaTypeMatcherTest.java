@@ -1,10 +1,11 @@
-package org.simpleframework.module.resource.action.build;
+package org.simpleframework.module.resource.action;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.simpleframework.http.Protocol;
 import org.simpleframework.module.resource.MediaTypeMatcher;
+import org.simpleframework.module.resource.action.build.MockRequest;
 
 import junit.framework.TestCase;
 
