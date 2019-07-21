@@ -20,21 +20,21 @@ public class MediaTypeMatcherTest extends TestCase {
       types.add("application/vnd.exchange-v1+json");
       
       request.setValue(Protocol.ACCEPT, "application/*, */*");
-      assertEquals("application/json", matcher.accept(request));
+      assertEquals("application/json", matcher.match(request));
       
       request.setValue(Protocol.ACCEPT, "application/xml, */*");
-      assertEquals("application/xml", matcher.accept(request));
+      assertEquals("application/xml", matcher.match(request));
       
       request.setValue(Protocol.ACCEPT, "*/*");
-      assertEquals("application/json", matcher.accept(request));
+      assertEquals("application/json", matcher.match(request));
       
       request.setValue(Protocol.ACCEPT, "*/xml");
-      assertEquals("application/xml", matcher.accept(request));
+      assertEquals("application/xml", matcher.match(request));
       
       request.setValue(Protocol.ACCEPT, "application/vnd.exchange-v1+json");
-      assertEquals("application/vnd.exchange-v1+json", matcher.accept(request));
+      assertEquals("application/vnd.exchange-v1+json", matcher.match(request));
       
       request.setValue(Protocol.ACCEPT, "application/vnd.exchange-v2+json");
-      assertNull(matcher.accept(request));
+      assertNull(matcher.match(request));
    }
 }

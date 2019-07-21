@@ -1,6 +1,5 @@
 package org.simpleframework.module.resource.action.build;
 
-import static java.lang.Integer.MIN_VALUE;
 import static org.simpleframework.http.Protocol.CACHE_CONTROL;
 import static org.simpleframework.http.Protocol.CONTENT_DISPOSITION;
 
@@ -45,7 +44,7 @@ public class MethodHeader {
       if(request == null) {
          throw new IllegalStateException("Could not get request from model");
       }
-      return matcher.accept(request) == null ? MIN_VALUE : 1;
+      return matcher.accept(request) ? 1 : -1;
    }
 
    public void apply(Context context) {
@@ -70,10 +69,12 @@ public class MethodHeader {
 
             response.setValue(name, text);
          }
-         String type = matcher.accept(request);
+         String type = matcher.match(request);
          String text = interpolator.interpolate(type);
          
-         response.setContentType(text);
+         if(text != null) {
+            response.setContentType(text);
+         }
       }
    }
 

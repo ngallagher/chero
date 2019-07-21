@@ -23,11 +23,24 @@ public class MediaTypeMatcher {
       this.types = types;
    }
    
-   public String accept(Request request) {
+   public boolean accept(Request request) {
       String accept = request.getValue(ACCEPT);
       
       if(accept != null) {
-         return cache.fetch(accept, type -> resolve(request));
+         if(!types.isEmpty()) {
+            return match(request) != null;
+         }
+      }
+      return true;
+   }
+   
+   public String match(Request request) {
+      String accept = request.getValue(ACCEPT);
+      
+      if(accept != null) {
+         if(!types.isEmpty()) {
+            return cache.fetch(accept, type -> resolve(request));
+         }
       }
       return null;
    }
