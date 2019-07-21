@@ -9,8 +9,8 @@ public class MethodAction implements Action {
    private final Iterable<MethodDispatcher> interceptors;
    private final MethodDispatcher dispatcher;
 
-   public MethodAction(Iterable<MethodDispatcher> interceptors, MethodDispatcher dispatcher) {
-      this.interceptors = interceptors;
+   public MethodAction(Iterable<MethodDispatcher> filters, MethodDispatcher dispatcher) {
+      this.interceptors = filters;
       this.dispatcher = dispatcher;
    }
 

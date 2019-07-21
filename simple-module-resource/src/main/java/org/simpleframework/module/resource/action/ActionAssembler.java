@@ -46,15 +46,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ActionAssembler {
    
-   private final ClassFinder interceptorFinder;
    private final ClassFinder serviceFinder;
+   private final ClassFinder filterFinder;
    private final ComponentManager manager;
    private final ComponentFilter filter;
    private final Validator validator;
    private final Schema schema;
    
    public ActionAssembler(ComponentManager manager, ClassPath path, Schema schema) {
-      this.interceptorFinder = new ComponentFinder(path, Filter.class);
+      this.filterFinder = new ComponentFinder(path, Filter.class);
       this.serviceFinder = new ComponentFinder(path, Path.class);
       this.validator = new AnnotationValidator();
       this.filter = new ComponentFilter();
@@ -68,11 +68,11 @@ public class ActionAssembler {
       ConstructorScanner constructorScanner = new ConstructorScanner(manager, extractors, filter);
       MethodScanner methodScanner = new MethodScanner(manager, constructorScanner, extractors, filter);
       ActionScanner actionScanner = new ActionScanner(methodScanner, validator);
-      MethodMatchIndexer interceptorIndexer = new MethodMatchIndexer(actionScanner, interceptorFinder);
+      MethodMatchIndexer filterIndexer = new MethodMatchIndexer(actionScanner, filterFinder);
       MethodMatchIndexer serviceIndexer = new MethodMatchIndexer(actionScanner, serviceFinder, schema);
-      MethodDispatcherResolver interceptorResolver = new MethodDispatcherResolver(interceptorIndexer);
+      MethodDispatcherResolver filterResolver = new MethodDispatcherResolver(filterIndexer);
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(serviceIndexer);
-      ActionResolver resolver = new ActionBuilder(serviceResolver, interceptorResolver);
+      ActionResolver resolver = new ActionBuilder(serviceResolver, filterResolver);
       ResponseWriter router = new ResponseWriter(writers);
       
       writers.add(new CompletableFutureWriter(router));

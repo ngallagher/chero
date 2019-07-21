@@ -6,20 +6,20 @@ import org.simpleframework.module.resource.action.ActionResolver;
 
 public class ActionBuilder implements ActionResolver {
 
-   private final MethodResolver interceptors;
+   private final MethodResolver filters;
    private final MethodResolver actions;
 
    public ActionBuilder(MethodResolver actions) {
       this(actions, new EmptyResolver());
    }
 
-   public ActionBuilder(MethodResolver actions, MethodResolver interceptors) {
-      this.interceptors = interceptors;
+   public ActionBuilder(MethodResolver actions, MethodResolver filters) {
+      this.filters = filters;
       this.actions = actions;
    }
 
    public Action resolve(Context context) throws Exception {
-      Iterable<MethodDispatcher> dispatchers = interceptors.resolveBestLast(context);
+      Iterable<MethodDispatcher> dispatchers = filters.resolveBestLast(context);
       MethodDispatcher dispatcher = actions.resolveBest(context);
 
       if (dispatcher != null) {
