@@ -1,5 +1,7 @@
 package org.simpleframework.module.resource;
 
+import static org.simpleframework.module.resource.MediaType.APPLICATION_OCTET_STREAM;
+
 import java.io.Reader;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +13,6 @@ import org.simpleframework.module.common.LeastRecentlyUsedCache;
 
 public class MediaTypeResolver {
    
-   private static final String DEFAULT_TYPE = "application/octet-stream";
    private static final String DEFAULT_FILE = "mime.types";
 
    private final Cache<String, String> cache;
@@ -65,7 +66,7 @@ public class MediaTypeResolver {
             }
          }
       }
-      return DEFAULT_TYPE;
+      return APPLICATION_OCTET_STREAM.value;
    } 
    
    private Map<String, String> readTypes() {
