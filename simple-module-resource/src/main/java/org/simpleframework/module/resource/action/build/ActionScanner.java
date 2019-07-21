@@ -12,7 +12,9 @@ import org.simpleframework.module.build.Function;
 import org.simpleframework.module.build.MethodScanner;
 import org.simpleframework.module.build.Parameter;
 import org.simpleframework.module.core.Validator;
+import org.simpleframework.module.resource.annotation.Consumes;
 import org.simpleframework.module.resource.annotation.GET;
+import org.simpleframework.module.resource.annotation.Produces;
 import org.simpleframework.module.resource.annotation.Verb;
 
 public class ActionScanner {
@@ -84,17 +86,24 @@ public class ActionScanner {
    }
 
    private MethodHeader createHeader(Function function) throws Exception {
-      Annotation[] annotations = function.getDeclaredAnnotations();
+      MethodHeader header = new MethodHeader();
       
-      if(annotations.length > 0) {
-         MethodHeader header = new MethodHeader();
-   
+      if(function != null) {
+         Annotation[] annotations = function.getDeclaredAnnotations();
+         Consumes consumes = function.getTypeAnnotation(Consumes.class);
+         Produces produces = function.getTypeAnnotation(Produces.class);
+         
          for (Annotation annotation : annotations) {
             header.extract(annotation);
          }
-         return header;
+         if(produces != null) {
+            header.extract(produces);
+         }
+         if(consumes != null) {
+            header.extract(consumes);
+         }
       }
-      return null;
+      return header;
    }
    
    private static class PatternList<T> extends ArrayList<T> {

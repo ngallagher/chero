@@ -32,6 +32,7 @@ public class DemoApplication {
    }
 
    @Path("/some/{id}")
+   @Produces("text/css")
    public static class DemoResource {
       
       @Inject
@@ -49,7 +50,6 @@ public class DemoApplication {
       
       @GET
       @Path("/delay")
-      @Produces("text/plain")
       public CompletableFuture<ResponseEntity> delay(@PathParam("id") String id) {
          return CompletableFuture.supplyAsync(() -> {
             try {
@@ -65,7 +65,6 @@ public class DemoApplication {
       
       @GET
       @Path("/ping")
-      @Produces("text/plain")
       public ResponseEntity ping(@PathParam("id") String id) {
          return ResponseEntity.create(Status.OK)
             .type(MediaType.TEXT_PLAIN)
@@ -79,7 +78,6 @@ public class DemoApplication {
       @Produces("text/plain")
       public CompletableFuture<ResponseEntity> goodBye(@PathParam("name") String name) {
          return CompletableFuture.supplyAsync(() -> ResponseEntity.create(Status.OK)
-            .type(MediaType.TEXT_PLAIN)
             .cookie("TEST", "123")
             .entity("bye " + name)
             .create()

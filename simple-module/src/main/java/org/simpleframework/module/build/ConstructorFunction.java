@@ -55,6 +55,11 @@ public class ConstructorFunction implements Function {
    }
    
    @Override
+   public Annotation getTypeAnnotation(Class type) {
+      return factory.getDeclaringClass().getAnnotation(type);
+   }
+   
+   @Override
    public Annotation getAnnotation(Class type) {
       return factory.getAnnotation(type);
    }

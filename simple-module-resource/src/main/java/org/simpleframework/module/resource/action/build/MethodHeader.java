@@ -8,6 +8,7 @@ import static org.simpleframework.http.Protocol.CONTENT_TYPE;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,11 @@ import org.simpleframework.module.resource.annotation.Produces;
 public class MethodHeader {
 
    private final Map<String, String> headers;
-   private final List<String> consumes;
-   private final List<String> produces;
    private final MediaTypeMatcher output;
    private final MediaTypeMatcher input;
+   private final List<String> consumes;
+   private final List<String> produces;
+   private final Set<Class> done;
    
    public MethodHeader() {
       this.consumes = new ArrayList<String>();
@@ -38,6 +40,7 @@ public class MethodHeader {
       this.headers = new LinkedHashMap<String, String>();
       this.input = new MediaTypeMatcher(produces, ACCEPT);
       this.output = new MediaTypeMatcher(consumes, CONTENT_TYPE);
+      this.done = new HashSet<Class>();
    }
    
    public Map<String, String> headers() {
@@ -92,17 +95,23 @@ public class MethodHeader {
    }
 
    public void extract(Annotation annotation) {
-      if (annotation instanceof Attachment) {
-         extract((Attachment) annotation);
-      }
-      if (annotation instanceof Produces) {
-         extract((Produces) annotation);
-      }
-      if (annotation instanceof Consumes) {
-         extract((Consumes) annotation);
-      }
-      if (annotation instanceof CacheControl) {
-         extract((CacheControl) annotation);
+      if(annotation != null) {
+         Class type = annotation.annotationType();
+         
+         if(done.add(type)) {
+            if (annotation instanceof Attachment) {
+               extract((Attachment) annotation);
+            }
+            if (annotation instanceof Produces) {
+               extract((Produces) annotation);
+            }
+            if (annotation instanceof Consumes) {
+               extract((Consumes) annotation);
+            }
+            if (annotation instanceof CacheControl) {
+               extract((CacheControl) annotation);
+            }
+         }
       }
    }
 

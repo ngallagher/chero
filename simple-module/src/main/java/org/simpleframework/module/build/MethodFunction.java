@@ -39,6 +39,11 @@ public class MethodFunction implements Function {
    }
    
    @Override
+   public Annotation getTypeAnnotation(Class type) {
+      return method.getDeclaringClass().getAnnotation(type);
+   }
+   
+   @Override
    public Annotation getAnnotation(Class type) {
       return method.getAnnotation(type);
    }
