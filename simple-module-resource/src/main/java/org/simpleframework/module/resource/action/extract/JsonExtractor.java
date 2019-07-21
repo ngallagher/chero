@@ -10,6 +10,7 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Model;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.StringConverter;
+import org.simpleframework.module.resource.MediaTypeFilter;
 import org.simpleframework.module.resource.annotation.Body;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,10 +18,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JsonExtractor implements Extractor<Object> {
    
    private final StringConverter converter;
+   private final MediaTypeFilter filter;
    private final ObjectMapper mapper;
    private final Extractor extractor;
    
    public JsonExtractor(ObjectMapper mapper) {
+      this.filter = new MediaTypeFilter(APPLICATION_JSON);
       this.converter = new StringConverter();
       this.extractor = new BodyExtractor();
       this.mapper = mapper;
@@ -39,9 +42,8 @@ public class JsonExtractor implements Extractor<Object> {
             throw new IllegalStateException("Could not get request or response from model");
          }
          ContentType type = request.getContentType();
-         String value = type.getType();
          
-         if(value.equalsIgnoreCase(APPLICATION_JSON.value)) {
+         if(filter.accept(type)) {
             String body = request.getContent();
             Class require = argument.getType();
             

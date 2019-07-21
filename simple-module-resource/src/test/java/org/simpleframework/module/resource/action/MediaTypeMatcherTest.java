@@ -13,12 +13,12 @@ public class MediaTypeMatcherTest extends TestCase {
 
    public void testContentTypeMatch() {
       MockRequest request = new MockRequest("GET", "/", "{\"id\": 11}");
-      List<String> types = new ArrayList<String>();
-      MediaTypeMatcher matcher = new MediaTypeMatcher(types);
+      List<String> produces = new ArrayList<String>();
+      MediaTypeMatcher matcher = new MediaTypeMatcher(produces, Protocol.ACCEPT);
       
-      types.add("application/json");
-      types.add("application/xml");
-      types.add("application/vnd.exchange-v1+json");
+      produces.add("application/json");
+      produces.add("application/xml");
+      produces.add("application/vnd.exchange-v1+json");
       
       request.setValue(Protocol.ACCEPT, "application/*, */*");
       assertEquals("application/json", matcher.match(request));
@@ -37,5 +37,8 @@ public class MediaTypeMatcherTest extends TestCase {
       
       request.setValue(Protocol.ACCEPT, "application/vnd.exchange-v2+json");
       assertNull(matcher.match(request));
+      
+      request.setValue(Protocol.ACCEPT, "*");
+      assertEquals("application/json", matcher.match(request));
    }
 }

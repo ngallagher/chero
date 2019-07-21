@@ -10,16 +10,19 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Model;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.extract.StringConverter;
+import org.simpleframework.module.resource.MediaTypeFilter;
 import org.simpleframework.module.resource.annotation.Body;
 import org.simpleframework.xml.Serializer;
 
 public class XmlExtractor implements Extractor<Object> {
    
    private final StringConverter converter;
+   private final MediaTypeFilter filter;
    private final Serializer serializer;
    private final Extractor extractor;
    
    public XmlExtractor(Serializer serializer) {
+      this.filter = new MediaTypeFilter(APPLICATION_XML);
       this.converter = new StringConverter();
       this.extractor = new BodyExtractor();
       this.serializer = serializer;
@@ -36,11 +39,10 @@ public class XmlExtractor implements Extractor<Object> {
          
          if(request == null || response == null) {
             throw new IllegalStateException("Could not get request or response from model");
-         }
+         }   
          ContentType type = request.getContentType();
-         String value = type.getType();
          
-         if(value.equalsIgnoreCase(APPLICATION_XML.value)) {
+         if(filter.accept(type)) {
             String body = request.getContent();
             Class require = argument.getType();
             

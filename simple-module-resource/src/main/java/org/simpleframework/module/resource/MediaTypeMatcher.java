@@ -15,16 +15,18 @@ public class MediaTypeMatcher {
    private final BiFunction<String, String, Boolean> ends;
    private final Cache<String, String> cache;
    private final List<String> types;
+   private final String header;
    
-   public MediaTypeMatcher(List<String> types) {
+   public MediaTypeMatcher(List<String> types, String header) {
       this.starts = (pattern, type) -> pattern.equals("*/") || type.startsWith(pattern);
       this.ends = (pattern, type) -> pattern.equals("/*") || type.endsWith(pattern);
       this.cache = new LeastRecentlyUsedCache<>();
+      this.header = header;
       this.types = types;
    }
    
    public boolean accept(Request request) {
-      String accept = request.getValue(ACCEPT);
+      String accept = request.getValue(header);
       
       if(accept != null) {
          if(!types.isEmpty()) {
@@ -35,7 +37,7 @@ public class MediaTypeMatcher {
    }
    
    public String match(Request request) {
-      String accept = request.getValue(ACCEPT);
+      String accept = request.getValue(header);
       
       if(accept != null) {
          if(!types.isEmpty()) {
@@ -46,7 +48,7 @@ public class MediaTypeMatcher {
    }
    
    private String resolve(Request request) {
-      List<String> accepts = request.getValues(ACCEPT);
+      List<String> accepts = request.getValues(header);
       
       for(String accept : accepts) {
          String pattern = accept.toLowerCase();

@@ -1,7 +1,9 @@
 package org.simpleframework.module.resource.action.build;
 
+import static org.simpleframework.http.Protocol.ACCEPT;
 import static org.simpleframework.http.Protocol.CACHE_CONTROL;
 import static org.simpleframework.http.Protocol.CONTENT_DISPOSITION;
+import static org.simpleframework.http.Protocol.CONTENT_TYPE;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -19,18 +21,23 @@ import org.simpleframework.module.core.Model;
 import org.simpleframework.module.resource.MediaTypeMatcher;
 import org.simpleframework.module.resource.annotation.Attachment;
 import org.simpleframework.module.resource.annotation.CacheControl;
+import org.simpleframework.module.resource.annotation.Consumes;
 import org.simpleframework.module.resource.annotation.Produces;
 
 public class MethodHeader {
 
    private final Map<String, String> headers;
-   private final List<String> types;
-   private final MediaTypeMatcher matcher;
-
+   private final List<String> consumes;
+   private final List<String> produces;
+   private final MediaTypeMatcher output;
+   private final MediaTypeMatcher input;
+   
    public MethodHeader() {
-      this.types = new ArrayList<String>();
+      this.consumes = new ArrayList<String>();
+      this.produces = new ArrayList<String>();
       this.headers = new LinkedHashMap<String, String>();
-      this.matcher = new MediaTypeMatcher(types);
+      this.input = new MediaTypeMatcher(produces, ACCEPT);
+      this.output = new MediaTypeMatcher(consumes, CONTENT_TYPE);
    }
    
    public Map<String, String> headers() {
@@ -44,13 +51,19 @@ public class MethodHeader {
       if(request == null) {
          throw new IllegalStateException("Could not get request from model");
       }
-      return matcher.accept(request) ? 1 : -1;
+      if(!produces.isEmpty() && !input.accept(request)) {
+         return -1;
+      }
+      if(!consumes.isEmpty() && !output.accept(request)) {
+         return -1;
+      }
+      return 1;
    }
 
    public void apply(Context context) {
       Set<String> names = headers.keySet();
 
-      if (!names.isEmpty() || !types.isEmpty()) {
+      if (!names.isEmpty() || !produces.isEmpty()) {
          Model model = context.getModel();
          Response response = model.get(Response.class);
          Request request = model.get(Request.class);
@@ -69,7 +82,7 @@ public class MethodHeader {
 
             response.setValue(name, text);
          }
-         String type = matcher.match(request);
+         String type = input.match(request);
          String text = interpolator.interpolate(type);
          
          if(text != null) {
@@ -85,6 +98,9 @@ public class MethodHeader {
       if (annotation instanceof Produces) {
          extract((Produces) annotation);
       }
+      if (annotation instanceof Consumes) {
+         extract((Consumes) annotation);
+      }
       if (annotation instanceof CacheControl) {
          extract((CacheControl) annotation);
       }
@@ -97,7 +113,19 @@ public class MethodHeader {
          String type = value.toLowerCase();
          
          if (!type.isEmpty()) {
-            types.add(type);
+            produces.add(type);
+         }
+      }
+   }
+   
+   private void extract(Consumes annotation) {
+      String[] values = annotation.value();
+
+      for(String value : values) {
+         String type = value.toLowerCase();
+         
+         if (!type.isEmpty()) {
+            consumes.add(type);
          }
       }
    }
