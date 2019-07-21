@@ -1,7 +1,5 @@
 package org.simpleframework.module.resource;
 
-import static org.simpleframework.http.Protocol.ACCEPT;
-
 import java.util.List;
 import java.util.function.BiFunction;
 
