@@ -22,7 +22,7 @@ import org.simpleframework.module.resource.container.ServerDriver;
 public class DemoApplication {
    
    @Provides
-   public DemoService service(DemoBlah blah) {
+   public DemoService service(DemoBlah blah, @Value("${message}") String text) {
       return new DemoService();
    }
 
