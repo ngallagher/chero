@@ -38,6 +38,7 @@ public class DependencyProvider {
       if(filter.isProvided(node)) {
          Class<?> parent = path.getTypes(Module.class)
                .stream()
+               .filter(filter::isVisible)
                .map(ClassNode::getMethods)
                .flatMap(Collection<MethodNode>::stream)
                .filter(method -> checker.isProvider(method, node))

@@ -11,7 +11,6 @@ import java.util.Set;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.DependsOn;
 import org.simpleframework.module.annotation.Module;
-import org.simpleframework.module.annotation.Provides;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.core.ComponentMapper;
@@ -94,6 +93,7 @@ public class ModuleFilter {
       return provided.fetch(node, key -> {
          return path.getTypes(Module.class)
                 .stream()
+                .filter(this::isVisible)
                 .map(ClassNode::getMethods)
                 .flatMap(Collection<MethodNode>::stream)
                 .anyMatch(method -> checker.isProvider(method, node));

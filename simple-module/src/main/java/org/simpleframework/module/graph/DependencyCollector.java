@@ -61,6 +61,7 @@ class DependencyCollector {
       if(filter.isProvided(node)) {
          return path.getTypes(Module.class)
                .stream()
+               .filter(filter::isVisible)
                .map(ClassNode::getMethods)
                .flatMap(Collection<MethodNode>::stream)
                .filter(method -> checker.isProvider(method, node))
