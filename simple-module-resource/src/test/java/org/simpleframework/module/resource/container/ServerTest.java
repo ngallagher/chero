@@ -64,7 +64,7 @@ public class ServerTest extends TestCase {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
          .module(ServerTest.class)
-         .create("--message=bar", "--text=foo")
+         .create("--message=key", "--text=val")
          .name("Apache/2.2.14")
          .session("SESSIONID")
          .threads(10)
@@ -87,7 +87,7 @@ public class ServerTest extends TestCase {
          assertEquals(connection.getResponseCode(), 200);
          assertTrue(connection.getHeaderField("Set-Cookie").contains("TEST=123"));
          assertEquals(connection.getHeaderField("Content-Type"), "application/json");
-         assertEquals(map.get("bar"), "foo");
+         assertEquals(map.get("key"), "val");
          assertEquals(map.size(), 1);
       } finally {
          acceptor.close();
