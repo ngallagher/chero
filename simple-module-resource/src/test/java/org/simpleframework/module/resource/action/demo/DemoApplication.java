@@ -8,6 +8,7 @@ import org.simpleframework.module.Application;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Inject;
 import org.simpleframework.module.annotation.Module;
+import org.simpleframework.module.annotation.Provides;
 import org.simpleframework.module.annotation.Value;
 import org.simpleframework.module.resource.MediaType;
 import org.simpleframework.module.resource.action.ResponseEntity;
@@ -20,7 +21,21 @@ import org.simpleframework.module.resource.container.ServerDriver;
 @Module
 public class DemoApplication {
    
+   @Provides
+   public DemoService service() {
+      return new DemoService();
+   }
+   
    @Component
+   public static class DemoOther {
+      
+      private DemoService service;
+      
+      public DemoOther(DemoService service) {
+         this.service = service;
+      }
+   }
+   
    public static class DemoService {
       
       @Value("${message}")

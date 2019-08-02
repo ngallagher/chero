@@ -26,6 +26,11 @@ class MethodIndex implements MethodNode {
    }
    
    @Override
+   public boolean isAnnotationPresent(String name) {
+      return info.hasAnnotation(name);
+   }
+   
+   @Override
    public ClassNode getReturnType() {
       String name = info.getTypeSignatureOrTypeDescriptor().getResultType().toString();
       int index = name.indexOf("<");

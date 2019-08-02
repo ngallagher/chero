@@ -33,7 +33,7 @@ class DependencyResolver {
    private ClassNode resolveMatch(ClassNode node) {
       Set<ClassNode> nodes = path.getTypes(Component.class);  
       
-      if (filter.isVisible(node)) {         
+      if (filter.isVisible(node)) {  
          if(!filter.isComponent(node)) {
             return resolveComponent(node, nodes);
          }

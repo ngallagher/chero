@@ -80,6 +80,11 @@ public class ConstructorFunction implements Function {
    }
    
    @Override
+   public Class getReturnType() {
+      return factory.getDeclaringClass();
+   }
+   
+   @Override
    public String getName() {
       return factory.getName();
    }

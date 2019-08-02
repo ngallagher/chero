@@ -10,5 +10,6 @@ public interface Function extends AnnotatedElement {
    float getScore(Context context) throws Exception;
    <T extends Annotation> T  getTypeAnnotation(Class type);
    Parameter[] getParameters();
+   Class getReturnType();
    String getName();
 }

@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.Module;
+import org.simpleframework.module.annotation.Provides;
 import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
+import org.simpleframework.module.path.MethodNode;
 
 class DependencyCalculator {
    
@@ -27,6 +29,7 @@ class DependencyCalculator {
    public void calculate(Consumer<ClassNode> ready) {
       Set<ClassNode> components = path.getTypes(Component.class);
       Set<ClassNode> modules = path.getTypes(Module.class);
+      String label = Provides.class.getName();
       
       if(!components.isEmpty() || !modules.isEmpty()) {
          Set<ClassNode> done = new HashSet<>();
@@ -34,6 +37,15 @@ class DependencyCalculator {
          for(ClassNode module : modules) {
             if(filter.isVisible(module)) {
                calculate(ready, done, module);
+            }
+         }
+         for(ClassNode module : modules) {
+            if(filter.isVisible(module)) {
+               module.getMethods()
+                  .stream()
+                  .filter(method -> method.isAnnotationPresent(label))
+                  .map(MethodNode::getReturnType)
+                  .forEach(node -> calculate(ready, done, node));
             }
          }
          for(ClassNode component : components) {

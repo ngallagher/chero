@@ -9,21 +9,26 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.index.ModuleFilter;
+import org.simpleframework.module.index.ProviderChecker;
 import org.simpleframework.module.path.AnnotationNode;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.ConstructorNode;
+import org.simpleframework.module.path.MethodNode;
 
 class DependencyCollector {
 
    private final Map<String, Set<Dependency>> index;
    private final DependencyResolver resolver;
+   private final ProviderChecker checker;
    private final ModuleFilter filter;
    private final ClassPath path;
    
    public DependencyCollector(ModuleFilter filter, ClassPath path) {
       this.resolver = new DependencyResolver(filter, path);
+      this.checker = new ProviderChecker();
       this.index = new HashMap<>(); 
       this.filter = filter;
       this.path = path;      
@@ -53,6 +58,16 @@ class DependencyCollector {
                .flatMap(Set<Dependency>::stream)
                .collect(Collectors.toSet());   
       }
+      if(filter.isProvided(node)) {
+         return path.getTypes(Module.class)
+               .stream()
+               .map(ClassNode::getMethods)
+               .flatMap(Collection<MethodNode>::stream)
+               .filter(method -> checker.isProvider(method, node))
+               .map(this::resolveProvider)
+               .flatMap(Set<Dependency>::stream)
+               .collect(Collectors.toSet());   
+      }
       return Collections.emptySet();            
    }
 
@@ -76,6 +91,14 @@ class DependencyCollector {
    
    private Set<Dependency> resolveConstructor(ConstructorNode constructor) {
       return constructor.getParameterTypes()
+            .stream() 
+            .map(resolver::resolve)
+            .filter(Objects::nonNull) 
+            .collect(Collectors.toSet());
+   }
+   
+   private Set<Dependency> resolveProvider(MethodNode provider) {
+      return provider.getParameterTypes()
             .stream() 
             .map(resolver::resolve)
             .filter(Objects::nonNull) 

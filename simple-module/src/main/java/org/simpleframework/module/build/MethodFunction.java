@@ -64,6 +64,11 @@ public class MethodFunction implements Function {
    }
    
    @Override
+   public Class getReturnType() {
+      return method.getReturnType();
+   }
+   
+   @Override
    public String getName() {
       return method.getName();
    }

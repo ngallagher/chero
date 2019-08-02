@@ -3,6 +3,7 @@ package org.simpleframework.module.index;
 import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +11,13 @@ import java.util.Set;
 import org.simpleframework.module.annotation.Component;
 import org.simpleframework.module.annotation.DependsOn;
 import org.simpleframework.module.annotation.Module;
+import org.simpleframework.module.annotation.Provides;
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
+import org.simpleframework.module.path.MethodNode;
 
 public class ModuleFilter {
    
@@ -44,10 +47,12 @@ public class ModuleFilter {
 
    private final Cache<ClassNode, Boolean> component;
    private final Cache<ClassNode, Boolean> dependent;
+   private final Cache<ClassNode, Boolean> provided;
    private final Cache<ClassNode, Boolean> internal;
    private final Cache<ClassNode, Boolean> visible;
    private final Cache<ClassNode, Boolean> missing;
    private final Cache<ClassNode, Boolean> module;
+   private final ProviderChecker checker;
    private final ComponentMapper mapper;
    private final Set<String> convertable;
    private final Set<Class> types;
@@ -55,9 +60,11 @@ public class ModuleFilter {
    
    public ModuleFilter(ClassPath path, Set<Class> types) {
       this.mapper = new ComponentMapper();
+      this.checker = new ProviderChecker();
       this.convertable = new HashSet<>();
       this.component = new HashCache<>();
       this.dependent = new HashCache<>();
+      this.provided = new HashCache<>();
       this.internal = new HashCache<>();
       this.missing = new HashCache<>();
       this.visible = new HashCache<>();
@@ -81,6 +88,17 @@ public class ModuleFilter {
    public boolean isModule(ClassNode node) {
       return module.fetch(node, key -> 
          path.getTypes(Module.class).contains(node));
+   }
+   
+   public boolean isProvided(ClassNode node) {
+      return provided.fetch(node, key -> {
+         return path.getTypes(Module.class)
+                .stream()
+                .map(ClassNode::getMethods)
+                .flatMap(Collection<MethodNode>::stream)
+                .anyMatch(method -> checker.isProvider(method, node));
+      });
+      
    }
    
    public boolean isVisible(ClassNode node) {
@@ -114,6 +132,11 @@ public class ModuleFilter {
       return missing.fetch(node, key -> 
             !convertable.contains(name) && 
             !node.isEnum() && 
-            !isInternal(node)); 
+            !isInternal(node) &&
+            !isProvided(node)); 
    } 
+   
+   public boolean isDependency(ClassNode node) {
+      return isComponent(node) || isProvided(node);
+   }
 }
