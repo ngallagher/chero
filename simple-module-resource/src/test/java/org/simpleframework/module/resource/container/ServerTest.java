@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 @Module
 public class ServerTest extends TestCase {
    
-   public void testServer() throws Exception {
+   public void testServerWithVendorContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
          .module(ServerTest.class)
@@ -53,6 +53,40 @@ public class ServerTest extends TestCase {
          assertEquals(connection.getResponseCode(), 200);
          assertTrue(connection.getHeaderField("Set-Cookie").contains("TEST=123"));
          assertEquals(connection.getHeaderField("Content-Type"), "application/vnd.test-v1+json");
+         assertEquals(map.get("bar"), "foo");
+         assertEquals(map.size(), 1);
+      } finally {
+         acceptor.close();
+      }
+   }
+   
+   public void testServerWithDefaultContentType() throws Exception {
+      Acceptor acceptor = Application.create(ServerDriver.class)
+         .path("..")
+         .module(ServerTest.class)
+         .create("--message=bar", "--text=foo")
+         .name("Apache/2.2.14")
+         .session("SESSIONID")
+         .threads(10)
+         .start();
+      
+      try {
+         InetSocketAddress address = acceptor.bind();
+         int port = address.getPort();
+         URL target = new URL("http://localhost:" + port + "/some/123456789/value");
+         HttpURLConnection connection = (HttpURLConnection)target.openConnection();
+         
+         connection.setRequestMethod("GET");
+         connection.setDoOutput(false);
+         connection.setRequestProperty("Accept", "*");
+         
+         JsonMapper mapper = new JsonMapper();
+         InputStream stream = connection.getInputStream();
+         Map map = mapper.readValue(stream, Map.class);
+         
+         assertEquals(connection.getResponseCode(), 200);
+         assertTrue(connection.getHeaderField("Set-Cookie").contains("TEST=123"));
+         assertEquals(connection.getHeaderField("Content-Type"), "application/json");
          assertEquals(map.get("bar"), "foo");
          assertEquals(map.size(), 1);
       } finally {
