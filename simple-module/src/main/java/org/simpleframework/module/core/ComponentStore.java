@@ -51,10 +51,11 @@ public class ComponentStore implements ComponentManager {
 
    @Override
    public void register(Object value) {
-      instances.add(value);
-      mapper.expand(value)
-         .stream()
-         .map(this::resolveAll)
-         .forEach(list -> List.class.cast(list).add(value));
+      if(instances.add(value)) {
+         mapper.expand(value)
+            .stream()
+            .map(this::resolveAll)
+            .forEach(list -> List.class.cast(list).add(value));
+      }
    }
 }

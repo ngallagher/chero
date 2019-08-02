@@ -22,8 +22,12 @@ import org.simpleframework.module.resource.container.ServerDriver;
 public class DemoApplication {
    
    @Provides
-   public DemoService service() {
+   public DemoService service(DemoBlah blah) {
       return new DemoService();
+   }
+
+   @Component
+   public static class DemoBlah {
    }
    
    @Component

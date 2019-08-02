@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.util.Map;
 
+import org.simpleframework.module.annotation.Provides;
 import org.simpleframework.module.common.Introspector;
 
 public class ParameterScanner {
@@ -40,11 +41,13 @@ public class ParameterScanner {
    
    private Parameter createParameter(Executable executable, Declaration declaration) throws Exception {
       Class[] generics = declaration.getGenerics();
+      boolean provider = executable.isAnnotationPresent(Provides.class);
       boolean constructor = Constructor.class.isInstance(executable);
       boolean required = declaration.isRequired();
       int modifiers = 0;
       
       modifiers |= constructor ? CONSTRUCTOR.mask | REQUIRED.mask : 0;
+      modifiers |= provider ? CONSTRUCTOR.mask | REQUIRED.mask : 0;
       modifiers |= required ? REQUIRED.mask : 0;
       modifiers |= !constructor ? METHOD.mask : 0;
       
