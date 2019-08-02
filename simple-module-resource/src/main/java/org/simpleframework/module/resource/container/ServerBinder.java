@@ -1,7 +1,5 @@
 package org.simpleframework.module.resource.container;
 
-import org.simpleframework.module.resource.SessionCookie;
-
 abstract class ServerBinder implements Server {
    
    private String name;
@@ -9,7 +7,7 @@ abstract class ServerBinder implements Server {
    private int threads;  
    
    protected ServerBinder() {
-      this(SessionCookie.SESSION_ID);
+      this("SESSID");
    }
 
    protected ServerBinder(String cookie) {
