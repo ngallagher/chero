@@ -406,9 +406,9 @@ public class ServerTest extends TestCase {
       @Path("/value")
       @Consumes("application/vnd.test-v1+json")
       @Produces({"application/json", "application/vnd.test-v1+json"})
-      public ResponseEntity value(@PathParam("id") String id, @Body ExamplePayload body) {
+      public ResponseEntity value(@PathParam("id") int id, @Body ExamplePayload body) {
          return ResponseEntity.create(Status.OK)
-            .cookie("TEST", id)
+            .cookie("TEST", ""+id)
             .entity(body)
             .create();
       }
