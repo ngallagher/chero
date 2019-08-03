@@ -6,7 +6,7 @@
   <url>http://www.simpleframework.org</url>
   <parent>
     <groupId>org.simpleframework</groupId>
-    <artifactId>simple-module-parent</artifactId>
+    <artifactId>simple-parent</artifactId>
     <version>1.0.2</version>
   </parent>
   <dependencies>
