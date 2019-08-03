@@ -72,21 +72,13 @@ public class ModuleFilter {
       this.path = path;      
    }  
    
+   public boolean isDependency(ClassNode node) {
+      return isComponent(node) || isProvided(node);
+   }
+   
    public boolean isComponent(ClassNode node) {
       return component.fetch(node, key -> 
-             path.getTypes(Component.class).contains(node));
-      
-   }
-   
-   public boolean isDependent(ClassNode node) {
-      return dependent.fetch(node, key -> 
-             path.getTypes(DependsOn.class).contains(node));
-      
-   }
-   
-   public boolean isModule(ClassNode node) {
-      return module.fetch(node, key -> 
-         path.getTypes(Module.class).contains(node));
+             path.getTypes(Component.class).contains(node));   
    }
    
    public boolean isProvided(ClassNode node) {
@@ -98,7 +90,17 @@ public class ModuleFilter {
                 .flatMap(Collection<MethodNode>::stream)
                 .anyMatch(method -> checker.isProvider(method, node));
       });
+   }
+   
+   public boolean isDependent(ClassNode node) {
+      return dependent.fetch(node, key -> 
+             path.getTypes(DependsOn.class).contains(node));
       
+   }
+   
+   public boolean isModule(ClassNode node) {
+      return module.fetch(node, key -> 
+         path.getTypes(Module.class).contains(node));
    }
    
    public boolean isVisible(ClassNode node) {
@@ -135,8 +137,4 @@ public class ModuleFilter {
             !isInternal(node) &&
             !isProvided(node)); 
    } 
-   
-   public boolean isDependency(ClassNode node) {
-      return isComponent(node) || isProvided(node);
-   }
 }
