@@ -1,14 +1,12 @@
 package org.simpleframework.module.resource.container;
 
-import java.io.IOException;
-
 import org.simpleframework.module.common.ThreadPool;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.path.ClassPath;
-import org.simpleframework.module.resource.MediaTypeResolver;
 import org.simpleframework.module.resource.FileManager;
 import org.simpleframework.module.resource.FileResolver;
+import org.simpleframework.module.resource.MediaTypeResolver;
 import org.simpleframework.module.resource.ResourceManager;
 import org.simpleframework.module.resource.SubscriptionRouter;
 import org.simpleframework.module.resource.action.Schema;
