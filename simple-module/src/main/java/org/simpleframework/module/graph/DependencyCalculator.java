@@ -72,7 +72,7 @@ class DependencyCalculator {
          Set<ClassNode> require = children.stream()
                .map(Dependency::getMatch)
                .filter(Objects::nonNull)
-               .filter(filter::isComponent)
+               .filter(filter::isDependency)
                .collect(Collectors.toSet());
          
          if(!require.isEmpty()) {

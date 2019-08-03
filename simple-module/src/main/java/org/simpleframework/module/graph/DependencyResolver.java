@@ -31,15 +31,17 @@ class DependencyResolver {
    }
    
    private ClassNode resolveMatch(ClassNode node) {
-      Set<ClassNode> nodes = path.getTypes(Component.class);  
-      
-      if (filter.isVisible(node)) {  
+      if(!filter.isProvided(node)) {
+         Set<ClassNode> nodes = path.getTypes(Component.class);  
+         
+         if(!filter.isVisible(node)) {
+            return resolveInternal(node, nodes);
+         }
          if(!filter.isComponent(node)) {
             return resolveComponent(node, nodes);
          }
-         return node;
       }
-      return resolveInternal(node, nodes);
+      return node;
    }
 
    private ClassNode resolveInternal(ClassNode node, Set<ClassNode> nodes) {   

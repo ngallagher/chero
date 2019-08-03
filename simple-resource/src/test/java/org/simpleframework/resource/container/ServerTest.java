@@ -327,8 +327,13 @@ public class ServerTest extends TestCase {
    }
    
    @Provides
-   public ExampleService service(ExampleComponent component, @Value("${message}") String message) {
-      return new ExampleService(component, message);
+   public ExampleService service(ExampleComponent component, ExampleClient client, @Value("${message}") String message) {
+      return new ExampleService(component, client);
+   }
+   
+   @Provides
+   public ExampleClient service(@Value("${message}") String message) {
+      return new ExampleClient(message);
    }
 
    @Component
@@ -343,14 +348,23 @@ public class ServerTest extends TestCase {
       }
    }
    
+   public static class ExampleClient {
+      
+      private String message;
+      
+      public ExampleClient(String message) {
+         this.message = message;
+      }
+   }
+   
    public static class ExampleService {
       
       private ExampleComponent component;
-      private String message;
+      private ExampleClient client;
       
-      public ExampleService(ExampleComponent component, String message) {
+      public ExampleService(ExampleComponent component, ExampleClient client) {
          this.component = component;
-         this.message = message;
+         this.client = client;
       }
    }
    
@@ -389,7 +403,7 @@ public class ServerTest extends TestCase {
       public ResponseEntity value(@PathParam("id") String id) {
          return ResponseEntity.create(Status.OK)
             .cookie("TEST", "123")
-            .entity(Collections.singletonMap(service.message, service.component.text))
+            .entity(Collections.singletonMap(service.client.message, service.component.text))
             .create();
       }
       
