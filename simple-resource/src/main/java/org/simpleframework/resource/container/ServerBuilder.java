@@ -18,6 +18,7 @@ class ServerBuilder {
    
    private final ResourceManager assembler;
    private final SubscriptionRouter router;
+   private final ComponentManager manager;
    private final ContainerServer server;
    private final ServiceBinder binder;
    
@@ -25,6 +26,7 @@ class ServerBuilder {
       this.assembler = new ResourceManager(manager, path, schema);
       this.router = new SubscriptionRouter(manager);
       this.server = new ContainerServer(assembler, router);
+      this.manager = manager;
       this.binder = binder;
    }
 
@@ -41,6 +43,16 @@ class ServerBuilder {
       binder.register(resolver);
 
       return new ServerBinder() {
+         
+         @Override
+         public Object resolve(Class type) {
+            return manager.resolve(type);
+         }
+         
+         @Override
+         public Object resolve(Class type, String name) {
+            return manager.resolve(type, name);
+         }
          
          @Override
          public Server register(Object instance) {

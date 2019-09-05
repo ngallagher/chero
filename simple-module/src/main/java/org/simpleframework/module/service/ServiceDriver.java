@@ -34,6 +34,16 @@ public class ServiceDriver implements Driver<Service> {
       return new Service() {               
 
          @Override
+         public Object resolve(Class type) {
+            return manager.resolve(type);
+         }
+         
+         @Override
+         public Object resolve(Class type, String name) {
+            return manager.resolve(type, name);
+         }
+         
+         @Override
          public Service register(Object instance) {
             binder.register(instance);
             return this;
