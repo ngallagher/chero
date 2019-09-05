@@ -7,7 +7,6 @@ import org.simpleframework.module.annotation.Value;
 import org.simpleframework.module.service.Service;
 import org.simpleframework.module.service.ServiceDriver;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class ModuleInjectTest extends TestCase {
@@ -26,15 +25,15 @@ public class ModuleInjectTest extends TestCase {
       ExampleOther other = service.resolve(ExampleOther.class);
       ExampleWrapper wrapper = service.resolve(ExampleWrapper.class);
       
-      Assert.assertNotNull(application);
-      Assert.assertNotNull(object);
-      Assert.assertNotNull(other);
-      Assert.assertNotNull(other.service);
-      Assert.assertEquals(other.service, object);
-      Assert.assertNotNull(wrapper);
-      Assert.assertNotNull(wrapper.service);
-      Assert.assertEquals(wrapper.service, object);
-      Assert.assertEquals(object.message(), "hi");
+      assertNotNull(application);
+      assertNotNull(object);
+      assertNotNull(other);
+      assertNotNull(other.service);
+      assertEquals(other.service, object);
+      assertNotNull(wrapper);
+      assertNotNull(wrapper.service);
+      assertEquals(wrapper.service, object);
+      assertEquals(object.message(), "hi");
    }
 
    @Module
