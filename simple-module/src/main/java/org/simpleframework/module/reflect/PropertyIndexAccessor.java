@@ -11,11 +11,18 @@ public class PropertyIndexAccessor implements Accessor {
    private final Method method;
    private final Integer index;
    private final Class entry;
+   private final String name;
    
    public PropertyIndexAccessor(String name, Class type, Class entry, Integer index) {
       this.method = getMethod(name, type);
       this.entry = entry;
       this.index = index;
+      this.name = name;
+   }
+   
+   @Override
+   public String getName() {
+      return name + "[" + index + "]";
    }
 
    @Override

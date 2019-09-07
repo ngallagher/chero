@@ -16,6 +16,11 @@ public class PropertyKeyAccessor implements Accessor {
       this.entry = entry;
       this.key = key;
    }   
+   
+   @Override
+   public String getName() {
+      return String.valueOf(key);
+   }
 
    @Override
    public Class getType() {

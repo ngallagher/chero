@@ -5,9 +5,16 @@ import java.lang.reflect.Method;
 public class PropertyAccessor implements Accessor {
 
    private final Method method;
+   private final String name;
 
    public PropertyAccessor(String name, Class type) {
       this.method = getMethod(name, type);
+      this.name = name;
+   }
+   
+   @Override
+   public String getName() {
+      return name;
    }
 
    @Override

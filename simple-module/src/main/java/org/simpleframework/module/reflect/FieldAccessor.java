@@ -5,9 +5,16 @@ import java.lang.reflect.Field;
 public class FieldAccessor implements Accessor {
 
    private final Field field;
-
+   private final String name;
+   
    public FieldAccessor(String name, Class type) {
       this.field = getField(name, type);
+      this.name = name;
+   }
+   
+   @Override
+   public String getName() {
+      return name;
    }
 
    @Override

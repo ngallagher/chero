@@ -26,7 +26,15 @@ public interface ClassNode {
       return false;
    }
    
+   default ClassNode getSuper() {
+      return null;
+   }
+   
    default List<ClassNode> getImplementations() {
+      return Collections.emptyList();
+   }
+   
+   default List<FieldNode> getFields() {
       return Collections.emptyList();
    }
    

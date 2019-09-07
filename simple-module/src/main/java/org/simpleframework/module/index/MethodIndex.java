@@ -61,6 +61,11 @@ class MethodIndex implements MethodNode {
    }
    
    @Override
+   public String getName() {
+      return info.getName();
+   }
+   
+   @Override
    public String toString() {
       return info.toString();
    }

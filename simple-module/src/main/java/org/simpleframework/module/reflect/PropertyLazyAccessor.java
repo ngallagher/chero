@@ -16,6 +16,11 @@ public class PropertyLazyAccessor implements Accessor {
    }
 
    @Override
+   public String getName() {
+      return path;
+   }
+   
+   @Override
    public Class getType() {
       return type;
    }   

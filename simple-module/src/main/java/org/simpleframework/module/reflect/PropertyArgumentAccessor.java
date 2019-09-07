@@ -17,6 +17,11 @@ public class PropertyArgumentAccessor implements Accessor {
       this.type = type;
       this.name = name;
    }   
+   
+   @Override
+   public String getName() {
+      return name + "[" + argument + "]";
+   }
 
    @Override
    public Class getType() {

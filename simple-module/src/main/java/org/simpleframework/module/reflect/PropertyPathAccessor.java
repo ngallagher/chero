@@ -15,10 +15,17 @@ public class PropertyPathAccessor implements Accessor {
    
    private final StringConverter converter;
    private final Accessor[] accessors;
+   private final String path;
    
    public PropertyPathAccessor(String path, Class type) throws Exception  {
       this.converter = new StringConverter();
       this.accessors = getPath(path, type);
+      this.path = path;
+   }
+   
+   @Override
+   public String getName() {
+      return path;
    }
    
    @Override
