@@ -90,6 +90,11 @@ public class ConstructorFunction implements Function {
    }
    
    @Override
+   public boolean isConstructor() {
+      return true;
+   }
+   
+   @Override
    public String toString() {
       return String.valueOf(factory);
    }

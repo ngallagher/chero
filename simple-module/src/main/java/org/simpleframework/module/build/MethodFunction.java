@@ -74,6 +74,11 @@ public class MethodFunction implements Function {
    }
    
    @Override
+   public boolean isConstructor() {
+      return false;
+   }
+   
+   @Override
    public String toString() {
       return String.valueOf(method);
    }

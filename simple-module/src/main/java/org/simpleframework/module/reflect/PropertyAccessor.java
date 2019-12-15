@@ -33,8 +33,33 @@ public class PropertyAccessor implements Accessor {
       }
       return null;
    }
+   
+   public static String getProperty(Method method) {
+      Class[] types = method.getParameterTypes();
+      
+      if(types.length == 0) {
+         return getProperty(method);
+      }
+      return null;
+   }
+   
+   public static String getProperty(String method) {
+      Prefix[] prefixes = Prefix.values();
+      int length = method.length() + 1;
+      
+      for(Prefix prefix : prefixes) {
+         int required = prefix.prefix.length() + 1;
+         
+         if(required <= length) {
+            if(method.startsWith(prefix.prefix)) {
+               return prefix.getProperty(method);
+            }
+         }
+      }
+      return null;
+   }
 
-   protected static Method getMethod(String name, Class type) {
+   public static Method getMethod(String name, Class type) {
       Class base = type;
       
       while(type != null) {
@@ -51,9 +76,9 @@ public class PropertyAccessor implements Accessor {
       throw new IllegalArgumentException("No property named '" + name + "' in " + base);
    }
 
-   protected static Method getMethod(String name, Class type, Prefix prefix) {
+   public static Method getMethod(String name, Class type, Prefix prefix) {
       Method[] methods = type.getDeclaredMethods();
-      String property = prefix.getProperty(name);
+      String property = prefix.getMethod(name);
       Method match = null;
 
       for (Method method : methods) {
@@ -77,16 +102,28 @@ public class PropertyAccessor implements Accessor {
    }
 
    private static enum Prefix {
-      IS("is"), 
-      GET("get");
+      IS("is", true), 
+      GET("get", true),
+      SET("set", false);
 
-      private final String prefix;
+      public final String prefix;
+      public final boolean read;
 
-      private Prefix(String prefix) {
+      private Prefix(String prefix, boolean read) {
          this.prefix = prefix;
+         this.read = read;
+      }
+      
+      public String getProperty(String name) {
+         int length = prefix.length();
+         char initial = name.charAt(length);
+         String end = name.substring(length + 1);
+         char lowerCase = Character.toLowerCase(initial);
+
+         return String.format("%s%s", lowerCase, end);
       }
 
-      public String getProperty(String name) {
+      public String getMethod(String name) {
          char initial = name.charAt(0);
          char upperCase = Character.toUpperCase(initial);
          String end = name.substring(1);

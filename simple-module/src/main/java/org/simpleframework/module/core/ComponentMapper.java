@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
 
 import org.simpleframework.module.annotation.Component;
 
@@ -62,19 +61,5 @@ public class ComponentMapper {
             expand(base, types);
          }
       }
-   }
-   
-   public Predicate filter(String name) {
-      return (object) -> {
-         if(object != null) {
-            Class<?> type = object.getClass();
-            Component component = type.getAnnotation(Component.class);
-            
-            if(component != null) {
-               return component.value().equals(name);
-            }
-         }
-         return false;
-      };
    }
 }
