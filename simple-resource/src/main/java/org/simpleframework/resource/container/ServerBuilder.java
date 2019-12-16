@@ -25,7 +25,7 @@ class ServerBuilder {
    public ServerBuilder(ServiceBinder binder, ComponentManager manager, ClassPath path, Schema schema) {
       this.assembler = new ResourceManager(manager, path, schema);
       this.router = new SubscriptionRouter(manager);
-      this.server = new ContainerServer(assembler, router);
+      this.server = new ContainerServer(binder, assembler, router);
       this.manager = manager;
       this.binder = binder;
    }

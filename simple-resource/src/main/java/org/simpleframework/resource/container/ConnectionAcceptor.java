@@ -19,16 +19,18 @@ class ConnectionAcceptor implements Acceptor {
    private final RouterContainer wrapper;
    private final SocketProcessor server;  
    private final Connection connection;
+   private final Runnable cleaner;
 
-   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String session) throws IOException {
-      this(matcher, router, name, session, 10);
+   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, Runnable cleaner, String name, String session) throws IOException {
+      this(matcher, router, cleaner, name, session, 10);
    }
    
-   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, String name, String session, int threads) throws IOException {
+   public ConnectionAcceptor(ResourceMatcher matcher, SubscriptionRouter router, Runnable cleaner, String name, String session, int threads) throws IOException {
       this.container = new ServerContainer(matcher, name, session);
       this.wrapper = new RouterContainer(container, router, threads);
       this.server = new ContainerSocketProcessor(wrapper);
       this.connection = new SocketConnection(server);
+      this.cleaner = cleaner;
    }
    
    @Override
@@ -43,9 +45,10 @@ class ConnectionAcceptor implements Acceptor {
    }
    
    @Override
-   public void close() {
+   public void stop() {
       try {
          connection.close();
+         cleaner.run();
       } catch(Exception e) {
          throw new IllegalStateException("Could not stop listener", e);
       }

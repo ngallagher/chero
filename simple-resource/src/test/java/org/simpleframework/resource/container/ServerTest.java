@@ -65,7 +65,7 @@ public class ServerTest extends TestCase {
          assertEquals(map.get("bar"), "foo");
          assertEquals(map.size(), 1);
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -120,7 +120,7 @@ public class ServerTest extends TestCase {
          
          System.err.println("time="+duration+ " performance="+Math.round(requrstsPerSecond)+ " req/s");
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -154,7 +154,7 @@ public class ServerTest extends TestCase {
          assertEquals(map.get("key"), "val");
          assertEquals(map.size(), 1);
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -190,7 +190,7 @@ public class ServerTest extends TestCase {
          assertEquals(map.get("id"), "blah");
          assertEquals(map.size(), 1);
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -227,7 +227,7 @@ public class ServerTest extends TestCase {
          assertEquals(map.get("c"), "d");
          assertEquals(map.size(), 2);
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -264,7 +264,7 @@ public class ServerTest extends TestCase {
          assertEquals(map.get("id"), 168);
          assertEquals(map.size(), 2);
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    
@@ -322,7 +322,7 @@ public class ServerTest extends TestCase {
          
          System.err.println("time="+duration+ " performance="+Math.round(requrstsPerSecond)+ " req/s");
       } finally {
-         acceptor.close();
+         acceptor.stop();
       }
    }
    

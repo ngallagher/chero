@@ -10,6 +10,7 @@ import org.simpleframework.module.build.Function;
 import org.simpleframework.module.core.ComponentListener;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.Task;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.graph.DependencyIdentifier;
 import org.simpleframework.module.graph.DependencyProvider;
@@ -31,7 +32,7 @@ public class ServiceAssembler {
       this.manager = manager;
    }
 
-   public Runnable assemble(ModuleFilter filter, ClassPath path, Context context) {
+   public Task assemble(ModuleFilter filter, ClassPath path, Context context) {
       calculator.create(filter, path).traverse(type -> {
          AtomicReference<Object> result = new AtomicReference<Object>();
          
@@ -61,8 +62,37 @@ public class ServiceAssembler {
          }
          return result.get();
       });
-      return () -> manager.resolveAll(ComponentListener.class)
-            .forEach(ComponentListener::onReady);
+      return new ServiceTask(manager);
 
+   }
+   
+   private static class ServiceTask implements Task {
+      
+      private final ComponentManager manager;
+      
+      public ServiceTask(ComponentManager manager) {
+         this.manager = manager;
+      }
+
+      @Override
+      public void start() {
+         manager.resolveAll(ComponentListener.class)
+            .forEach(listener -> {
+               try {
+                  listener.onReady();
+               } catch(Exception e) {}
+            });
+      }
+
+      @Override
+      public void stop() {
+         manager.resolveAll(ComponentListener.class)
+            .forEach(listener -> {
+               try {
+                  listener.onDestroy();
+               } catch(Exception e) {}
+            });
+      }
+      
    }
 }

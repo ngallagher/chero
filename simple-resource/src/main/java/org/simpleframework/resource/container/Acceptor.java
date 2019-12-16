@@ -1,11 +1,12 @@
 package org.simpleframework.resource.container;
 
-import java.io.Closeable;
+import org.simpleframework.module.core.Process;
+
 import java.net.InetSocketAddress;
 
 import javax.net.ssl.SSLContext;
 
-public interface Acceptor extends Closeable {
+public interface Acceptor extends Process {
    
    default InetSocketAddress bind() {
       return bind(0);
