@@ -7,10 +7,10 @@ import java.util.function.Predicate;
 
 import org.simpleframework.module.build.Argument;
 import org.simpleframework.module.build.Function;
+import org.simpleframework.module.common.Task;
 import org.simpleframework.module.core.ComponentListener;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.core.Task;
 import org.simpleframework.module.extract.Extractor;
 import org.simpleframework.module.graph.DependencyIdentifier;
 import org.simpleframework.module.graph.DependencyProvider;

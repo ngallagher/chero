@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.simpleframework.module.common.Task;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
-import org.simpleframework.module.core.Task;
 import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.path.ClassPath;
 

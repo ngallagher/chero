@@ -1,10 +1,10 @@
 package org.simpleframework.resource.container;
 
-import org.simpleframework.module.core.Process;
-
 import java.net.InetSocketAddress;
 
 import javax.net.ssl.SSLContext;
+
+import org.simpleframework.module.common.Process;
 
 public interface Acceptor extends Process {
    

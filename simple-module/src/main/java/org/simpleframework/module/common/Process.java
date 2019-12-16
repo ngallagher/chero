@@ -1,4 +1,4 @@
-package org.simpleframework.module.core;
+package org.simpleframework.module.common;
 
 public interface Process {
    void stop();
