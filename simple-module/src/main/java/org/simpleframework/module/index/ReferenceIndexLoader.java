@@ -1,8 +1,12 @@
 package org.simpleframework.module.index;
 
+import java.lang.annotation.Annotation;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.HashCache;
@@ -63,7 +67,7 @@ class ReferenceIndexLoader {
          this.reference = reference;
          this.name = name;
       }
-
+      
       @Override
       public URL getResource() {
          return null;

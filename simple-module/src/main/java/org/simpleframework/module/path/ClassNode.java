@@ -1,6 +1,5 @@
 package org.simpleframework.module.path;
 
-import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +48,14 @@ public interface ClassNode {
    
    default List<AnnotationNode> getAnnotations() {
       return Collections.emptyList();
+   }
+
+   default AnnotationNode getAnnotation(String name) {
+      return getAnnotations()
+         .stream()
+         .filter(annotation -> annotation.getName().equals(name))
+         .findFirst()
+         .orElse(null);
    }
    
    default String getQualifier() {

@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.simpleframework.module.annotation.Import;
 import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.index.ProviderChecker;
@@ -77,16 +78,22 @@ class DependencyCollector {
       ClassNode node = path.getType(name);
       
       if(filter.isDependent(node)) {
-         return node.getAnnotations()
+         String label = Import.class.getName();
+         AnnotationNode annotation = node.getAnnotation(label);
+         
+         if(annotation != null) {
+            Import required = annotation.getAnnotation(Import.class);
+            Class[] types = required.value();
+            
+            return Arrays.asList(types)
                .stream()
-               .map(AnnotationNode::getValues)
-               .map(Map::values)
-               .flatMap(Collection::stream)
-               .map(String::valueOf)
+               .map(Class::getName)
                .map(path::getType)
                .filter(filter::isVisible)
                .map(resolver::resolve)
                .collect(Collectors.toSet());
+                  
+         }
       }
       return Collections.emptySet();
    }

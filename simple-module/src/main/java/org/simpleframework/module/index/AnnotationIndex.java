@@ -14,20 +14,18 @@ import io.github.classgraph.AnnotationParameterValue;
 class AnnotationIndex implements AnnotationNode {
 
    private final CacheValue<Map<String, Object>> attributes;
-   private final CacheValue<Annotation> annotation;
    private final AnnotationBuilder builder;
    private final AnnotationInfo info;
    
    public AnnotationIndex(ClassPath path, AnnotationInfo info) {
       this.attributes = new CacheValue<Map<String, Object>>();
-      this.annotation = new CacheValue<Annotation>();
-      this.builder = new AnnotationBuilder();
+      this.builder = new AnnotationBuilder(this);
       this.info = info;
    }
 
    @Override
    public <T extends Annotation> T getAnnotation(Class<T> type) {
-      return (T)annotation.get(() -> builder.resolve(type, this));
+      return builder.resolve(type);
    }
 
    @Override
