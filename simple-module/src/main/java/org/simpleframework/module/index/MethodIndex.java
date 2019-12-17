@@ -43,19 +43,19 @@ class MethodIndex implements MethodNode {
    @Override
    public List<AnnotationNode> getAnnotations() {
       return info.getAnnotationInfo()
-            .stream()
-            .map(annotations)
-            .collect(Collectors.toList());
+         .stream()
+         .map(annotations)
+         .collect(Collectors.toList());
    }   
 
    @Override
    public List<ParameterNode> getParameters() {
       MethodParameterInfo[] params = info.getParameterInfo();
       return Arrays.asList(params)
-            .stream() 
-            .filter(Objects::nonNull)
-            .map(parameters)
-            .collect(Collectors.toList());      
+         .stream() 
+         .filter(Objects::nonNull)
+         .map(parameters)
+         .collect(Collectors.toList());      
    }
    
    @Override

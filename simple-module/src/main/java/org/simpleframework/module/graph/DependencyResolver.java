@@ -53,19 +53,19 @@ class DependencyResolver {
       
       if(filter.isProvided(type)) {
          Set<ClassNode> nodes = path.getMethods(Provides.class)
-               .stream()
-               .filter(method -> method.getReturnType().equals(type))
-               .filter(method -> {
-                  String actual = qualifier.qualify(method);
-                  String require = qualifier.qualify(node);
-                  
-                  if(require != null) {
-                     return Objects.equals(actual, require);
-                  }
-                  return true;
-               })
-               .map(MethodNode::getReturnType)
-               .collect(Collectors.toSet());
+            .stream()
+            .filter(method -> method.getReturnType().equals(type))
+            .filter(method -> {
+               String actual = qualifier.qualify(method);
+               String require = qualifier.qualify(node);
+               
+               if(require != null) {
+                  return Objects.equals(actual, require);
+               }
+               return true;
+            })
+            .map(MethodNode::getReturnType)
+            .collect(Collectors.toSet());
          
          if(!filter.isVisible(type)) {
             return resolveInternal(type, nodes);
@@ -91,10 +91,10 @@ class DependencyResolver {
    private ClassNode resolveInternal(ClassNode node, Set<ClassNode> nodes) {   
       if(node.isInterface()) {
          return node.getImplementations()
-               .stream()
-               .filter(filter::isInternal) 
-               .findFirst()
-               .orElse(null);
+            .stream()
+            .filter(filter::isInternal) 
+            .findFirst()
+            .orElse(null);
       }
       return null;
    }
@@ -104,15 +104,15 @@ class DependencyResolver {
     
       if(node.isInterface()) {
          return node.getImplementations()
-               .stream()
-               .filter(filter::isComponent)               
-               .findFirst()
-               .orElse(null);
-      }
-      return nodes.stream()
-            .filter(next -> next.isSuper(name))
-            .filter(filter::isComponent)                
+            .stream()
+            .filter(filter::isComponent)               
             .findFirst()
             .orElse(null);
+      }
+      return nodes.stream()
+         .filter(next -> next.isSuper(name))
+         .filter(filter::isComponent)                
+         .findFirst()
+         .orElse(null);
    }
 }

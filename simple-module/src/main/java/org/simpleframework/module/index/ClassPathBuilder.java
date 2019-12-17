@@ -38,11 +38,11 @@ public class ClassPathBuilder {
          ClassPath path = new ClassPathIndex(cache, packages);
          Function<ClassInfo, ClassIndex> converter = info -> new ClassIndex(path, info);         
          Iterator<ClassIndex> iterator = scope.getGraph()
-               .scan()
-               .getAllClasses()
-               .stream()
-               .map(converter)            
-               .iterator();
+            .scan()
+            .getAllClasses()
+            .stream()
+            .map(converter)            
+            .iterator();
    
          if (iterator.hasNext()) {         
             while (iterator.hasNext()) {

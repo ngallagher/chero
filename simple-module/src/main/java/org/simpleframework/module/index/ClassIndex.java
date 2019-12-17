@@ -59,50 +59,50 @@ class ClassIndex implements ClassNode {
    @Override
    public ClassNode getSuper() {
       return Optional.of(info.getSuperclass())
-            .map(ClassInfo::getName)
-            .map(path::getType)
-            .orElse(null);
+         .map(ClassInfo::getName)
+         .map(path::getType)
+         .orElse(null);
    }
    
    @Override
    public List<FieldNode> getFields() {
       return info.getFieldInfo()
-            .stream()
-            .map(fields)
-            .collect(Collectors.toList());
+         .stream()
+         .map(fields)
+         .collect(Collectors.toList());
    }
 
    @Override
    public List<MethodNode> getMethods() {
       return info.getMethodInfo()
-            .stream()
-            .map(methods)
-            .collect(Collectors.toList());
+         .stream()
+         .map(methods)
+         .collect(Collectors.toList());
    }
 
    @Override
    public List<ConstructorNode> getConstructors() {
       return info.getConstructorInfo()
-            .stream()
-            .map(constructors)
-            .collect(Collectors.toList());
+         .stream()
+         .map(constructors)
+         .collect(Collectors.toList());
    }
    
    @Override
    public List<ClassNode> getImplementations() {
       return info.getClassesImplementing()
-            .stream()
-            .map(ClassInfo::getName)
-            .map(path::getType)
-            .collect(Collectors.toList());
+         .stream()
+         .map(ClassInfo::getName)
+         .map(path::getType)
+         .collect(Collectors.toList());
    }
    
    @Override
    public List<AnnotationNode> getAnnotations() {
       return info.getAnnotationInfo()
-            .stream()
-            .map(annotations)
-            .collect(Collectors.toList());
+         .stream()
+         .map(annotations)
+         .collect(Collectors.toList());
    }
 
    @Override

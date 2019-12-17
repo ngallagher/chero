@@ -37,16 +37,16 @@ class ModuleScopeResolver {
    private ModuleScope create(Set<Class<?>> imports) {
       Set<String> packages = reduce(imports);
       String[] directories = paths.stream()
-            .filter(Objects::nonNull)
-            .map(File::new)
-            .filter(File::isDirectory)
-            .map(File::toString)
-            .toArray(String[]::new);
+         .filter(Objects::nonNull)
+         .map(File::new)
+         .filter(File::isDirectory)
+         .map(File::toString)
+         .toArray(String[]::new);
       
       String[] patterns = packages.stream()
-            .filter(Objects::nonNull)
-            .map(module -> module + ".*")
-            .toArray(String[]::new);
+         .filter(Objects::nonNull)
+         .map(module -> module + ".*")
+         .toArray(String[]::new);
       
       return new ModuleScope(packages, patterns, directories);
    }

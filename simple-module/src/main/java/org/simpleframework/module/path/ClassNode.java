@@ -1,5 +1,6 @@
 package org.simpleframework.module.path;
 
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;

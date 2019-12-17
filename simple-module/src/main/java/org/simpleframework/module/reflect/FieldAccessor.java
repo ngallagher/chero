@@ -6,12 +6,12 @@ public class FieldAccessor implements Accessor {
 
    private final Field field;
    private final String name;
-   
+
    public FieldAccessor(String name, Class type) {
       this.field = getField(name, type);
       this.name = name;
    }
-   
+
    @Override
    public String getName() {
       return name;
@@ -25,11 +25,11 @@ public class FieldAccessor implements Accessor {
    @Override
    public <T> T getValue(Object source) {
       try {
-         if (!field.isAccessible()) {
+         if(!field.isAccessible()) {
             field.setAccessible(true);
          }
          return (T) field.get(source);
-      } catch (Exception e) {
+      } catch(Exception e) {
          throw new RuntimeException(e);
       }
    }
@@ -37,11 +37,11 @@ public class FieldAccessor implements Accessor {
    private static Field getField(String name, Class type) {
       Field[] fields = type.getDeclaredFields();
 
-      while (type != null) {
-         for (Field field : fields) {
+      while(type != null) {
+         for(Field field : fields) {
             String fieldName = field.getName();
 
-            if (fieldName.equals(name)) {
+            if(fieldName.equals(name)) {
                return field;
             }
          }

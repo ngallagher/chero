@@ -100,8 +100,8 @@ class DependencyCollector {
             .collect(Collectors.toSet());
    }
    
-   private Set<Dependency> resolveProvider(MethodNode provider) {
-      return provider.getParameters()
+   private Set<Dependency> resolveProvider(MethodNode method) {
+      return method.getParameters()
             .stream() 
             .map(ParameterNode::getType)            
             .map(resolver::resolve)

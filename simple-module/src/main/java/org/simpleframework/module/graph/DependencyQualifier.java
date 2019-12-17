@@ -10,9 +10,6 @@ import org.simpleframework.module.path.ParameterNode;
 
 public class DependencyQualifier {
    
-   private static final String INJECT_ATTRIBUTE = "value";
-   private static final String PROVIDES_ATTRIBUTE = "value";   
-   
    public DependencyQualifier() {    
       super();
    }
@@ -22,7 +19,7 @@ public class DependencyQualifier {
          Provides annotation = function.getAnnotation(Provides.class);
          String value = annotation.value();
          
-         return value.equals("") ? null : String.valueOf(value);
+         return Objects.equals("", value) ? null : value;
       }
       return null;
    }
@@ -32,15 +29,14 @@ public class DependencyQualifier {
       
       if(node.isAnnotationPresent(label)) {
          String value = node.getAnnotations()
-               .stream()
-               .filter(annotation -> annotation.getName().equals(label))
-               .map(annotation -> annotation.getValues().get(INJECT_ATTRIBUTE))
-               .filter(Objects::nonNull)
-               .map(Objects::toString)               
-               .findFirst()
-               .orElse("");
+            .stream()
+            .filter(annotation -> annotation.getName().equals(label))
+            .map(annotation -> annotation.getAnnotation(Inject.class))
+            .map(Inject::value)          
+            .findFirst()
+            .orElse(null);
          
-         return value.equals("") ? null : String.valueOf(value);
+         return Objects.equals("", value) ? null : value;
       }
       return null;
    }
@@ -50,15 +46,14 @@ public class DependencyQualifier {
       
       if(node.isAnnotationPresent(label)) {
          String value = node.getAnnotations()
-               .stream()
-               .filter(annotation -> annotation.getName().equals(label))
-               .map(annotation -> annotation.getValues().get(PROVIDES_ATTRIBUTE))
-               .filter(Objects::nonNull)
-               .map(Objects::toString)               
-               .findFirst()
-               .orElse("");
+            .stream()
+            .filter(annotation -> annotation.getName().equals(label))
+            .map(annotation -> annotation.getAnnotation(Provides.class))
+            .map(Provides::value)               
+            .findFirst()
+            .orElse(null);
          
-         return value.equals("") ? null : String.valueOf(value);
+         return Objects.equals("", value) ? null : value;
       }
       return null;
    }

@@ -41,9 +41,17 @@ class ClassPathIndex implements ClassPath {
          .stream()
          .flatMap(node -> node.getMethods().stream())
          .filter(filter)
-         .collect(Collectors.toSet())
-      );
+         .collect(Collectors.toSet()));
    } 
+   
+   @Override
+   public Set<MethodNode> getMethods(Predicate<MethodNode> filter) {
+      return getTypes()
+         .stream()
+         .flatMap(node -> node.getMethods().stream())
+         .filter(filter)
+         .collect(Collectors.toSet());
+   }  
    
    @Override
    public Set<ClassNode> getTypes(Class<? extends Annotation> type) {
@@ -53,23 +61,22 @@ class ClassPathIndex implements ClassPath {
       return types.fetch(type, ignore -> nodes.values()
          .stream()
          .filter(filter)
-         .collect(Collectors.toSet())
-      );
+         .collect(Collectors.toSet()));
    }      
    
    @Override
    public Set<ClassNode> getTypes(Predicate<ClassNode> filter) {
       return nodes.values()
-            .stream()
-            .filter(filter)
-            .collect(Collectors.toSet());
+         .stream()
+         .filter(filter)
+         .collect(Collectors.toSet());
    }      
    
    @Override
    public Set<ClassNode> getTypes() {
       return nodes.values()
-            .stream()
-            .collect(Collectors.toSet());
+         .stream()
+         .collect(Collectors.toSet());
    }
    
    @Override

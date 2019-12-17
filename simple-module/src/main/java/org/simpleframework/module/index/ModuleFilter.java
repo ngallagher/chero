@@ -84,11 +84,11 @@ public class ModuleFilter {
    public boolean isProvided(ClassNode node) {
       return provided.fetch(node, key -> {
          return path.getTypes(Module.class)
-                .stream()
-                .filter(this::isVisible)
-                .map(ClassNode::getMethods)
-                .flatMap(Collection<MethodNode>::stream)
-                .anyMatch(method -> checker.isProvider(method, node));
+             .stream()
+             .filter(this::isVisible)
+             .map(ClassNode::getMethods)
+             .flatMap(Collection<MethodNode>::stream)
+             .anyMatch(method -> checker.isProvider(method, node));
       });
    }
    
@@ -107,8 +107,8 @@ public class ModuleFilter {
       return visible.fetch(node, key -> {
          String name = node.getName();
          return path.getPackages()
-               .stream()
-               .anyMatch(prefix -> name.startsWith(prefix)); 
+            .stream()
+            .anyMatch(prefix -> name.startsWith(prefix)); 
       });
    }
    
@@ -116,10 +116,10 @@ public class ModuleFilter {
       return internal.fetch(node, key -> {
          String name = node.getName();
          return types.stream()
-               .map(mapper::expand)
-               .flatMap(Set<Class>::stream)
-               .map(Class::getName)               
-               .anyMatch(type -> type.equals(name)); 
+            .map(mapper::expand)
+            .flatMap(Set<Class>::stream)
+            .map(Class::getName)               
+            .anyMatch(type -> type.equals(name)); 
       });
    }
    

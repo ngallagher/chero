@@ -37,9 +37,9 @@ class ParameterIndex implements ParameterNode {
    @Override
    public List<AnnotationNode> getAnnotations() {
       return info.getAnnotationInfo()
-            .stream()
-            .map(annotations)
-            .collect(Collectors.toList());
+         .stream()
+         .map(annotations)
+         .collect(Collectors.toList());
    }
    
    @Override
