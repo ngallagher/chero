@@ -9,32 +9,48 @@ import org.simpleframework.module.common.Cache;
 import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
+import org.simpleframework.module.path.MethodNode;
 
 class ClassPathIndex implements ClassPath {
-      
-   private final Cache<Class, Set<ClassNode>> indexes;
-   private final Cache<String, ClassNode> types;
+
+   private final Cache<Class, Set<MethodNode>> methods;
+   private final Cache<Class, Set<ClassNode>> types;
+   private final Cache<String, ClassNode> nodes;
    private final Set<String> packages;
    private final ClassPathLoader loader;
    
-   public ClassPathIndex(Cache<String, ClassNode> types, Set<String> packages) {
+   public ClassPathIndex(Cache<String, ClassNode> nodes, Set<String> packages) {
       this.loader = new ClassPathLoader(this);
-      this.indexes = new HashCache<>();
+      this.methods = new HashCache<>();
+      this.types = new HashCache<>();
       this.packages = packages;
-      this.types = types;
+      this.nodes = nodes;
    }
    
    @Override
    public ClassNode getType(String name) {
-      return types.fetch(name, loader::loadNode);
+      return nodes.fetch(name, loader::loadNode);
    }
+   
+   @Override
+   public Set<MethodNode> getMethods(Class<? extends Annotation> type) {
+      String name = type.getName();
+      Predicate<MethodNode> filter = node -> node.isAnnotationPresent(name);
+      
+      return methods.fetch(type, ignore -> getTypes()
+         .stream()
+         .flatMap(node -> node.getMethods().stream())
+         .filter(filter)
+         .collect(Collectors.toSet())
+      );
+   } 
    
    @Override
    public Set<ClassNode> getTypes(Class<? extends Annotation> type) {
       String name = type.getName();
       Predicate<ClassNode> filter = node -> node.isAnnotationPresent(name);
       
-      return indexes.fetch(type, ignore -> types.values()
+      return types.fetch(type, ignore -> nodes.values()
          .stream()
          .filter(filter)
          .collect(Collectors.toSet())
@@ -43,7 +59,7 @@ class ClassPathIndex implements ClassPath {
    
    @Override
    public Set<ClassNode> getTypes(Predicate<ClassNode> filter) {
-      return types.values()
+      return nodes.values()
             .stream()
             .filter(filter)
             .collect(Collectors.toSet());
@@ -51,7 +67,7 @@ class ClassPathIndex implements ClassPath {
    
    @Override
    public Set<ClassNode> getTypes() {
-      return types.values()
+      return nodes.values()
             .stream()
             .collect(Collectors.toSet());
    }

@@ -17,6 +17,7 @@ import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.ConstructorNode;
 import org.simpleframework.module.path.MethodNode;
+import org.simpleframework.module.path.ParameterNode;
 
 class DependencyCollector {
 
@@ -58,7 +59,7 @@ class DependencyCollector {
                .flatMap(Set<Dependency>::stream)
                .collect(Collectors.toSet());   
       }
-      if(filter.isProvided(node)) {
+      if(filter.isProvided(node)) { // does a module provide this node
          return path.getTypes(Module.class)
                .stream()
                .filter(filter::isVisible)
@@ -91,16 +92,18 @@ class DependencyCollector {
    }
    
    private Set<Dependency> resolveConstructor(ConstructorNode constructor) {
-      return constructor.getParameterTypes()
+      return constructor.getParameters()
             .stream() 
+            .map(ParameterNode::getType)
             .map(resolver::resolve)
             .filter(Objects::nonNull) 
             .collect(Collectors.toSet());
    }
    
    private Set<Dependency> resolveProvider(MethodNode provider) {
-      return provider.getParameterTypes()
+      return provider.getParameters()
             .stream() 
+            .map(ParameterNode::getType)            
             .map(resolver::resolve)
             .filter(Objects::nonNull) 
             .collect(Collectors.toSet());

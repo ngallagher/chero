@@ -50,7 +50,11 @@ public interface ClassNode {
       return Collections.emptyList();
    }
    
+   default String getQualifier() {
+      return getName();
+   }
+   
    URL getResource();
-   String getName();  
+   String getName();
    Class getType(); 
 }

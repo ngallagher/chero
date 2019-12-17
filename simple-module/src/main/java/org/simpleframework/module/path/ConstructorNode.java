@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface ConstructorNode {
    boolean isAnnotationPresent(String name);
-   List<ClassNode> getParameterTypes();
+   List<ParameterNode> getParameters();
    ClassNode getDeclaringClass();
 }

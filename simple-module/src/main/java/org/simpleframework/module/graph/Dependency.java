@@ -6,14 +6,12 @@ class Dependency {
 
    private final ClassNode match;
    private final ClassNode node;
+   private final String qualifier;
    private final String name;
-
-   public Dependency(ClassNode node) {
-      this(node, node);
-   }
    
-   public Dependency(ClassNode node, ClassNode match) {
+   public Dependency(ClassNode node, ClassNode match, String qualifier) {
       this.name = node.getName();
+      this.qualifier = qualifier;
       this.match = match;
       this.node = node;
    }
@@ -29,6 +27,14 @@ class Dependency {
    public ClassNode getMatch() {
       return match;
    }   
+   
+   public String getQualifier() {
+      return qualifier;
+   }   
+   
+   public String getName() {
+      return name;
+   }
    
    @Override
    public String toString() {

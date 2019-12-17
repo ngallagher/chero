@@ -105,7 +105,7 @@ public class SchemaGenerator {
    public void collectDefinition(BiConsumer<ClassNode, Definition> consumer, ClassNode node) {
       Map<String, Property> map = node.getMethods()
             .stream()
-            .filter(method -> method.getParameterTypes().isEmpty())
+            .filter(method -> method.getParameters().isEmpty())
             .collect(Collectors.toMap(
                   method -> PropertyAccessor.getProperty(method.getName()), 
                   method -> {

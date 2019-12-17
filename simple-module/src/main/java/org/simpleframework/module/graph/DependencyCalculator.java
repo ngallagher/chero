@@ -48,7 +48,7 @@ class DependencyCalculator {
                   .forEach(node -> calculate(ready, done, node));
             }
          }
-         for(ClassNode component : components) {
+         for(ClassNode component : components) {            
             if(filter.isVisible(component)) {
                calculate(ready, done, component);
             }
@@ -61,27 +61,24 @@ class DependencyCalculator {
          String name = node.getName();
          Set<Dependency> children = collector.collect(name);
          Set<ClassNode> missing = children.stream()
-               .filter(Dependency::isError)
-               .map(Dependency::getNode)
-               .filter(filter::isMissing)
-               .collect(Collectors.toSet());         
+            .filter(Dependency::isError)
+            .map(Dependency::getNode)
+            .filter(filter::isMissing)
+            .collect(Collectors.toSet());         
          
          if(!missing.isEmpty()) {
             throw new IllegalStateException("Could not resolve " + missing + " for " + name);
          }  
-         Set<ClassNode> require = children.stream()
-               .map(Dependency::getMatch)
-               .filter(Objects::nonNull)
-               .filter(filter::isDependency)
-               .collect(Collectors.toSet());
+         children.stream()
+            .filter(Objects::nonNull)         
+            .forEach(dependency -> {
+               ClassNode match = dependency.getMatch();
+               
+               if(filter.isDependency(match)) {
+                  calculate(ready, done, match);                  
+               }
+            });
          
-         if(!require.isEmpty()) {
-            require.removeAll(done);
-            
-            for(ClassNode child : require) {
-               calculate(ready, done, child);
-            }
-         }
          ready.accept(node); // all children done         
       }
    }

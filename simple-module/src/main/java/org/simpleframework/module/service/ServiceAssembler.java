@@ -12,7 +12,7 @@ import org.simpleframework.module.core.ComponentListener;
 import org.simpleframework.module.core.ComponentManager;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.extract.Extractor;
-import org.simpleframework.module.graph.DependencyIdentifier;
+import org.simpleframework.module.graph.DependencyQualifier;
 import org.simpleframework.module.graph.DependencyProvider;
 import org.simpleframework.module.graph.DependencyScanner;
 import org.simpleframework.module.index.ModuleFilter;
@@ -20,14 +20,14 @@ import org.simpleframework.module.path.ClassPath;
 
 public class ServiceAssembler {
    
-   private final DependencyIdentifier identifier;
+   private final DependencyQualifier qualifier;
    private final DependencyScanner calculator;
    private final DependencyProvider provider;
    private final ComponentManager manager;
    
    public ServiceAssembler(ComponentManager manager, List<Extractor> extractors, Predicate<Argument> filter) {
       this.provider = new DependencyProvider(manager, extractors, filter);
-      this.identifier = new DependencyIdentifier();
+      this.qualifier = new DependencyQualifier();
       this.calculator = new DependencyScanner();
       this.manager = manager;
    }
@@ -46,7 +46,7 @@ public class ServiceAssembler {
                   Object instance = builder.getValue(context); 
                   
                   if(instance != null) {
-                     String name = identifier.identify(builder);
+                     String name = qualifier.qualify(builder);
                      
                      manager.register(instance, name);
                      result.set(instance);

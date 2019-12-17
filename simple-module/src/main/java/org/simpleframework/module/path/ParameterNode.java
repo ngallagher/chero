@@ -2,11 +2,10 @@ package org.simpleframework.module.path;
 
 import java.util.List;
 
-public interface MethodNode {
-   boolean isAnnotationPresent(String name);  
+public interface ParameterNode {
+   boolean isAnnotationPresent(String name);
    List<AnnotationNode> getAnnotations();
-   List<ParameterNode> getParameters();
    ClassNode getDeclaringClass();
-   ClassNode getReturnType();
+   ClassNode getType();
    String getName();
 }

@@ -36,25 +36,26 @@ public class DependencyProvider {
       ClassNode node = path.getType(name);
       
       if(filter.isProvided(node)) {
-         Class<?> parent = path.getTypes(Module.class)
-               .stream()
-               .filter(filter::isVisible)
-               .map(ClassNode::getMethods)
-               .flatMap(Collection<MethodNode>::stream)
-               .filter(method -> checker.isProvider(method, node))
-               .findFirst()
-               .map(MethodNode::getDeclaringClass)
-               .get()
-               .getType();
-         
-         if(parent != null) {
-            return methods.createMethods(parent)
-                  .stream()
-                  .filter(function -> 
-                     function.isAnnotationPresent(Provides.class) &&
-                     function.getReturnType().equals(type))
-                  .collect(Collectors.toList());
-         }
+         return path.getTypes(Module.class)
+            .stream()
+            .filter(filter::isVisible)
+            .map(ClassNode::getMethods)
+            .flatMap(Collection<MethodNode>::stream)
+            .filter(method -> checker.isProvider(method, node))
+            .map(MethodNode::getDeclaringClass)
+            .map(ClassNode::getType)
+            .flatMap(parent -> {
+               try {
+                  return methods.createMethods(parent)
+                     .stream()
+                     .filter(function -> 
+                        function.isAnnotationPresent(Provides.class) && 
+                        function.getReturnType().equals(type));
+               } catch(Exception e) {
+                  throw new IllegalStateException("Could not create " + type + " from " + parent, e);
+               }
+            })
+            .collect(Collectors.toList());
       }
       return constructors.createConstructors(type);
    }
