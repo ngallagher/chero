@@ -8,36 +8,36 @@ import org.simpleframework.module.path.MethodNode;
 import org.simpleframework.module.path.ParameterNode;
 
 public class DependencyQualifier {
-   
-   public DependencyQualifier() {    
+
+   public DependencyQualifier() {
       super();
    }
-   
+
    public String qualify(Function function) {
-      if(function.isAnnotationPresent(Provides.class)) {
-         Provides annotation = function.getAnnotation(Provides.class);
+      Provides annotation = function.getAnnotation(Provides.class);
+
+      if(annotation != null) {
          String value = annotation.value();
-         
          return Objects.equals("", value) ? null : value;
       }
       return null;
    }
-   
+
    public String qualify(ParameterNode node) {
-      if(node.isAnnotationPresent(Provides.class)) {
-         Provides annotation = node.getAnnotation(Provides.class);
+      Provides annotation = node.getAnnotation(Provides.class);
+
+      if(annotation != null) {
          String value = annotation.value();
-         
          return Objects.equals("", value) ? null : value;
       }
       return null;
    }
 
    public String qualify(MethodNode node) {
-      if(node.isAnnotationPresent(Provides.class)) {
-         Provides annotation = node.getAnnotation(Provides.class);
+      Provides annotation = node.getAnnotation(Provides.class);
+
+      if(annotation != null) {
          String value = annotation.value();
-         
          return Objects.equals("", value) ? null : value;
       }
       return null;

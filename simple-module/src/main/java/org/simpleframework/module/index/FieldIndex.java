@@ -1,5 +1,6 @@
 package org.simpleframework.module.index;
 
+import org.simpleframework.module.common.CacheValue;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.FieldNode;
@@ -8,11 +9,13 @@ import io.github.classgraph.FieldInfo;
 
 class FieldIndex implements FieldNode {
 
+   private final CacheValue<ClassNode> type;
    private final ClassNode parent;
    private final ClassPath path;
    private final FieldInfo info;
    
    public FieldIndex(ClassPath path, ClassNode parent, FieldInfo info) {
+      this.type = new CacheValue<>();
       this.parent = parent;
       this.path = path;
       this.info = info;
@@ -25,14 +28,16 @@ class FieldIndex implements FieldNode {
    
    @Override
    public ClassNode getType() {
-      String name = info.getClassInfo().getName();
-      int index = name.indexOf("<");
-
-      if(index != -1) {
-         String type = name.substring(0, index);
-         return path.getType(type);
-      }
-      return path.getType(name);
+      return type.get(() -> {
+         String name = info.getClassInfo().getName();
+         int index = name.indexOf("<");
+   
+         if(index != -1) {
+            String type = name.substring(0, index);
+            return path.getType(type);
+         }
+         return path.getType(name);
+      });
    }
 
    @Override

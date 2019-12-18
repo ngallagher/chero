@@ -1,7 +1,6 @@
 package org.simpleframework.module.graph;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.simpleframework.module.annotation.Import;
-import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.index.ModuleFilter;
-import org.simpleframework.module.index.ProviderChecker;
+import org.simpleframework.module.index.ProviderCollector;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.ConstructorNode;
@@ -23,13 +21,13 @@ class DependencyCollector {
 
    private final Map<String, Set<Dependency>> index;
    private final DependencyResolver resolver;
-   private final ProviderChecker checker;
+   private final ProviderCollector collector;
    private final ModuleFilter filter;
    private final ClassPath path;
    
    public DependencyCollector(ModuleFilter filter, ClassPath path) {
       this.resolver = new DependencyResolver(filter, path);
-      this.checker = new ProviderChecker();
+      this.collector = new ProviderCollector();
       this.index = new HashMap<>(); 
       this.filter = filter;
       this.path = path;      
@@ -60,12 +58,8 @@ class DependencyCollector {
                .collect(Collectors.toSet());   
       }
       if(filter.isProvided(node)) { // does a module provide this node
-         return path.getTypes(Module.class)
+         return collector.collect(filter, path, node)
                .stream()
-               .filter(filter::isVisible)
-               .map(ClassNode::getMethods)
-               .flatMap(Collection<MethodNode>::stream)
-               .filter(method -> checker.isProvider(method, node))
                .map(this::resolveProvider)
                .flatMap(Set<Dependency>::stream)
                .collect(Collectors.toSet());   

@@ -51,7 +51,7 @@ public class ModuleFilter {
    private final Cache<ClassNode, Boolean> visible;
    private final Cache<ClassNode, Boolean> missing;
    private final Cache<ClassNode, Boolean> module;
-   private final ProviderChecker checker;
+   private final ProviderCollector collector;
    private final ComponentMapper mapper;
    private final Set<String> convertable;
    private final Set<Class> types;
@@ -59,7 +59,7 @@ public class ModuleFilter {
    
    public ModuleFilter(ClassPath path, Set<Class> types) {
       this.mapper = new ComponentMapper();
-      this.checker = new ProviderChecker();
+      this.collector = new ProviderCollector();
       this.convertable = new HashSet<>();
       this.component = new HashCache<>();
       this.dependent = new HashCache<>();
@@ -82,14 +82,8 @@ public class ModuleFilter {
    }
    
    public boolean isProvided(ClassNode node) {
-      return provided.fetch(node, key -> {
-         return path.getTypes(Module.class)
-             .stream()
-             .filter(this::isVisible)
-             .map(ClassNode::getMethods)
-             .flatMap(Collection<MethodNode>::stream)
-             .anyMatch(method -> checker.isProvider(method, node));
-      });
+      return provided.fetch(node, key -> 
+            !collector.collect(this, path, node).isEmpty());
    }
    
    public boolean isDependent(ClassNode node) {
