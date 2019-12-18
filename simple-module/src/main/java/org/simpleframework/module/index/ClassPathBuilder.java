@@ -20,11 +20,7 @@ public class ClassPathBuilder {
    private final ModuleScopeResolver builder;
 
    public ClassPathBuilder(Set<Class> modules) {
-      this(modules, Collections.EMPTY_SET);
-   }
-   
-   public ClassPathBuilder(Set<Class> modules, Set<String> paths) {
-      this.builder = new ModuleScopeResolver(modules, paths);
+      this.builder = new ModuleScopeResolver(modules);
       this.empty = new EmptyCache<String, ClassNode>();
    }
 

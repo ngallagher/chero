@@ -106,7 +106,6 @@ public class DemoApplication {
    
    public static void main(String[] list) throws Exception {
       Application.create(ServerDriver.class)
-         .path("..")
          .module(DemoApplication.class)
          .create("--message=hi")
          .name("Apache/2.2.14")

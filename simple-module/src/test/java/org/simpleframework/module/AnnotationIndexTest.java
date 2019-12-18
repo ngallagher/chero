@@ -15,10 +15,8 @@ public class AnnotationIndexTest extends TestCase {
    
    public void testAnnotations() {
       Set<Class> modules = new HashSet<>();
-      Set<String> paths = new HashSet<>();
-      ClassPathBuilder builder = new ClassPathBuilder(modules, paths);
+      ClassPathBuilder builder = new ClassPathBuilder(modules);
       
-      paths.add("..");
       modules.add(AnnotationIndexTest.class);
       
       Class[] types = builder.create()

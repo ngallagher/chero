@@ -1,6 +1,5 @@
 package org.simpleframework.module.index;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,15 +13,9 @@ import org.simpleframework.module.annotation.Module;
 class ModuleScopeResolver {
 
    private final Set<Class> modules;
-   private final Set<String> paths;
-
-   public ModuleScopeResolver(Set<Class> modules) {
-      this(modules, Collections.EMPTY_SET);
-   }
    
-   public ModuleScopeResolver(Set<Class> modules, Set<String> paths) {
+   public ModuleScopeResolver(Set<Class> modules) {
       this.modules = modules;
-      this.paths = paths;
    }
    
    public ModuleScope resolve() {
@@ -36,19 +29,12 @@ class ModuleScopeResolver {
    
    private ModuleScope create(Set<Class<?>> imports) {
       Set<String> packages = reduce(imports);
-      String[] directories = paths.stream()
-         .filter(Objects::nonNull)
-         .map(File::new)
-         .filter(File::isDirectory)
-         .map(File::toString)
-         .toArray(String[]::new);
-      
       String[] patterns = packages.stream()
          .filter(Objects::nonNull)
          .map(module -> module + ".*")
          .toArray(String[]::new);
       
-      return new ModuleScope(packages, patterns, directories);
+      return new ModuleScope(packages, patterns);
    }
    
    private Set<String> reduce(Set<Class<?>> imports) {

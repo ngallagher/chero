@@ -21,7 +21,7 @@ public class DriverLoader<T> {
    
    public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> files, Set<String> paths) {
       this.loader = new ContextBuilder(files, paths);
-      this.builder = new ClassPathBuilder(modules, paths);
+      this.builder = new ClassPathBuilder(modules);
       this.type = type;
    }
    

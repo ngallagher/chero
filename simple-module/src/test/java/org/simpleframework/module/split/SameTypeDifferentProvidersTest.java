@@ -12,7 +12,7 @@ import org.simpleframework.module.service.ServiceDriver;
 import junit.framework.TestCase;
 
 public class SameTypeDifferentProvidersTest extends TestCase {
-
+   
    @SuppressWarnings("unchecked")
    public void testModuleInject() {
       Service<Service<?>> service = Application.create(ServiceDriver.class)

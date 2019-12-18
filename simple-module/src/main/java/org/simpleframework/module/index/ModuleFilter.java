@@ -3,7 +3,6 @@ package org.simpleframework.module.index;
 import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,6 @@ import org.simpleframework.module.common.HashCache;
 import org.simpleframework.module.core.ComponentMapper;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
-import org.simpleframework.module.path.MethodNode;
 
 public class ModuleFilter {
    

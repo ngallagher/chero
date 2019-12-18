@@ -9,11 +9,11 @@ class ModuleScope {
    private final Set<String> packages;
    private final ClassGraph graph;
    
-   public ModuleScope(Set<String> packages, String[] patterns, String[] paths) {
+   public ModuleScope(Set<String> packages, String[] patterns) {
       this.graph = new ClassGraph()
             .enableAllInfo()
             .whitelistPackages(patterns)
-            .whitelistPaths(paths);
+            .whitelistPaths("..");
       this.packages = packages;
    }
 
