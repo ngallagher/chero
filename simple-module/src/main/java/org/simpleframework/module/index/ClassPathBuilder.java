@@ -26,24 +26,24 @@ public class ClassPathBuilder {
 
    public ClassPath create() {
       Set<String> packages = scope.getPackages();
-      
+
       if(!packages.isEmpty()) {
          Map<String, ClassNode> nodes = new HashMap<>();
          Cache<String, ClassNode> cache = new CopyOnWriteCache<>();
          ClassPath path = new ClassPathIndex(cache, packages);
-         Function<ClassInfo, ClassIndex> converter = info -> new ClassIndex(path, info);         
+         Function<ClassInfo, ClassIndex> converter = info -> new ClassIndex(path, info);
          Iterator<ClassIndex> iterator = scope.getGraph()
             .scan()
             .getAllClasses()
             .stream()
-            .map(converter)            
+            .map(converter)
             .iterator();
-   
-         if (iterator.hasNext()) {         
-            while (iterator.hasNext()) {
+
+         if(iterator.hasNext()) {
+            while(iterator.hasNext()) {
                ClassNode next = iterator.next();
                String name = next.getName();
-               
+
                nodes.put(name, next);
             }
             cache.cache(nodes);
@@ -52,8 +52,8 @@ public class ClassPathBuilder {
          return path;
       }
       return new ClassPathIndex(empty, packages);
-   }   
-   
+   }
+
    private static class EmptyCache<K, V> extends CopyOnWriteCache<K, V> {
 
       @Override
