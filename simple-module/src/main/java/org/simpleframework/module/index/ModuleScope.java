@@ -2,10 +2,13 @@ package org.simpleframework.module.index;
 
 import java.util.Set;
 
+import org.simpleframework.module.common.CacheValue;
+
 import io.github.classgraph.ClassGraph;
 
 class ModuleScope {
 
+   private final CacheValue<Set<String>> prefixes;
    private final PackageList packages;
    private final ClassGraph graph;
    
@@ -14,10 +17,11 @@ class ModuleScope {
             .enableAllInfo()
             .whitelistPaths("..");
       this.packages = new PackageList(graph, modules);
+      this.prefixes = new CacheValue<>();
    }
 
    public Set<String> getPackages() {
-      return packages.list();
+      return prefixes.get(() -> packages.list());
    }
    
    public ClassGraph getGraph() {
