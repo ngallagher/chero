@@ -13,7 +13,6 @@ import org.simpleframework.module.annotation.Import;
 import org.simpleframework.module.annotation.Module;
 import org.simpleframework.module.index.ModuleFilter;
 import org.simpleframework.module.index.ProviderChecker;
-import org.simpleframework.module.path.AnnotationNode;
 import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 import org.simpleframework.module.path.ConstructorNode;
