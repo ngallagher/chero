@@ -6,19 +6,18 @@ import io.github.classgraph.ClassGraph;
 
 class ModuleScope {
 
-   private final Set<String> packages;
+   private final PackageList packages;
    private final ClassGraph graph;
    
-   public ModuleScope(Set<String> packages, String[] patterns) {
+   public ModuleScope(Set<Class> modules) {
       this.graph = new ClassGraph()
             .enableAllInfo()
-            .whitelistPackages(patterns)
             .whitelistPaths("..");
-      this.packages = packages;
+      this.packages = new PackageList(graph, modules);
    }
 
    public Set<String> getPackages() {
-      return packages;
+      return packages.list();
    }
    
    public ClassGraph getGraph() {

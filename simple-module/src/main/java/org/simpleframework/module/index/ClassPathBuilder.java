@@ -17,15 +17,14 @@ import io.github.classgraph.ClassInfo;
 public class ClassPathBuilder {
 
    private final Cache<String, ClassNode> empty;
-   private final ModuleScopeResolver builder;
+   private final ModuleScope scope;
 
    public ClassPathBuilder(Set<Class> modules) {
-      this.builder = new ModuleScopeResolver(modules);
       this.empty = new EmptyCache<String, ClassNode>();
+      this.scope = new ModuleScope(modules);
    }
 
    public ClassPath create() {
-      ModuleScope scope = builder.resolve();
       Set<String> packages = scope.getPackages();
       
       if(!packages.isEmpty()) {
