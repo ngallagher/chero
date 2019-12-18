@@ -78,11 +78,9 @@ class DependencyCollector {
       ClassNode node = path.getType(name);
       
       if(filter.isDependent(node)) {
-         String label = Import.class.getName();
-         AnnotationNode annotation = node.getAnnotation(label);
+         Import required = node.getAnnotation(Import.class);
          
-         if(annotation != null) {
-            Import required = annotation.getAnnotation(Import.class);
+         if(required != null) {
             Class[] types = required.value();
             
             return Arrays.asList(types)

@@ -23,7 +23,6 @@ public class AnnotationIndexTest extends TestCase {
       
       Class[] types = builder.create()
          .getType(AnnotationIndexTest.class.getName())
-         .getAnnotation(Import.class.getName())
          .getAnnotation(Import.class)
          .value();
    
@@ -31,7 +30,6 @@ public class AnnotationIndexTest extends TestCase {
       
       String name = builder.create()
          .getType(AnnotationIndexTest.class.getName())
-         .getAnnotation(Module.class.getName())
          .getAnnotation(Module.class)
          .value();
       

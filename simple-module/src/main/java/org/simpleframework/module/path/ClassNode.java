@@ -1,5 +1,6 @@
 package org.simpleframework.module.path;
 
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ public interface ClassNode {
       return false;
    }
    
-   default boolean isAnnotationPresent(String name) {
+   default boolean isAnnotationPresent(Class<? extends Annotation> type) {
       return false;
    }
    
@@ -50,12 +51,15 @@ public interface ClassNode {
       return Collections.emptyList();
    }
 
-   default AnnotationNode getAnnotation(String name) {
+   default <T extends Annotation> T getAnnotation(Class<T> type) {
+      String name = type.getName();
       return getAnnotations()
          .stream()
          .filter(annotation -> annotation.getName().equals(name))
+         .map(annotation -> annotation.getAnnotation(type))
          .findFirst()
          .orElse(null);
+      
    }
    
    default String getQualifier() {

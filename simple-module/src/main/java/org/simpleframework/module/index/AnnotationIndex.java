@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.simpleframework.module.common.CacheValue;
 import org.simpleframework.module.path.AnnotationNode;
+import org.simpleframework.module.path.ClassNode;
 import org.simpleframework.module.path.ClassPath;
 
 import io.github.classgraph.AnnotationInfo;
@@ -16,11 +17,22 @@ class AnnotationIndex implements AnnotationNode {
    private final CacheValue<Map<String, Object>> attributes;
    private final AnnotationBuilder builder;
    private final AnnotationInfo info;
+   private final ClassPath path;
    
    public AnnotationIndex(ClassPath path, AnnotationInfo info) {
       this.attributes = new CacheValue<Map<String, Object>>();
       this.builder = new AnnotationBuilder(this);
       this.info = info;
+      this.path = path;
+   }
+   
+   @Override
+   public Annotation getAnnotation() {
+      String name = info.getName();
+      ClassNode node = path.getType(name);
+      Class type = node.getType();
+      
+      return getAnnotation(type);
    }
 
    @Override

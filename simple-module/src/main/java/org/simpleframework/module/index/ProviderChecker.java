@@ -6,14 +6,12 @@ import org.simpleframework.module.path.MethodNode;
 
 public class ProviderChecker {
    
-   private final String annotation;
-   
    public ProviderChecker() {
-      this.annotation = Provides.class.getName();
+      super();
    }
 
    public boolean isProvider(MethodNode method, ClassNode node) {
-      if(method.isAnnotationPresent(annotation)) {
+      if(method.isAnnotationPresent(Provides.class)) {
          return method.getReturnType().equals(node);
       }
       return false;

@@ -34,8 +34,7 @@ class ClassPathIndex implements ClassPath {
    
    @Override
    public Set<MethodNode> getMethods(Class<? extends Annotation> type) {
-      String name = type.getName();
-      Predicate<MethodNode> filter = node -> node.isAnnotationPresent(name);
+      Predicate<MethodNode> filter = node -> node.isAnnotationPresent(type);
       
       return methods.fetch(type, ignore -> getTypes()
          .stream()
@@ -55,8 +54,7 @@ class ClassPathIndex implements ClassPath {
    
    @Override
    public Set<ClassNode> getTypes(Class<? extends Annotation> type) {
-      String name = type.getName();
-      Predicate<ClassNode> filter = node -> node.isAnnotationPresent(name);
+      Predicate<ClassNode> filter = node -> node.isAnnotationPresent(type);
       
       return types.fetch(type, ignore -> nodes.values()
          .stream()

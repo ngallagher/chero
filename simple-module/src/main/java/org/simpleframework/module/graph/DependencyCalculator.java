@@ -29,7 +29,6 @@ class DependencyCalculator {
    public void calculate(Consumer<ClassNode> ready) {
       Set<ClassNode> components = path.getTypes(Component.class);
       Set<ClassNode> modules = path.getTypes(Module.class);
-      String label = Provides.class.getName();
       
       if(!components.isEmpty() || !modules.isEmpty()) {
          Set<ClassNode> done = new HashSet<>();
@@ -43,7 +42,7 @@ class DependencyCalculator {
             if(filter.isVisible(module)) {
                module.getMethods()
                   .stream()
-                  .filter(method -> method.isAnnotationPresent(label))
+                  .filter(method -> method.isAnnotationPresent(Provides.class))
                   .map(MethodNode::getReturnType)
                   .forEach(node -> calculate(ready, done, node));
             }

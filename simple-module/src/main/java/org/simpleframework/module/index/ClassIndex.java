@@ -1,5 +1,6 @@
 package org.simpleframework.module.index;
 
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +48,8 @@ class ClassIndex implements ClassNode {
    }
    
    @Override
-   public boolean isAnnotationPresent(String name) {
+   public boolean isAnnotationPresent(Class<? extends Annotation> type) {
+      String name = type.getName();
       return info.hasAnnotation(name);
    }
    
