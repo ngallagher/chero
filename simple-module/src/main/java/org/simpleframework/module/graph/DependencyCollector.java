@@ -99,17 +99,17 @@ class DependencyCollector {
       return constructor.getParameters()
             .stream() 
             .map(ParameterNode::getType)
-            .map(resolver::resolve)
             .filter(Objects::nonNull) 
+            .map(resolver::resolve)
             .collect(Collectors.toSet());
    }
    
    private Set<Dependency> resolveProvider(MethodNode method) {
       return method.getParameters()
             .stream() 
-            .map(ParameterNode::getType)            
-            .map(resolver::resolve)
+            .map(ParameterNode::getType)  
             .filter(Objects::nonNull) 
+            .map(resolver::resolve)
             .collect(Collectors.toSet());
    }
 }

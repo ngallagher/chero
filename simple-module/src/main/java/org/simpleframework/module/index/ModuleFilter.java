@@ -134,6 +134,7 @@ public class ModuleFilter {
       return missing.fetch(node, key -> 
             !convertable.contains(name) && 
             !node.isEnum() && 
+            !node.isArray() &&
             !isInternal(node) &&
             !isProvided(node)); 
    } 

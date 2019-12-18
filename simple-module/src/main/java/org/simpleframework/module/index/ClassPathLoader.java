@@ -24,7 +24,7 @@ class ClassPathLoader {
          if(node == null) {       
             return loader.loadNode(name);
          }
-         return null;
+         return node;
       });
    }
    
