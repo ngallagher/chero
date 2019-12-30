@@ -67,7 +67,7 @@ public class ServiceAssembler {
          Object value = result.get();
          
          if(value == null && cause != null) {
-            throw new IllegalStateException("Could not create component", cause);
+            throw new IllegalStateException("Could not create component " + type, cause);
          }
          return value;
       });
