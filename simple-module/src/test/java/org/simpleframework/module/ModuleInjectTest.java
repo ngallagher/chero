@@ -14,7 +14,6 @@ public class ModuleInjectTest extends TestCase {
    @SuppressWarnings("unchecked")
    public void testModuleInject() {
       Service<Service<?>> service = Application.create(ServiceDriver.class)
-         .path("..")
          .module(ExampleApplication.class)
          .create("--message=hi");
       

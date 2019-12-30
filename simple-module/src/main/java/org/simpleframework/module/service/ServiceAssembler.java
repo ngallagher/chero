@@ -35,6 +35,7 @@ public class ServiceAssembler {
    public Task assemble(ModuleFilter filter, ClassPath path, Context context) {
       calculator.create(filter, path).traverse(type -> {
          AtomicReference<Object> result = new AtomicReference<Object>();
+         AtomicReference<Exception> error = new AtomicReference<Exception>();
          
          try {
             List<Function> builders = provider.createProviders(filter, path, type);
@@ -55,12 +56,20 @@ public class ServiceAssembler {
                         return result.get();
                      }
                   }
-               } catch(Exception e) {}
+               } catch(Exception cause) {
+                  error.compareAndSet(null, cause);
+               }
             }
          }catch(Exception e) {
             throw new IllegalStateException("Could not start application", e);
          }
-         return result.get();
+         Exception cause = error.get();
+         Object value = result.get();
+         
+         if(value == null && cause != null) {
+            throw new IllegalStateException("Could not create component", cause);
+         }
+         return value;
       });
       return new ServiceTask(manager);
 
