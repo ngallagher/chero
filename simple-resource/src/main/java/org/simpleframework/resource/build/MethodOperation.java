@@ -12,11 +12,13 @@ import org.simpleframework.resource.action.Operation;
 
 public class MethodOperation implements Operation {
    
+   private final MethodPattern pattern;
    private final MethodMatcher matcher;
    private final MethodHeader header;
    private final Function function;
    
    public MethodOperation(MethodMatcher matcher, MethodHeader header, Function function) {
+      this.pattern = matcher.pattern();
       this.function = function;
       this.header = header;
       this.matcher = matcher;
@@ -49,6 +51,6 @@ public class MethodOperation implements Operation {
 
    @Override
    public String getPath() {
-      return matcher.pattern();
+      return pattern.path();
    }
 }

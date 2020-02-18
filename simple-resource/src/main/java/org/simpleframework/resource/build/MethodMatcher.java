@@ -50,8 +50,11 @@ public class MethodMatcher {
       return Collections.emptyMap();
    }
    
-   public String pattern() {
-      return match;
+   public MethodPattern pattern() {
+      if(tokens.isEmpty()) {
+         return new MethodPattern(match, false);
+      }
+      return new MethodPattern(match, true);
    }
    
    public String verb() {

@@ -1,8 +1,7 @@
 package org.simpleframework.resource.build;
 
-public interface MethodMatch extends Comparable<MethodMatch> {
+public interface MethodMatch {
    Iterable<MethodDispatcher> actions();
    boolean matches(String path);
-   String expression();
-   int length();
+   MethodPattern pattern();
 }

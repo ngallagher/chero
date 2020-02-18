@@ -2,6 +2,7 @@ package org.simpleframework.resource.build;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,11 +13,13 @@ import org.simpleframework.module.core.Context;
 public class MethodDispatcherResolver implements MethodResolver {
 
    private final Cache<String, List<MethodMatch>> cache;
+   private final Comparator<MethodMatch> comparator;
    private final MethodMatchIndexer indexer;
    private final PathResolver resolver;
 
    public MethodDispatcherResolver(MethodMatchIndexer indexer) {
       this.cache = new LeastRecentlyUsedCache<String, List<MethodMatch>>(5000);
+      this.comparator = new MethodMatchComparator();
       this.resolver = new PathResolver();
       this.indexer = indexer;
    }
@@ -31,7 +34,7 @@ public class MethodDispatcherResolver implements MethodResolver {
 
          for (MethodMatch match : matches) {
             Iterable<MethodDispatcher> dispatchers = match.actions();
-            String pattern = match.expression();
+            MethodPattern pattern = match.pattern();
             int length = pattern.length();
             
             for (MethodDispatcher dispatcher : dispatchers) {
@@ -125,7 +128,7 @@ public class MethodDispatcherResolver implements MethodResolver {
             List<MethodMatch> value = Collections.unmodifiableList(group);
             
             if(!group.isEmpty()) {
-               Collections.sort(group);
+               Collections.sort(group, comparator);
             }
             cache.cache(normalized, value); // cache immutable
          }

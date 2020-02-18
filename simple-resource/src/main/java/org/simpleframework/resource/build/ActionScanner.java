@@ -29,8 +29,8 @@ public class ActionScanner {
       this.scanner = scanner;
    }
 
-   public Map<String, List<MethodDispatcher>> createDispatchers(Class<?> type) throws Exception {
-      Map<String, List<MethodDispatcher>> dispatchers = new LinkedHashMap<>();
+   public Map<MethodPattern, List<MethodDispatcher>> createDispatchers(Class<?> type) throws Exception {
+      Map<MethodPattern, List<MethodDispatcher>> dispatchers = new LinkedHashMap<>();
 
       if (type != null) {
          ComponentType componentType = ComponentType.resolveType(type);
@@ -43,7 +43,7 @@ public class ActionScanner {
             if (methodPath != null) {
                MethodMatcher matcher = createMatcher(function, typePath, methodPath);
                MethodDispatcher dispatcher = createDispatcher(matcher, function);
-               String pattern = matcher.pattern();
+               MethodPattern pattern = matcher.pattern();
 
                if(dispatcher == null) {
                   throw new IllegalStateException("Could not resolve for " + pattern + " on " + function);
@@ -108,13 +108,13 @@ public class ActionScanner {
    
    private static class PatternList<T> extends ArrayList<T> {
       
-      private final String pattern;
+      private final MethodPattern pattern;
       
-      public PatternList(String pattern) {
+      public PatternList(MethodPattern pattern) {
          this.pattern = pattern;
       }
       
-      public String pattern() {
+      public MethodPattern pattern() {
          return pattern;
       }
    }

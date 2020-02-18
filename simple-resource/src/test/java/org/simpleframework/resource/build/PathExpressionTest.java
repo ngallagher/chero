@@ -24,7 +24,7 @@ public class PathExpressionTest extends TestCase {
 
       assertFalse(parameters.isEmpty());
       assertEquals(parameters.get("id"), "10");
-      assertEquals(parser.pattern(), "/path/other/([0-9]+)");
+      assertEquals(parser.pattern().path(), "/path/other/([0-9]+)");
    }
    
    public void testPatternForIntegerAndDouble() throws Exception {
@@ -37,7 +37,7 @@ public class PathExpressionTest extends TestCase {
       assertFalse(parameters.isEmpty());
       assertEquals(parameters.get("id"), "10");
       assertEquals(parameters.get("factor"), "11.0");
-      assertEquals(parser.pattern(), "/path/other/([0-9]+)/top/([0-9\\.]+)");
+      assertEquals(parser.pattern().path(), "/path/other/([0-9]+)/top/([0-9\\.]+)");
    }
    
    public void testSlash() throws Exception {
