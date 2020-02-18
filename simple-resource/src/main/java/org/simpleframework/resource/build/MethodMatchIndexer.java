@@ -89,18 +89,15 @@ public class MethodMatchIndexer {
 
       @Override
       public boolean matches(String path) {
-         String declaration = pattern.path();
+         String normal = pattern.path();
          
-         if(!path.equals(declaration)) {
+         if(pattern.isExpression()) {
             Pattern expression = pattern.pattern();
             Matcher matcher = expression.matcher(path);
    
-            if (matcher.matches()) {
-               return true;
-            }
-            return false;
+            return matcher.matches();
          }
-         return true;
+         return normal.equals(path);
       }
       
       @Override
