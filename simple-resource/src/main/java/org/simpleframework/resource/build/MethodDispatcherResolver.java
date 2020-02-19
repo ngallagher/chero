@@ -34,16 +34,13 @@ public class MethodDispatcherResolver implements MethodResolver {
 
          for (MethodMatch match : matches) {
             Iterable<MethodDispatcher> dispatchers = match.actions();
-            MethodPattern pattern = match.pattern();
-            int length = pattern.length();
             
             for (MethodDispatcher dispatcher : dispatchers) {
                float score = dispatcher.score(context);
-               float value = score + length;
                
-               if (value > best) {
+               if (score > best) {
                   result = dispatcher;
-                  best = value;
+                  best = score;
                }
             }
          }

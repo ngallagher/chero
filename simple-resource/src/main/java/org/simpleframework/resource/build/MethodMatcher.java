@@ -51,7 +51,7 @@ public class MethodMatcher {
    }
    
    public MethodPattern pattern() {
-      boolean wild = match.contains(".*");
+      boolean wild = match.contains("*");
       
       if(tokens.isEmpty()) {
          return new MethodPattern(match, wild);

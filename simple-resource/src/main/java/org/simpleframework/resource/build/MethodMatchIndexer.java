@@ -91,13 +91,17 @@ public class MethodMatchIndexer {
       public boolean matches(String path) {
          String normal = pattern.path();
          
-         if(pattern.isExpression()) {
-            Pattern expression = pattern.pattern();
-            Matcher matcher = expression.matcher(path);
-   
-            return matcher.matches();
+         if(!normal.equals(path)) {
+            try {
+               Pattern expression = pattern.pattern();
+               Matcher matcher = expression.matcher(path);
+      
+               return matcher.matches();
+            } catch(Exception e) {
+               return false;
+            }
          }
-         return normal.equals(path);
+         return true;
       }
       
       @Override
