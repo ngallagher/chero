@@ -14,26 +14,27 @@ public class DriverLoader<T> {
    private final Class<? extends Driver<T>> type;
    private final ClassPathBuilder builder;
    private final ContextBuilder loader;
+   private final Set<String> files;
 
    public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> files) {
       this(type,  modules, files, Collections.EMPTY_SET);
    }
    
    public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> files, Set<String> paths) {
-      this.loader = new ContextBuilder(files, paths);
+      this.loader = new ContextBuilder(paths);
       this.builder = new ClassPathBuilder(modules);
+      this.files = files;
       this.type = type;
    }
    
    public T create(String... arguments) {
       try {
-         Context context = loader.create(arguments);
+         Context context = loader.read(files, arguments);
          ClassPath path = builder.create();
          Constructor<? extends Driver<T>> constructor = type.getDeclaredConstructor();
-         
-         if(!constructor.isAccessible()) {
-            constructor.setAccessible(true);
-         }
+
+         constructor.setAccessible(true);
+
          return constructor.newInstance().create(path, context);
       } catch(Exception e) {
          throw new IllegalStateException("Could not create application " + type, e);

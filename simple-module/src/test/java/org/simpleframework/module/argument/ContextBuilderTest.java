@@ -10,8 +10,8 @@ public class ContextBuilderTest extends TestCase {
 
    public void testConfig() {
       try {
-         ContextBuilder builder = new ContextBuilder(Collections.singleton("config"), Collections.singleton("C:\\Work\\temp"));
-         Context context = builder.create();  
+         ContextBuilder builder = new ContextBuilder(Collections.singleton("C:\\Work\\temp"));
+         Context context = builder.read(Collections.singleton("config"));
          
          assertEquals(context.getModel().get("job"), "Developer");
          assertEquals(context.getModel().get("languages.perl"), "Elite");

@@ -1,37 +1,39 @@
 package org.simpleframework.module.argument;
 
+import java.net.URL;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class AttributeCombiner {
 
    private final CommandLineParser parser;
-   private final PathCombiner combiner;
-   
-   public AttributeCombiner(Set<String> files) {
-      this(files, Collections.EMPTY_SET);
-   }
-   
-   public AttributeCombiner(Set<String> files, Set<String> paths) {
-      this.combiner = new PathCombiner(files, paths);
+   private final ResourceFinder finder;
+
+   public AttributeCombiner(Set<String> paths) {
+      this.finder = new ResourceFinder(paths);
       this.parser = new CommandLineParser();
    }
-   
-   public Map<String, String> combine(String[] arguments) {
-      Map<String, String> map = parser.parse(arguments);
-      AttributeSource[] sources = AttributeSource.values();
-      Set<String> paths = combiner.combine();
-      
-      for(AttributeSource source : sources) {
-         AttributeReader reader = source.reader();
-         
-         if(reader.exists(paths, source.extension)) {
-            Map<String, String> base = reader.read(paths, source.extension);
-            base.putAll(map);
-            return Collections.unmodifiableMap(base);
-         }
+
+   public Map<String, String> combine(Iterable<String> names, String[] arguments) {
+      Map<String, String> overrides = parser.parse(arguments);
+      Iterable<String> extensions = AttributeSource.extensions();
+      List<URL> resources = finder.find(names, extensions);
+
+      if(resources.isEmpty()) {
+         throw new IllegalStateException("No resources found");
       }
-      return Collections.unmodifiableMap(map);
+      Map<String, String> attributes = new LinkedHashMap<>();
+
+      for(URL resource : resources) {
+         AttributeReader reader = AttributeSource.reader(resource);
+         Map<String, String> map = reader.read(resource);
+
+         attributes.putAll(map);
+      }
+      attributes.putAll(overrides);
+      return Collections.unmodifiableMap(attributes);
    }
 }

@@ -4,10 +4,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 
 public class ClassPathReader {
 
-   public static byte[] findResource(String path) throws Exception {
+   public static URL findResource(String path)  {
+      ClassLoader loader = ClassPathReader.class.getClassLoader();
+      InputStream stream = loader.getResourceAsStream(path);
+
+      if(stream == null) {
+         if (path.startsWith("/")) {
+            path = path.substring(1);
+         } else {
+            path = "/" + path;
+         }
+      }
+      return loader.getResource(path);
+   }
+
+   public static byte[] findResourceAsArray(String path) throws Exception {
       InputStream input = findResourceAsStream(path);
 
       if (input != null) {
