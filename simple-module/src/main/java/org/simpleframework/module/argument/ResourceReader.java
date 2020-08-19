@@ -26,6 +26,18 @@ public class ResourceReader {
       this.finder = new ResourceFinder(paths);
    }
 
+   public String read(String file, Context context) {
+      List<URL> resources = finder.find(file);
+
+      if (resources.isEmpty()) {
+         throw new IllegalArgumentException("Could not find " + file);
+      }
+      for (URL resource : resources) {
+         return read(resource, context);
+      }
+      return null;
+   }
+
    public String read(String file, Map<String, String> values) {
       List<URL> resources = finder.find(file);
       Set<String> names = values.keySet();

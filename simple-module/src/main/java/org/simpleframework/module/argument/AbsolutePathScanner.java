@@ -10,14 +10,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class FileSystemScanner implements ResourceScanner {
+public class AbsolutePathScanner implements ResourceScanner {
 
-   private final Set<String> paths;
-
-   public FileSystemScanner(Set<String> paths) {
-      this.paths = paths;
+   public AbsolutePathScanner() {
+      super();
    }
 
    @Override
@@ -25,14 +22,8 @@ public class FileSystemScanner implements ResourceScanner {
       Map<String, URL> matches = new HashMap<>();
       List<URL> ordered = new ArrayList<>();
 
-      for (String parent : paths) {
-         Path path = Paths.get(parent);
-
-         if (!Files.isDirectory(path)) {
-            throw new IllegalArgumentException("Directory '" + path + "' does not exist");
-         }
          for(String name : files) {
-            Path file = path.resolve(name);
+            Path file = Paths.get(name);
 
             if(Files.isRegularFile(file)) {
                try {
@@ -45,7 +36,6 @@ public class FileSystemScanner implements ResourceScanner {
                }
             }
          }
-      }
       for (String name : files) {
          URL path = matches.get(name);
 
@@ -61,30 +51,9 @@ public class FileSystemScanner implements ResourceScanner {
       Map<String, URL> matches = new HashMap<>();
       List<URL> ordered = new ArrayList<>();
 
-      for (String parent : paths) {
-         Path path = Paths.get(parent);
-
-         if (!Files.isDirectory(path)) {
-            throw new IllegalArgumentException("Directory '" + path + "' does not exist");
-         }
-         scan(files, extensions, path).forEach(matches::put);
-      }
-      for (String name : files) {
-         URL path = matches.get(name);
-
-         if (path != null) {
-            ordered.add(path);
-         }
-      }
-      return Collections.unmodifiableList(ordered);
-   }
-
-   private Map<String, URL> scan(Iterable<String> files, Iterable<String> extensions, Path path) {
-      Map<String, URL> matches = new HashMap<>();
-
       for (String name : files) {
          for (String extension : extensions) {
-            Path file = resolve(path, name, extension);
+            Path file = resolve(name, extension);
 
             if (file != null) {
                try {
@@ -100,17 +69,24 @@ public class FileSystemScanner implements ResourceScanner {
             }
          }
       }
-      return Collections.unmodifiableMap(matches);
+      for (String name : files) {
+         URL path = matches.get(name);
+
+         if (path != null) {
+            ordered.add(path);
+         }
+      }
+      return Collections.unmodifiableList(ordered);
    }
 
-   private Path resolve(Path path, String name, String extension) {
-      Path absolute = path.resolve(name + extension);
+   private Path resolve(String name, String extension) {
+      Path absolute = Paths.get(name + extension);
 
       if (Files.isRegularFile(absolute)) {
          return absolute;
       }
       if (name.endsWith(extension)) {
-         Path file = path.resolve(name);
+         Path file = Paths.get(name);
 
          if (Files.isRegularFile(file)) {
             return file;
