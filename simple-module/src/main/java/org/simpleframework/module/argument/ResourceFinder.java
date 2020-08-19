@@ -12,8 +12,8 @@ public class ResourceFinder {
 
    public ResourceFinder(Set<String> paths) {
       this.scanners = new ResourceScanner[] {
-           new AbsolutePathScanner(),
            new RelativePathScanner(paths),
+           new AbsolutePathScanner(),
            new ClassPathScanner()
       };
    }
