@@ -17,11 +17,13 @@ import org.simpleframework.transport.trace.Trace;
 class ServerContainer implements Container {
 
    private final ExceptionHandler handler;
+   private final SessionManager manager;
    private final RequestRouter router;
    private final String name;
    
    public ServerContainer(ResourceMatcher matcher, String name, String session) {
-      this.router = new RequestRouter(matcher, session);
+      this.router = new RequestRouter(matcher);
+      this.manager = new SessionManager(session);
       this.handler = new ExceptionHandler();
       this.name = name;
    }
@@ -34,6 +36,7 @@ class ServerContainer implements Container {
       Trace trace = channel.getTrace();
       
       try {
+         manager.resolve(request, response);
          response.setDate(DATE, time);
          response.setValue(SERVER, name);
          response.setDate(DATE, time);

@@ -43,9 +43,6 @@ abstract class ServerBinder implements Server {
       if(name == null) {
          throw new IllegalArgumentException("Server requires a name");
       }
-      if(cookie == null) {
-         throw new IllegalArgumentException("Server requires a session cookie");
-      }
       if(threads <= 0) {
          throw new IllegalArgumentException("Server must have at least one thread");
       }
