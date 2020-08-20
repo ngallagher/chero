@@ -22,12 +22,11 @@ public class ExceptionHandler {
          
          response.setStatus(INTERNAL_SERVER_ERROR);
          response.setContentType(TEXT_PLAIN.value);
-         cause.printStackTrace(output);
+         output.println(INTERNAL_SERVER_ERROR.description);
          cause.printStackTrace();
          response.close();
       } catch(Exception ignore) {
          trace.trace(ERROR, ignore);
       }
-      
    }
 }

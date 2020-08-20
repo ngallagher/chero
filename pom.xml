@@ -76,7 +76,6 @@
   <modules>
     <module>simple-module</module>
     <module>simple-resource</module>
-    <module>simple-resource-api</module>
   </modules>
 
 </project>
