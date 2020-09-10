@@ -29,6 +29,20 @@ public class XmlExtractor implements Extractor<Object> {
    }
 
    @Override
+   public float score(Argument argument, Context context) {
+      Body annotation = argument.getAnnotation(Body.class);
+
+      if(annotation != null) {
+         try {
+            return extract(argument, context) == null ? -1 : 2;
+         } catch (Exception e) {
+            return -1;
+         }
+      }
+      return 0;
+   }
+
+   @Override
    public Object extract(Argument argument, Context context) throws Exception {
       Body annotation = argument.getAnnotation(Body.class);
       

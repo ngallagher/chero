@@ -1,6 +1,8 @@
 package org.simpleframework.resource.build;
 
 import static java.lang.Integer.MIN_VALUE;
+import static org.simpleframework.module.core.Phase.EXECUTE;
+import static org.simpleframework.module.core.Phase.SCORE;
 
 import java.util.Map;
 
@@ -13,13 +15,13 @@ import org.simpleframework.module.core.Model;
 
 public class MethodExecutor {
 
-   private final PathResolver resolver;
+   private final PathContextBuilder builder;
    private final MethodMatcher matcher;
    private final MethodHeader header;
    private final Function function;
    
    public MethodExecutor(MethodMatcher matcher, MethodHeader header, Function function) {
-      this.resolver = new PathResolver();
+      this.builder = new PathContextBuilder(matcher);
       this.function = function;
       this.matcher = matcher;
       this.header = header;
@@ -27,8 +29,7 @@ public class MethodExecutor {
 
    public Object execute(Context context) throws Exception {
       try {
-         evaluate(context);
-         return function.getValue(context);               
+         return evaluate(context);
       } catch (Throwable cause) {
          context.setError(cause);
          return cause;
@@ -54,31 +55,28 @@ public class MethodExecutor {
             float score = header.score(context);
             
             if(score > 0f) {
-               return function.getScore(context);
+               Context merged = builder.create(context, SCORE); // temporary copy for score
+               return function.getScore(merged);
             }
          }
       }
       return MIN_VALUE;
    }
 
-   private void evaluate(Context context) throws Exception {
+   private Object evaluate(Context context) throws Exception {
       Model model = context.getModel();
       Request request = model.get(Request.class);
       Response response = model.get(Response.class);
-      
+
       if(request == null || response == null) {
          throw new IllegalStateException("Could not get request or response from model");
       }
-      String normalized = resolver.resolve(context);
-      Map<String, String> parameters = matcher.evaluate(normalized);
-      Map attributes = request.getAttributes();
+      Context merged = builder.create(context, EXECUTE);
 
-      if (!parameters.isEmpty()) {
-         attributes.putAll(parameters);
-      }
       if (!response.isCommitted()) {
-         header.apply(context);
+         header.apply(merged);
       }
+      return function.getValue(merged);
    }
    
    @Override

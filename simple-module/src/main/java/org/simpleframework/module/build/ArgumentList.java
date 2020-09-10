@@ -15,7 +15,7 @@ public class ArgumentList {
       this.extractors = extractors;
       this.parameters = parameters;
    }
-   
+
    public Parameter[] require() {
       Parameter[] types = new Parameter[parameters.length];
 
@@ -40,10 +40,10 @@ public class ArgumentList {
 
             if (parameter.isRequired()) {
                throw new IllegalArgumentException("Could not resolve " + type);
-            }  
+            }
             if (type.isPrimitive()) {
                arguments[i] = converter.box(type);
-            }          
+            }
          }
       }
       return arguments;
@@ -57,14 +57,12 @@ public class ArgumentList {
          Parameter parameter = parameters[i];
 
          if (extractor != null) {
-            Object result = extractor.extract(parameter, context);
+            float result = extractor.score(parameter, context);
 
-            if (result == null) {
-               if (parameter.isRequired()) {
-                  return -1;
-               }
+            if (result == -1) {
+               return -1;
             } else {
-               score++;
+               score += result;
             }
          }
       }

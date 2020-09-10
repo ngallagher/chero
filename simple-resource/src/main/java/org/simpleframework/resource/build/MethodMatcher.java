@@ -25,7 +25,7 @@ public class MethodMatcher {
 
    public Map<String, String> evaluate(String path) {
       if(!tokens.isEmpty()) {
-         Map<String, String> parameters = new LinkedHashMap<String, String>();
+         Map<String, String> parameters = new LinkedHashMap<>();
    
          if (!path.isEmpty()) {
             Matcher matcher = pattern.matcher(path);

@@ -9,7 +9,7 @@ public class MapModel implements Model {
    private final Map<Object, Object> context;
 
    public MapModel() {
-      this.context = new LinkedHashMap<Object, Object>();
+      this.context = new LinkedHashMap<>();
    }
 
    @Override
