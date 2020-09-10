@@ -10,19 +10,18 @@ import org.simpleframework.http.Response;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Model;
-import org.simpleframework.module.core.Phase;
 
-public class PathContextBuilder {
+public class ScoreContextBuilder {
 
    private final PathResolver resolver;
    private final MethodMatcher matcher;
 
-   public PathContextBuilder(MethodMatcher matcher) {
+   public ScoreContextBuilder(MethodMatcher matcher) {
       this.resolver = new PathResolver();
       this.matcher = matcher;
    }
 
-   public Context create(Context context, Phase phase) throws Exception {
+   public Context create(Context context) throws Exception {
       Model model = context.getModel();
       Request request = model.get(Request.class);
       Response response = model.get(Response.class);
@@ -33,12 +32,6 @@ public class PathContextBuilder {
       String normalized = resolver.resolve(context);
       Map<Object, Object> attributes = (Map)matcher.evaluate(normalized);
 
-      if(phase.isExecute()) {
-         if (!attributes.isEmpty()) {
-            attributes.forEach(model::set);
-         }
-         return context;
-      }
       return new ScoreContext(model, attributes);
    }
 

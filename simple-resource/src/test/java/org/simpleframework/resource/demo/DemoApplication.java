@@ -106,7 +106,7 @@ public class DemoApplication {
    
    public static void main(String[] list) throws Exception {
       Application.create(ServerDriver.class)
-         .module(DemoApplication.class)
+         .register(DemoApplication.class)
          .create("--message=hi")
          .name("Apache/2.2.14")
          .session("SESSIONID")

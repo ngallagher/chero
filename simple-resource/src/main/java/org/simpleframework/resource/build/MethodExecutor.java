@@ -1,12 +1,7 @@
 package org.simpleframework.resource.build;
 
-import static java.lang.Integer.MIN_VALUE;
-import static org.simpleframework.module.core.Phase.EXECUTE;
-import static org.simpleframework.module.core.Phase.SCORE;
-
 import java.util.Map;
 
-import org.simpleframework.http.Path;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.module.build.Function;
@@ -15,13 +10,15 @@ import org.simpleframework.module.core.Model;
 
 public class MethodExecutor {
 
-   private final PathContextBuilder builder;
+   private final ScoreEvaluator evaluator;
+   private final PathResolver resolver;
    private final MethodMatcher matcher;
    private final MethodHeader header;
    private final Function function;
-   
+
    public MethodExecutor(MethodMatcher matcher, MethodHeader header, Function function) {
-      this.builder = new PathContextBuilder(matcher);
+      this.evaluator = new ScoreEvaluator(matcher, header, function);
+      this.resolver = new PathResolver();
       this.function = function;
       this.matcher = matcher;
       this.header = header;
@@ -36,49 +33,30 @@ public class MethodExecutor {
       }
    }
 
-   public float score(Context context) throws Exception {
-      Model model = context.getModel();
-      Request request = model.get(Request.class);
-      
-      if(request == null) {
-         throw new IllegalStateException("Could not get request from model");
-      }
-      String method = request.getMethod();
-      String verb = matcher.verb();
-      
-      if(method.equalsIgnoreCase(verb)) {
-         Path path = request.getPath();
-         String normal = path.getPath();
-         String ignore = matcher.ignore();
-         
-         if(ignore.isEmpty() || !normal.matches(ignore)) { 
-            float score = header.score(context);
-            
-            if(score > 0f) {
-               Context merged = builder.create(context, SCORE); // temporary copy for score
-               return function.getScore(merged);
-            }
-         }
-      }
-      return MIN_VALUE;
-   }
-
    private Object evaluate(Context context) throws Exception {
       Model model = context.getModel();
       Request request = model.get(Request.class);
       Response response = model.get(Response.class);
 
-      if(request == null || response == null) {
+      if (request == null || response == null) {
          throw new IllegalStateException("Could not get request or response from model");
       }
-      Context merged = builder.create(context, EXECUTE);
+      String normalized = resolver.resolve(context);
+      Map<String, String> attributes = matcher.evaluate(normalized);
 
-      if (!response.isCommitted()) {
-         header.apply(merged);
+      if (!attributes.isEmpty()) {
+         attributes.forEach(model::set);
       }
-      return function.getValue(merged);
+      if (!response.isCommitted()) {
+         header.apply(context);
+      }
+      return function.getValue(context);
    }
-   
+
+   public float score(Context context) throws Exception {
+      return evaluator.score(context);
+   }
+
    @Override
    public String toString() {
       return String.valueOf(function);

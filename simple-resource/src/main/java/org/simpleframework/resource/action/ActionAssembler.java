@@ -74,14 +74,14 @@ public class ActionAssembler {
       MethodDispatcherResolver serviceResolver = new MethodDispatcherResolver(serviceIndexer);
       ActionResolver resolver = new ActionBuilder(serviceResolver, filterResolver);
       ResponseWriter router = new ResponseWriter(writers);
-      
+
+      writers.add(new ExceptionWriter());
       writers.add(new CompletableFutureWriter(router));
       writers.add(new ResponseEntityWriter(router));
       writers.add(new ByteArrayWriter());
       writers.add(new CharacterArrayWriter());
       writers.add(new JsonWriter(mapper));
       writers.add(new XmlWriter(persister));
-      writers.add(new ExceptionWriter());
       writers.add(new StringWriter());      
 
       extractors.add(new JsonExtractor(mapper));

@@ -17,7 +17,7 @@ public class NamedProviderTest extends TestCase {
    public void testModuleInject() {
       Service<Service<?>> service = Application.create(ServiceDriver.class)
          .path("..")
-         .module(SimpleApp.class)
+         .register(SimpleApp.class)
          .create("--message=hi");
       
       service.start();

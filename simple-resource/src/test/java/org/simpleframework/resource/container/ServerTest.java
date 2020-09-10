@@ -27,8 +27,6 @@ import org.simpleframework.resource.annotation.PUT;
 import org.simpleframework.resource.annotation.Path;
 import org.simpleframework.resource.annotation.PathParam;
 import org.simpleframework.resource.annotation.Produces;
-import org.simpleframework.resource.container.Acceptor;
-import org.simpleframework.resource.container.ServerDriver;
 
 import junit.framework.TestCase;
 
@@ -38,7 +36,7 @@ public class ServerTest extends TestCase {
    public void testServerWithVendorContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create("--message=bar", "--text=foo")
          .name("Apache/2.2.14")
          .session("SESSIONID")
@@ -72,7 +70,7 @@ public class ServerTest extends TestCase {
    public void testServerGetWithVendorContentTypePerformance() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create()
          .name("Apache/2.2.14")
          .threads(20)
@@ -127,7 +125,7 @@ public class ServerTest extends TestCase {
    public void testServerWithDefaultContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create("--message=key", "--text=val")
          .name("Apache/2.2.14")
          .session("SESSIONID")
@@ -161,7 +159,7 @@ public class ServerTest extends TestCase {
    public void testServerPostWithDefaultContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create("--message=key", "--text=val")
          .name("Apache/2.2.14")
          .session("SESSIONID")
@@ -197,7 +195,7 @@ public class ServerTest extends TestCase {
    public void testServerPostWithVendorContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create()
          .name("Apache/2.2.14")
          .threads(10)
@@ -234,7 +232,7 @@ public class ServerTest extends TestCase {
    public void testServerPutWithVendorContentType() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create()
          .name("Apache/2.2.14")
          .threads(10)
@@ -271,7 +269,7 @@ public class ServerTest extends TestCase {
    public void testServerPutWithVendorContentTypePerformance() throws Exception {
       Acceptor acceptor = Application.create(ServerDriver.class)
          .path("..")
-         .module(ServerTest.class)
+         .register(ServerTest.class)
          .create()
          .name("Apache/2.2.14")
          .threads(20)

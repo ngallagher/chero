@@ -51,12 +51,16 @@ public class MethodMatcher {
    }
    
    public MethodPattern pattern() {
-      boolean wild = match.contains("*");
-      
-      if(tokens.isEmpty()) {
-         return new MethodPattern(match, wild);
+      if(!tokens.isEmpty()) {
+         return new MethodPattern(match, true);
       }
-      return new MethodPattern(match, true);
+      if(match.contains("*")) {
+         return new MethodPattern(match, true);
+      }
+      if(match.contains("(")) {
+         return new MethodPattern(match, true);
+      }
+      return new MethodPattern(match, false);
    }
    
    public String verb() {

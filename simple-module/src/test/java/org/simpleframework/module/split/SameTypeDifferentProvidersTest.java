@@ -17,7 +17,7 @@ public class SameTypeDifferentProvidersTest extends TestCase {
    public void testModuleInject() {
       Service<Service<?>> service = Application.create(ServiceDriver.class)
          .path("..")
-         .module(ExampleApp.class)
+         .register(ExampleApp.class)
          .create("--message=hi");
       
       service.start();

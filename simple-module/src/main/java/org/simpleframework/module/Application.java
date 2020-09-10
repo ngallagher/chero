@@ -22,10 +22,20 @@ public class Application {
          this.files = new LinkedHashSet<>();
          this.launcher = new DriverLoader<T>(type, modules, files, paths);
       }
-      
+
       @Override
-      public Binder<T> module(Class module) {
-         modules.add(module);
+      public Binder<T> register(Class... modules) {
+         for(Class module : modules) {
+            register(module);
+         }
+         return this;
+      }
+
+      @Override
+      public Binder<T> register(Class module) {
+         if(module != null) {
+            modules.add(module);
+         }
          return this;
       }
       
