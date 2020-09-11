@@ -1,5 +1,7 @@
 package org.simpleframework.resource.write;
 
+import static org.simpleframework.http.Status.INTERNAL_SERVER_ERROR;
+
 import java.io.PrintStream;
 
 import org.simpleframework.http.Response;
@@ -19,6 +21,7 @@ public class ExceptionWriter implements BodyWriter<Throwable> {
       PrintStream output = response.getPrintStream();
 
       if(cause != null) {
+         response.setStatus(INTERNAL_SERVER_ERROR);
          cause.printStackTrace(output);
       }
       return true;
