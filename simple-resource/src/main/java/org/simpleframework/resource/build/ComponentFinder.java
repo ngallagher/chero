@@ -23,7 +23,7 @@ public class ComponentFinder extends ClassFinder {
 
    @Override
    public Set<Class> getComponents() {
-      return path.getTypes(type)
+      return path.findTypes(type)
             .stream()
             .filter(filter::isVisible)
             .map(ClassNode::getType)

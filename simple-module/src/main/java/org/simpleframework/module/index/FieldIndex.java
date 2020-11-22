@@ -34,9 +34,9 @@ class FieldIndex implements FieldNode {
    
          if(index != -1) {
             String type = name.substring(0, index);
-            return path.getType(type);
+            return path.findType(type);
          }
-         return path.getType(name);
+         return path.findType(name);
       });
    }
 

@@ -20,14 +20,14 @@ public class AnnotationIndexTest extends TestCase {
       modules.add(AnnotationIndexTest.class);
       
       Class[] types = builder.create()
-         .getType(AnnotationIndexTest.class.getName())
+         .findType(AnnotationIndexTest.class.getName())
          .getAnnotation(Import.class)
          .value();
    
       assertEquals(types[0], AnnotationIndexTest.class);
       
       String name = builder.create()
-         .getType(AnnotationIndexTest.class.getName())
+         .findType(AnnotationIndexTest.class.getName())
          .getAnnotation(Module.class)
          .value();
       

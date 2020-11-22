@@ -33,7 +33,7 @@ class ArrayIndexBuilder {
       int dimensions = array.getDimensions();
       String element = array.getName();   
       String original = array.getType();
-      ClassNode node = path.getType(element);
+      ClassNode node = path.findType(element);
       
       if(node != null) {
          return new ArrayIndex(node, original, dimensions);

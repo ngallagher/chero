@@ -28,15 +28,15 @@ class ClassPathIndex implements ClassPath {
    }
    
    @Override
-   public ClassNode getType(String name) {
+   public ClassNode findType(String name) {
       return nodes.fetch(name, loader::loadNode);
    }
    
    @Override
-   public Set<MethodNode> getMethods(Class<? extends Annotation> type) {
+   public Set<MethodNode> findMethods(Class<? extends Annotation> type) {
       Predicate<MethodNode> filter = node -> node.isAnnotationPresent(type);
       
-      return methods.fetch(type, ignore -> getTypes()
+      return methods.fetch(type, ignore -> findTypes()
          .stream()
          .flatMap(node -> node.getMethods().stream())
          .filter(filter)
@@ -44,8 +44,8 @@ class ClassPathIndex implements ClassPath {
    } 
    
    @Override
-   public Set<MethodNode> getMethods(Predicate<MethodNode> filter) {
-      return getTypes()
+   public Set<MethodNode> findMethods(Predicate<MethodNode> filter) {
+      return findTypes()
          .stream()
          .flatMap(node -> node.getMethods().stream())
          .filter(filter)
@@ -53,7 +53,7 @@ class ClassPathIndex implements ClassPath {
    }  
    
    @Override
-   public Set<ClassNode> getTypes(Class<? extends Annotation> type) {
+   public Set<ClassNode> findTypes(Class<? extends Annotation> type) {
       Predicate<ClassNode> filter = node -> node.isAnnotationPresent(type);
       
       return types.fetch(type, ignore -> nodes.values()
@@ -63,7 +63,7 @@ class ClassPathIndex implements ClassPath {
    }      
    
    @Override
-   public Set<ClassNode> getTypes(Predicate<ClassNode> filter) {
+   public Set<ClassNode> findTypes(Predicate<ClassNode> filter) {
       return nodes.values()
          .stream()
          .filter(filter)
@@ -71,14 +71,14 @@ class ClassPathIndex implements ClassPath {
    }      
    
    @Override
-   public Set<ClassNode> getTypes() {
+   public Set<ClassNode> findTypes() {
       return nodes.values()
          .stream()
          .collect(Collectors.toSet());
    }
    
    @Override
-   public Set<String> getPackages() {
+   public Set<String> findPackages() {
       return packages;
    }
 }

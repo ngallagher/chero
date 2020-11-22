@@ -31,7 +31,7 @@ public class DependencyProvider {
    
    public List<Function> createProviders(ModuleFilter filter, ClassPath path, Class type) throws Exception {
       String name = type.getName();
-      ClassNode node = path.getType(name);
+      ClassNode node = path.findType(name);
       
       if(filter.isProvided(node)) {
          return collector.collect(filter, path, node)

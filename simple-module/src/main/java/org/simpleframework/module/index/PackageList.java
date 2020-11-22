@@ -12,7 +12,6 @@ import org.simpleframework.module.annotation.Import;
 import org.simpleframework.module.annotation.Module;
 
 import io.github.classgraph.AnnotationInfo;
-import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 
 class PackageList {
@@ -21,8 +20,8 @@ class PackageList {
    private final Map<String, ClassInfo> index;
    private final Set<Class> types;
 
-   public PackageList(ClassGraph graph, Set<Class> types) {
-      this.index = graph.scan().getAllClassesAsMap();
+   public PackageList(ClassFinder finder, Set<Class> types) {
+      this.index = finder.findAll();
       this.types = types;
       this.loader = name -> {
          try {

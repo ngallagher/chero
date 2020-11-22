@@ -8,6 +8,4 @@ public class DependencyScanner {
    public DependencyGraph create(ModuleFilter filter, ClassPath path) {
       return new DependencyGraph(filter, path);
    }
-   
-
 }

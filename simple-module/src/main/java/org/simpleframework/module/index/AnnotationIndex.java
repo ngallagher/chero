@@ -29,7 +29,7 @@ class AnnotationIndex implements AnnotationNode {
    @Override
    public Annotation getAnnotation() {
       String name = info.getName();
-      ClassNode node = path.getType(name);
+      ClassNode node = path.findType(name);
       Class type = node.getType();
       
       return getAnnotation(type);

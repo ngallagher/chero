@@ -27,8 +27,8 @@ class DependencyCalculator {
    }
    
    public void calculate(Consumer<ClassNode> ready) {
-      Set<ClassNode> components = path.getTypes(Component.class);
-      Set<ClassNode> modules = path.getTypes(Module.class);
+      Set<ClassNode> components = path.findTypes(Component.class);
+      Set<ClassNode> modules = path.findTypes(Module.class);
       
       if(!components.isEmpty() || !modules.isEmpty()) {
          Set<ClassNode> done = new HashSet<>();

@@ -52,7 +52,7 @@ class DependencyResolver {
       ClassNode type = node.getType();
       
       if(filter.isProvided(type)) {
-         Set<ClassNode> nodes = path.getMethods(Provides.class)
+         Set<ClassNode> nodes = path.findMethods(Provides.class)
             .stream()
             .filter(method -> method.getReturnType().equals(type))
             .filter(method -> {
@@ -76,7 +76,7 @@ class DependencyResolver {
    
    private ClassNode resolveMatch(ClassNode node) {
       if(!filter.isProvided(node)) {
-         Set<ClassNode> nodes = path.getTypes(Component.class);  
+         Set<ClassNode> nodes = path.findTypes(Component.class);
          
          if(!filter.isVisible(node)) {
             return resolveInternal(node, nodes);

@@ -62,7 +62,7 @@ class ClassIndex implements ClassNode {
    public ClassNode getSuper() {
       return Optional.of(info.getSuperclass())
          .map(ClassInfo::getName)
-         .map(path::getType)
+         .map(path::findType)
          .orElse(null);
    }
    
@@ -95,7 +95,7 @@ class ClassIndex implements ClassNode {
       return info.getClassesImplementing()
          .stream()
          .map(ClassInfo::getName)
-         .map(path::getType)
+         .map(path::findType)
          .collect(Collectors.toList());
    }
    

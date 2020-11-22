@@ -76,7 +76,7 @@ public class ModuleFilter {
    
    public boolean isComponent(ClassNode node) {
       return component.fetch(node, key -> 
-             path.getTypes(Component.class).contains(node));   
+             path.findTypes(Component.class).contains(node));
    }
    
    public boolean isProvided(ClassNode node) {
@@ -86,19 +86,19 @@ public class ModuleFilter {
    
    public boolean isDependent(ClassNode node) {
       return dependent.fetch(node, key -> 
-             path.getTypes(DependsOn.class).contains(node));
+             path.findTypes(DependsOn.class).contains(node));
       
    }
    
    public boolean isModule(ClassNode node) {
       return module.fetch(node, key -> 
-         path.getTypes(Module.class).contains(node));
+         path.findTypes(Module.class).contains(node));
    }
    
    public boolean isVisible(ClassNode node) {
       return visible.fetch(node, key -> {
          String name = node.getName();
-         return path.getPackages()
+         return path.findPackages()
             .stream()
             .anyMatch(prefix -> name.startsWith(prefix)); 
       });

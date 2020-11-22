@@ -13,14 +13,20 @@ public enum Environment implements Iterable<String> {
    SIMULATION("sim"),
    PRODUCTION("prod");
 
-   private final List<String> names;
+   private final List<String> codes;
+   private final String code;
 
-   private Environment(String name) {
-      this.names = Arrays.asList("common", name);
+   private Environment(String code) {
+      this.codes = Arrays.asList("common", code);
+      this.code = code;
    }
 
    @Override
    public Iterator<String> iterator() {
-      return Collections.unmodifiableList(names).iterator();
+      return Collections.unmodifiableList(codes).iterator();
+   }
+
+   public String code() {
+      return code;
    }
 }

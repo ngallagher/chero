@@ -48,7 +48,7 @@ class DependencyCollector {
    }
    
    private Set<Dependency> resolveArguments(String name) {      
-      ClassNode node = path.getType(name);
+      ClassNode node = path.findType(name);
       
       if(filter.isComponent(node)) {
          return node.getConstructors()
@@ -68,7 +68,7 @@ class DependencyCollector {
    }
 
    private Set<Dependency> resolveDepends(String name) {
-      ClassNode node = path.getType(name);
+      ClassNode node = path.findType(name);
       
       if(filter.isDependent(node)) {
          Import required = node.getAnnotation(Import.class);
@@ -79,7 +79,7 @@ class DependencyCollector {
             return Arrays.asList(types)
                .stream()
                .map(Class::getName)
-               .map(path::getType)
+               .map(path::findType)
                .filter(filter::isVisible)
                .map(resolver::resolve)
                .collect(Collectors.toSet());

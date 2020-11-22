@@ -25,7 +25,7 @@ public class ProviderCollector {
    }
    
    public Set<MethodNode> collect(ModuleFilter filter, ClassPath path) {
-      return all.get(() -> path.getTypes(Module.class)
+      return all.get(() -> path.findTypes(Module.class)
          .stream()
          .filter(filter::isVisible)
          .map(ClassNode::getMethods)
