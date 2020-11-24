@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
+import org.simpleframework.module.core.EscapeType;
 import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Model;
 
@@ -72,9 +73,10 @@ public class ResourceReader {
             buffer.write(data, 0, count);
          }
          String text = buffer.toString();
+         String path = resource.getPath();
 
          if (!text.isEmpty()) {
-            return interpolator.interpolate(text);
+            return interpolator.interpolate(text, EscapeType.resolve(path));
          }
       } catch (Exception e) {
          throw new IllegalArgumentException("Could not read " + resource, e);

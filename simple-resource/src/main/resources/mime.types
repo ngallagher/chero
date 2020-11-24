@@ -691,7 +691,7 @@ text/css					css
 text/csv					csv
 text/html					html htm vm
 text/n3						n3
-text/plain					txt text conf def list log in tern gitignore classpath 
+text/plain					txt text conf def list log in tern gitignore classpath properties yaml
 text/prs.lines.tag				dsc
 text/richtext					rtx
 text/sgml					sgml sgm

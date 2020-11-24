@@ -16,20 +16,24 @@ public class Interpolator {
    }
 
    public String interpolate(String text) {
+      return interpolate(text, EscapeType.NONE);
+   }
+
+   public String interpolate(String text, EscapeType type) {
       if (text != null && text.indexOf('$') != -1) {
          StringBuilder builder = new StringBuilder();
 
          if (!text.isEmpty()) {
             char[] data = text.toCharArray();
 
-            interpolate(builder, data);
+            interpolate(builder, type, data);
          }
          return builder.toString();
       }
       return text;
    }
 
-   private void interpolate(StringBuilder builder, char[] data) {
+   private void interpolate(StringBuilder builder, EscapeType type, char[] data) {
       for (int i = 0; i < data.length; i++) {
          if (data[i] == '$') {
             if (i + 1 < data.length && data[i + 1] == '{') {
@@ -46,7 +50,7 @@ public class Interpolator {
                   }
                }
                if (size > 0) {
-                  replace(builder, data, start, size);
+                  replace(builder, type, data, start, size);
                } else {
                   builder.append(data, mark, i - mark);
                }
@@ -59,14 +63,14 @@ public class Interpolator {
       }
    }
 
-   private void replace(StringBuilder builder, char[] data, int off, int len) {
+   private void replace(StringBuilder builder, EscapeType type, char[] data, int off, int len) {
       String name = new String(data, off, len);
 
       if (!name.isEmpty()) {
          String value = token(name);
 
          if (value != null) {
-            builder.append(value);
+            builder.append(type.escape(value));
          } else {
             builder.append("${");
             builder.append(name);
