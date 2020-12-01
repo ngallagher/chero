@@ -2,10 +2,10 @@ package org.simpleframework.module.core;
 
 public class Interpolator {
 
-   private final Context context;
+   private final TokenFilter filter;
 
-   public Interpolator(Context context) {
-      this.context = context;
+   public Interpolator(TokenFilter filter) {
+      this.filter = filter;
    }
 
    public Object interpolate(Object value) {
@@ -34,6 +34,8 @@ public class Interpolator {
    }
 
    private void interpolate(StringBuilder builder, EscapeType type, char[] data) {
+      TextBuffer buffer = new EscapeBuffer(builder, type);
+
       for (int i = 0; i < data.length; i++) {
          if (data[i] == '$') {
             if (i + 1 < data.length && data[i + 1] == '{') {
@@ -50,7 +52,7 @@ public class Interpolator {
                   }
                }
                if (size > 0) {
-                  replace(builder, type, data, start, size);
+                  filter.replace(buffer, data, start, size);
                } else {
                   builder.append(data, mark, i - mark);
                }
@@ -61,35 +63,5 @@ public class Interpolator {
             builder.append(data[i]);
          }
       }
-   }
-
-   private void replace(StringBuilder builder, EscapeType type, char[] data, int off, int len) {
-      String name = new String(data, off, len);
-
-      if (!name.isEmpty()) {
-         String value = token(name);
-
-         if (value != null) {
-            builder.append(type.escape(value));
-         } else {
-            builder.append("${");
-            builder.append(name);
-            builder.append("}");
-         }
-      }
-   }
-
-   private String token(String name) {
-      Model model = context.getModel();
-      
-      if(model != null) {
-         Object value = model.get(name);
-         
-         if (value != null) {    
-            return String.valueOf(value);
-         }
-         return System.getProperty(name);
-      }
-      return null;
    }
 }

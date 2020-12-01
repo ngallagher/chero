@@ -14,6 +14,8 @@ import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.EscapeType;
 import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Model;
+import org.simpleframework.module.core.TokenFilter;
+import org.simpleframework.module.core.ContextFilter;
 
 public class ResourceReader {
 
@@ -61,7 +63,8 @@ public class ResourceReader {
    }
 
    private String read(URL resource, Context context) {
-      Interpolator interpolator = new Interpolator(context);
+      TokenFilter filter = new ContextFilter(context);
+      Interpolator interpolator = new Interpolator(filter);
       ByteArrayOutputStream buffer = new ByteArrayOutputStream();
       byte[] data = new byte[1024];
       int count = 0;

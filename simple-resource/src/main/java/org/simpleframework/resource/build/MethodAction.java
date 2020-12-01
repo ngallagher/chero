@@ -1,7 +1,9 @@
 package org.simpleframework.resource.build;
 
+import org.simpleframework.module.core.ContextFilter;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
+import org.simpleframework.module.core.TokenFilter;
 import org.simpleframework.resource.action.Action;
 
 public class MethodAction implements Action {
@@ -20,7 +22,8 @@ public class MethodAction implements Action {
 
    @Override
    public Object execute(Context context) throws Exception {
-      Interpolator interpolator = new Interpolator(context);
+      TokenFilter filter = new ContextFilter(context);
+      Interpolator interpolator = new Interpolator(filter);
 
       for (MethodDispatcher interceptor : interceptors) {
          Object result = interceptor.execute(context);

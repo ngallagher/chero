@@ -8,11 +8,14 @@ import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Model;
+import org.simpleframework.module.core.TokenFilter;
+import org.simpleframework.module.core.ContextFilter;
 
 public class ContextBuilder {
 
    private final AttributeCombiner combiner;
    private final Interpolator interpolator;
+   private final TokenFilter filter;
    private final Context context;
 
    public ContextBuilder() {
@@ -22,7 +25,8 @@ public class ContextBuilder {
    public ContextBuilder(Set<String> paths) {
       this.combiner = new AttributeCombiner(paths);
       this.context = new MapContext();
-      this.interpolator = new Interpolator(context);
+      this.filter = new ContextFilter(context);
+      this.interpolator = new Interpolator(filter);
    }
    
    public Context read(Iterable<String> files, String... arguments) {

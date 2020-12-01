@@ -19,6 +19,8 @@ import org.simpleframework.http.Response;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.Model;
+import org.simpleframework.module.core.TokenFilter;
+import org.simpleframework.module.core.ContextFilter;
 import org.simpleframework.resource.MediaTypeMatcher;
 import org.simpleframework.resource.annotation.Attachment;
 import org.simpleframework.resource.annotation.CacheControl;
@@ -77,7 +79,8 @@ public class MethodHeader {
          if(request == null) {
             throw new IllegalStateException("Could not get request from model");
          }
-         Interpolator interpolator = new Interpolator(context);
+         TokenFilter filter = new ContextFilter(context);
+         Interpolator interpolator = new Interpolator(filter);
 
          for (String name : names) {
             String value = headers.get(name);

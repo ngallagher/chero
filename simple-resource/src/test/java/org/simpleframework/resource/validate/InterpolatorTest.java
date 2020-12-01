@@ -3,6 +3,8 @@ package org.simpleframework.resource.validate;
 import org.simpleframework.module.core.Context;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.Model;
+import org.simpleframework.module.core.TokenFilter;
+import org.simpleframework.module.core.ContextFilter;
 import org.simpleframework.resource.action.RequestContextBuilder;
 import org.simpleframework.resource.build.MockRequest;
 import org.simpleframework.resource.build.MockResponse;
@@ -15,7 +17,8 @@ public class InterpolatorTest extends TestCase {
       MockRequest request = new MockRequest("GET", "/a/b/c/showA?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
       Context context = new RequestContextBuilder().build(request, response);
-      Interpolator interpolator = new Interpolator(context);
+      TokenFilter filter = new ContextFilter(context);
+      Interpolator interpolator = new Interpolator(filter);
 
       Model model = context.getModel();
       model.set("x", "X");
@@ -39,7 +42,8 @@ public class InterpolatorTest extends TestCase {
       MockRequest request = new MockRequest("GET", "/?x=X&y=Y", "");
       MockResponse response = new MockResponse(System.out);
       Context context = new RequestContextBuilder().build(request, response);
-      Interpolator interpolator = new Interpolator(context);
+      TokenFilter filter = new ContextFilter(context);
+      Interpolator interpolator = new Interpolator(filter);
       
       Model model = context.getModel();
       model.set("x", "X");

@@ -1,21 +1,25 @@
 package org.simpleframework.module.core;
 
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public enum EscapeType {
    NONE(".*") {
       @Override
-      public String escape(String value) {
-         return value;
+      public void escape(StringBuilder builder, CharSequence data, int off, int length) {
+         builder.append(data, off, length);
       }
    },
    JSON(".json") {
       @Override
-      public String escape(String value) {
-         return value.replace("\\", "\\\\").replace("\"", "\\\"");
+      public void escape(StringBuilder builder, CharSequence text, int off, int length) {
+         for (int i = 0; i < length; i++) {
+            char next = text.charAt(off + i);
+
+            if (next == '\\') {
+               builder.append('\\');
+            } else if (next == '\"') {
+               builder.append('\\');
+            }
+            builder.append(next);
+         }
       }
    };
 
@@ -25,13 +29,13 @@ public enum EscapeType {
       this.extension = extension;
    }
 
-   public abstract String escape(String value);
+   public abstract void escape(StringBuilder builder, CharSequence text, int off, int length);
 
    public static EscapeType resolve(String path) {
       EscapeType[] types = EscapeType.values();
 
-      for(EscapeType type : types) {
-         if(path.endsWith(type.extension)) {
+      for (EscapeType type : types) {
+         if (path.endsWith(type.extension)) {
             return type;
          }
       }
