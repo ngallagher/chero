@@ -14,22 +14,22 @@ public class DriverLoader<T> {
    private final Class<? extends Driver<T>> type;
    private final ClassPathBuilder builder;
    private final ContextBuilder loader;
-   private final Set<String> files;
+   private final Set<String> sources;
 
-   public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> files) {
-      this(type,  modules, files, Collections.EMPTY_SET);
+   public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> sources) {
+      this(type,  modules, sources, Collections.EMPTY_SET);
    }
    
-   public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> files, Set<String> paths) {
+   public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> sources, Set<String> paths) {
       this.loader = new ContextBuilder(paths);
       this.builder = new ClassPathBuilder(modules);
-      this.files = files;
+      this.sources = sources;
       this.type = type;
    }
    
    public T create(String... arguments) {
       try {
-         Context context = loader.read(files, arguments);
+         Context context = loader.read(sources, arguments);
          ClassPath path = builder.create();
          Constructor<? extends Driver<T>> constructor = type.getDeclaredConstructor();
 

@@ -1,6 +1,7 @@
 package org.simpleframework.module.argument;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,53 +12,90 @@ public class ResourceFinder {
    private final ResourceScanner[] scanners;
 
    public ResourceFinder(Set<String> paths) {
-      this.scanners = new ResourceScanner[] {
+      this.scanners = new ResourceScanner[]{
            new RelativePathScanner(paths),
            new AbsolutePathScanner(),
-           new ClassPathScanner()
+           new ClassPathScanner(),
+           new RemoteAddressScanner()
       };
    }
 
-   public List<URL> find(String file) {
-      for(ResourceScanner scanner : scanners) {
-         List<URL> resources = scanner.scan(Arrays.asList(file));
+   public List<URL> find(String source) {
+      List<Throwable> errors = new ArrayList<>();
 
-         if(!resources.isEmpty()) {
-            return resources;
+      for (ResourceScanner scanner : scanners) {
+         try {
+            List<URL> resources = scanner.scan(Arrays.asList(source));
+
+            if (!resources.isEmpty()) {
+               return resources;
+            }
+         } catch (Throwable cause) {
+            errors.add(cause);
          }
+      }
+      for(Throwable cause : errors) {
+         throw new RuntimeException("Could not find resource", cause);
       }
       return Collections.emptyList();
    }
 
-   public List<URL> find(Iterable<String> files) {
-      for(ResourceScanner scanner : scanners) {
-         List<URL> resources = scanner.scan(files);
+   public List<URL> find(Iterable<String> sources) {
+      List<Throwable> errors = new ArrayList<>();
 
-         if(!resources.isEmpty()) {
-            return resources;
+      for (ResourceScanner scanner : scanners) {
+         try {
+            List<URL> resources = scanner.scan(sources);
+
+            if (!resources.isEmpty()) {
+               return resources;
+            }
+         } catch (Throwable cause) {
+            errors.add(cause);
          }
+      }
+      for(Throwable cause : errors) {
+         throw new RuntimeException("Could not find resource", cause);
       }
       return Collections.emptyList();
    }
 
-   public List<URL> find(Iterable<String> files, String extension) {
-      for(ResourceScanner scanner : scanners) {
-         List<URL> resources = scanner.scan(files, Arrays.asList(extension));
+   public List<URL> find(Iterable<String> sources, String extension) {
+      List<Throwable> errors = new ArrayList<>();
 
-         if(!resources.isEmpty()) {
-            return resources;
+      for (ResourceScanner scanner : scanners) {
+         try {
+            List<URL> resources = scanner.scan(sources, Arrays.asList(extension));
+
+            if (!resources.isEmpty()) {
+               return resources;
+            }
+         } catch (Throwable cause) {
+            errors.add(cause);
          }
+      }
+      for(Throwable cause : errors) {
+         throw new RuntimeException("Could not find resource", cause);
       }
       return Collections.emptyList();
    }
 
-   public List<URL> find(Iterable<String> files, Iterable<String> extensions) {
-      for(ResourceScanner scanner : scanners) {
-         List<URL> resources = scanner.scan(files, extensions);
+   public List<URL> find(Iterable<String> sources, Iterable<String> extensions) {
+      List<Throwable> errors = new ArrayList<>();
 
-         if(!resources.isEmpty()) {
-            return resources;
+      for (ResourceScanner scanner : scanners) {
+         try {
+            List<URL> resources = scanner.scan(sources, extensions);
+
+            if (!resources.isEmpty()) {
+               return resources;
+            }
+         } catch (Throwable cause) {
+            errors.add(cause);
          }
+      }
+      for(Throwable cause : errors) {
+         throw new RuntimeException("Could not find resource", cause);
       }
       return Collections.emptyList();
    }

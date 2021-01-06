@@ -17,10 +17,10 @@ public class AttributeCombiner {
       this.parser = new CommandLineParser();
    }
 
-   public Map<String, String> combine(Iterable<String> names, String[] arguments) {
+   public Map<String, String> combine(Iterable<String> sources, String[] arguments) {
       Map<String, String> overrides = parser.parse(arguments);
       Iterable<String> extensions = AttributeSource.extensions();
-      List<URL> resources = finder.find(names, extensions);
+      List<URL> resources = finder.find(sources, extensions);
 
       if(resources.isEmpty()) {
          throw new IllegalStateException("No resources found");

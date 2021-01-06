@@ -12,16 +12,18 @@ public class YamlCollector {
          Set<Entry> entries = Map.class.cast(object).entrySet();
 
          for (Entry entry : entries) {
-            String key = name + "." + entry.getKey();
+            Object suffix = entry.getKey();
+            String key = name + "." + suffix;
             Object value = entry.getValue();
 
             collect(map, key, value);
          }
       } else if (Collection.class.isInstance(object)) {
          Collection values = Collection.class.cast(object);
+         int count = 0;
 
          for (Object value : values) {
-            collect(map, name, value);
+            collect(map, name + "." + count++, value);
          }
       } else {
          String value = String.valueOf(object);

@@ -41,13 +41,17 @@ public class Application {
       
       @Override
       public Binder<T> path(String path) {
-         paths.add(path);
+         if(path != null) {
+            paths.add(path);
+         }
          return this;
       }
       
       @Override
       public Binder<T> file(String file) {
-         files.add(file);
+         if(file != null) {
+            files.add(file);
+         }
          return this;
       }
       

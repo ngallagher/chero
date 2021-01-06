@@ -29,8 +29,8 @@ public class ContextBuilder {
       this.interpolator = new Interpolator(filter);
    }
    
-   public Context read(Iterable<String> files, String... arguments) {
-      Map<String, String> map = combiner.combine(files, arguments);
+   public Context read(Iterable<String> sources, String... arguments) {
+      Map<String, String> map = combiner.combine(sources, arguments);
       Set<String> names = map.keySet();
       Model model = context.getModel();
 

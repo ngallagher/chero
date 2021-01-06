@@ -18,25 +18,25 @@ public class AbsolutePathScanner implements ResourceScanner {
    }
 
    @Override
-   public List<URL> scan(Iterable<String> files) {
+   public List<URL> scan(Iterable<String> source) {
       Map<String, URL> matches = new HashMap<>();
       List<URL> ordered = new ArrayList<>();
 
-         for(String name : files) {
-            Path file = Paths.get(name);
+      for (String name : source) {
+         Path file = Paths.get(name);
 
-            if(Files.isRegularFile(file)) {
-               try {
-                  URI target = file.toUri();
-                  URL resource = target.toURL();
+         if (Files.isRegularFile(file)) {
+            try {
+               URI target = file.toUri();
+               URL resource = target.toURL();
 
-                  matches.put(name, resource);
-               } catch (Exception e) {
-                  throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
-               }
+               matches.put(name, resource);
+            } catch (Exception e) {
+               throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
             }
          }
-      for (String name : files) {
+      }
+      for (String name : source) {
          URL path = matches.get(name);
 
          if (path != null) {
@@ -47,11 +47,11 @@ public class AbsolutePathScanner implements ResourceScanner {
    }
 
    @Override
-   public List<URL> scan(Iterable<String> files, Iterable<String> extensions) {
+   public List<URL> scan(Iterable<String> sources, Iterable<String> extensions) {
       Map<String, URL> matches = new HashMap<>();
       List<URL> ordered = new ArrayList<>();
 
-      for (String name : files) {
+      for (String name : sources) {
          for (String extension : extensions) {
             Path file = resolve(name, extension);
 
@@ -69,7 +69,7 @@ public class AbsolutePathScanner implements ResourceScanner {
             }
          }
       }
-      for (String name : files) {
+      for (String name : sources) {
          URL path = matches.get(name);
 
          if (path != null) {
