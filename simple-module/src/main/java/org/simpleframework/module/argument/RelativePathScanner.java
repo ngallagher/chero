@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,7 +74,7 @@ public class RelativePathScanner implements ResourceScanner {
    }
 
    private Map<String, URL> scan(Set<String> files, Set<String> extensions, Path path) {
-      Map<String, URL> matches = new HashMap<>();
+      Map<String, URL> matches = new LinkedHashMap<>();
 
       for (String name : files) {
          for (String extension : extensions) {
