@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public enum Environment {
    }
 
    public Set<String> codes() {
-      return new HashSet<>(codes);
+      return new LinkedHashSet<>(codes);
    }
 
    public static Environment resolve(String token) {
