@@ -1,5 +1,8 @@
 package org.simpleframework.module.argument;
 
+import static java.util.Collections.singleton;
+import static org.simpleframework.module.argument.AttributeSource.extensions;
+
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -9,17 +12,22 @@ import java.util.Set;
 
 public class AttributeCombiner {
 
+   private final Iterable<String> extensions;
    private final CommandLineParser parser;
    private final ResourceFinder finder;
 
    public AttributeCombiner(Set<String> paths) {
+      this(paths, null);
+   }
+
+   public AttributeCombiner(Set<String> paths, String extension) {
+      this.extensions = extension == null ? extensions() : singleton(extension);
       this.finder = new ResourceFinder(paths);
       this.parser = new CommandLineParser();
    }
 
    public Map<String, String> combine(Iterable<String> sources, String[] arguments) {
       Map<String, String> overrides = parser.parse(arguments);
-      Iterable<String> extensions = AttributeSource.extensions();
       List<URL> resources = finder.find(sources, extensions);
 
       if(resources.isEmpty()) {

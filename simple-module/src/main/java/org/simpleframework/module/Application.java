@@ -3,10 +3,16 @@ package org.simpleframework.module;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.simpleframework.module.argument.AttributeSource;
+
 public class Application {
    
    public static <T> Binder<T> create(Class<? extends Driver<T>> type) {
       return new ApplicationBinder<T>(type);
+   }
+
+   public static <T> Binder<T> create(Class<? extends Driver<T>> type, AttributeSource source) {
+      return new ApplicationBinder<T>(type, source);
    }
    
    private static class ApplicationBinder<T> implements Binder<T> {
@@ -15,12 +21,16 @@ public class Application {
       private final Set<Class> modules;
       private final Set<String> files;
       private final Set<String> paths;
-      
+
       private ApplicationBinder(Class<? extends Driver<T>> type) {
+         this(type, null);
+      }
+      
+      private ApplicationBinder(Class<? extends Driver<T>> type, AttributeSource source) {
          this.modules = new LinkedHashSet<>();
          this.paths = new LinkedHashSet<>();
          this.files = new LinkedHashSet<>();
-         this.launcher = new DriverLoader<T>(type, modules, files, paths);
+         this.launcher = new DriverLoader<T>(type, modules, files, paths, source != null ? source.extension : null);
       }
 
       @Override

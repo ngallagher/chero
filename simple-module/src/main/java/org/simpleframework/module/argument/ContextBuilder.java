@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.simpleframework.module.core.Context;
+import org.simpleframework.module.core.ContextFilter;
 import org.simpleframework.module.core.Interpolator;
 import org.simpleframework.module.core.MapContext;
 import org.simpleframework.module.core.Model;
 import org.simpleframework.module.core.TokenFilter;
-import org.simpleframework.module.core.ContextFilter;
 
 public class ContextBuilder {
 
@@ -23,7 +23,11 @@ public class ContextBuilder {
    }
 
    public ContextBuilder(Set<String> paths) {
-      this.combiner = new AttributeCombiner(paths);
+      this(paths, null);
+   }
+
+   public ContextBuilder(Set<String> paths, String source) {
+      this.combiner = new AttributeCombiner(paths, source);
       this.context = new MapContext();
       this.filter = new ContextFilter(context);
       this.interpolator = new Interpolator(filter);

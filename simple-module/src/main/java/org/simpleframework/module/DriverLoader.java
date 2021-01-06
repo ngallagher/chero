@@ -21,7 +21,11 @@ public class DriverLoader<T> {
    }
    
    public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> sources, Set<String> paths) {
-      this.loader = new ContextBuilder(paths);
+      this(type, modules, sources, paths, null);
+   }
+
+   public DriverLoader(Class<? extends Driver<T>> type, Set<Class> modules, Set<String> sources, Set<String> paths, String extension) {
+      this.loader = new ContextBuilder(paths, extension);
       this.builder = new ClassPathBuilder(modules);
       this.sources = sources;
       this.type = type;
