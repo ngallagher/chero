@@ -23,14 +23,16 @@ public class YamlReader implements AttributeReader {
       try {
          Map<String, Object> properties = yaml.load(reader);
          
-         if(!properties.isEmpty()) {
+         if(properties != null) {
             Set<String> keys = properties.keySet();
             
             for(String key : keys) {
                String name = key.trim();
                Object value = properties.get(name);
-               
-               converter.collect(map, name, value);
+
+               if(value != null) {
+                  converter.collect(map, name, value);
+               }
             }
          }
       } catch (Exception e) {
