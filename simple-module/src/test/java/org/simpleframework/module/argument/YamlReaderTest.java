@@ -39,4 +39,13 @@ public class YamlReaderTest extends TestCase {
       assertEquals(map.get("languages.python"), "Elite");
       assertEquals(map.get("languages.pascal"), "Lame");
    }
+
+   public void testReadEmptyFile() throws Exception {
+      YamlReader reader = new YamlReader();
+      StringReader source = new StringReader("");
+      Map<String, String> map = reader.read(source);
+
+      assertNotNull(map);
+      assertTrue(map.isEmpty());
+   }
 }
