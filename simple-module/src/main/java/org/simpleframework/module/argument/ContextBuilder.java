@@ -33,7 +33,7 @@ public class ContextBuilder {
       this.interpolator = new Interpolator(filter);
    }
    
-   public Context read(Iterable<String> sources, String... arguments) {
+   public Context read(Set<String> sources, String... arguments) {
       Map<String, String> map = combiner.combine(sources, arguments);
       Set<String> names = map.keySet();
       Model model = context.getModel();

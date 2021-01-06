@@ -1,32 +1,44 @@
 package org.simpleframework.module.argument;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableList;
 
-public enum Environment implements Iterable<String> {
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public enum Environment {
    LOCAL("local"),
-   DEVELOPMENT("dev"),
+   DEV("dev"),
    DEMO("demo"),
    TEST("test"),
-   SIMULATION("sim"),
-   PRODUCTION("prod");
+   SIM("sim"),
+   PROD("prod");
 
-   private final List<String> codes;
-   private final String code;
+   public final List<String> codes;
+   public final String code;
 
    private Environment(String code) {
-      this.codes = Arrays.asList("common", code);
+      this.codes = unmodifiableList(asList("common", code));
       this.code = code;
-   }
-
-   @Override
-   public Iterator<String> iterator() {
-      return Collections.unmodifiableList(codes).iterator();
    }
 
    public String code() {
       return code;
+   }
+
+   public Set<String> codes() {
+      return new HashSet<>(codes);
+   }
+
+   public static Environment resolve(String token) {
+      Environment[] environments = Environment.values();
+
+      for(int i = 0; i < environments.length; i++) {
+         if(environments[i].code.equalsIgnoreCase(token)) {
+            return environments[i];
+         }
+      }
+      throw new IllegalStateException("Environment '" + token + "' not supported");
    }
 }

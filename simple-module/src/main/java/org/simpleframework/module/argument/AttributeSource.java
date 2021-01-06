@@ -2,7 +2,9 @@ package org.simpleframework.module.argument;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum AttributeSource {
@@ -32,12 +34,13 @@ public enum AttributeSource {
       }
    }
 
-   public static Iterable<String> extensions() {
+   public static Set<String> extensions() {
       try {
          AttributeSource[] sources = AttributeSource.values();
          List<AttributeSource> list = Arrays.asList(sources);
+         Set<String> extensions = list.stream().map(AttributeSource::extension).collect(Collectors.toSet());
 
-         return list.stream().map(AttributeSource::extension).collect(Collectors.toSet());
+         return Collections.unmodifiableSet(extensions);
       } catch (Exception e) {
          throw new IllegalStateException("Could not resolve extension", e);
       }

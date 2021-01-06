@@ -3,9 +3,9 @@ package org.simpleframework.module.argument;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class RemoteAddressScanner implements ResourceScanner {
 
@@ -14,51 +14,41 @@ public class RemoteAddressScanner implements ResourceScanner {
    }
 
    @Override
-   public List<URL> scan(Iterable<String> sources) {
-      Map<String, URL> matches = new HashMap<>();
-      List<URL> ordered = new ArrayList<>();
+   public List<URL> scan(Set<String> sources) {
+      List<URL> resources = new ArrayList<>();
+      Set<String> done = new HashSet<>();
 
       for (String source : sources) {
          URL resource = resolve(source, "");
 
          if (resource != null) {
-            matches.put(source, resource);
+            if(done.add(source)) {
+               resources.add(resource);
+            }
          }
       }
-      for (String name : sources) {
-         URL path = matches.get(name);
-
-         if (path != null) {
-            ordered.add(path);
-         }
-      }
-      return Collections.unmodifiableList(ordered);
+      sources.removeAll(done);
+      return Collections.unmodifiableList(resources);
    }
 
    @Override
-   public List<URL> scan(Iterable<String> sources, Iterable<String> extensions) {
-      Map<String, URL> matches = new HashMap<>();
-      List<URL> ordered = new ArrayList<>();
+   public List<URL> scan(Set<String> sources, Set<String> extensions) {
+      List<URL> resources = new ArrayList<>();
+      Set<String> done = new HashSet<>();
 
       for (String source : sources) {
          for (String extension : extensions) {
             URL resource = resolve(source, extension);
 
             if (resource != null) {
-               if (!matches.containsKey(source)) {
-                  matches.put(source, resource);
+               if (done.add(source)) {
+                  resources.add(resource);
                }
             }
          }
       }
-      for (String source : sources) {
-         URL path = matches.get(source);
-
-         if (path != null) {
-            ordered.add(path);
-         }
-      }
-      return Collections.unmodifiableList(ordered);
+      sources.removeAll(done);
+      return Collections.unmodifiableList(resources);
    }
 
    private URL resolve(String source, String extension) {

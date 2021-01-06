@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class AbsolutePathScanner implements ResourceScanner {
 
@@ -18,65 +18,51 @@ public class AbsolutePathScanner implements ResourceScanner {
    }
 
    @Override
-   public List<URL> scan(Iterable<String> source) {
-      Map<String, URL> matches = new HashMap<>();
-      List<URL> ordered = new ArrayList<>();
+   public List<URL> scan(Set<String> sources) {
+      List<URL> resources = new ArrayList<>();
+      Set<String> done = new HashSet<>();
 
-      for (String name : source) {
-         Path file = Paths.get(name);
+      for (String source : sources) {
+         Path file = Paths.get(source);
 
-         if (Files.isRegularFile(file)) {
+         if (Files.isRegularFile(file) && done.add(source)) {
             try {
                URI target = file.toUri();
                URL resource = target.toURL();
 
-               matches.put(name, resource);
+               resources.add(resource);
             } catch (Exception e) {
                throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
             }
          }
       }
-      for (String name : source) {
-         URL path = matches.get(name);
-
-         if (path != null) {
-            ordered.add(path);
-         }
-      }
-      return Collections.unmodifiableList(ordered);
+      sources.removeAll(done);
+      return Collections.unmodifiableList(resources);
    }
 
    @Override
-   public List<URL> scan(Iterable<String> sources, Iterable<String> extensions) {
-      Map<String, URL> matches = new HashMap<>();
-      List<URL> ordered = new ArrayList<>();
+   public List<URL> scan(Set<String> sources, Set<String> extensions) {
+      List<URL> resources = new ArrayList<>();
+      Set<String> done = new HashSet<>();
 
-      for (String name : sources) {
+      for (String source : sources) {
          for (String extension : extensions) {
-            Path file = resolve(name, extension);
+            Path file = resolve(source, extension);
 
-            if (file != null) {
+            if (Files.isRegularFile(file) && done.add(source)) {
                try {
                   URI target = file.toUri();
                   URL resource = target.toURL();
 
-                  if (!matches.containsKey(name)) {
-                     matches.put(name, resource);
-                  }
+                  resources.add(resource);
                } catch (Exception e) {
                   throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
                }
             }
          }
       }
-      for (String name : sources) {
-         URL path = matches.get(name);
-
-         if (path != null) {
-            ordered.add(path);
-         }
-      }
-      return Collections.unmodifiableList(ordered);
+      sources.removeAll(done);
+      return Collections.unmodifiableList(resources);
    }
 
    private Path resolve(String name, String extension) {

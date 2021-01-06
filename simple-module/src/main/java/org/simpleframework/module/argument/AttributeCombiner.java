@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class AttributeCombiner {
 
-   private final Iterable<String> extensions;
+   private final Set<String> extensions;
    private final CommandLineParser parser;
    private final ResourceFinder finder;
 
@@ -26,11 +26,11 @@ public class AttributeCombiner {
       this.parser = new CommandLineParser();
    }
 
-   public Map<String, String> combine(Iterable<String> sources, String[] arguments) {
+   public Map<String, String> combine(Set<String> sources, String[] arguments) {
       Map<String, String> overrides = parser.parse(arguments);
       List<URL> resources = finder.find(sources, extensions);
 
-      if(resources.isEmpty()) {
+      if(!sources.isEmpty() && resources.isEmpty()) {
          throw new IllegalStateException("No resources found");
       }
       Map<String, String> attributes = new LinkedHashMap<>();

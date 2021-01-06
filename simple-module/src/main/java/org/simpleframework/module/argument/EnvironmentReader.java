@@ -18,6 +18,6 @@ public class EnvironmentReader {
    }
 
    public Context read(Environment environment, String... arguments) {
-      return reader.read(environment, arguments);
+      return reader.read(environment.codes(), arguments);
    }
 }
