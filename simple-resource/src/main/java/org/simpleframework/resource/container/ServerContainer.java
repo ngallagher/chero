@@ -1,10 +1,5 @@
 package org.simpleframework.resource.container;
 
-import static org.simpleframework.http.Method.CONNECT;
-import static org.simpleframework.http.Protocol.DATE;
-import static org.simpleframework.http.Protocol.SERVER;
-import static org.simpleframework.resource.ResourceEvent.ERROR;
-
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.http.Status;
@@ -14,17 +9,24 @@ import org.simpleframework.resource.ResourceMatcher;
 import org.simpleframework.transport.Channel;
 import org.simpleframework.transport.trace.Trace;
 
+import static org.simpleframework.http.Method.CONNECT;
+import static org.simpleframework.http.Protocol.DATE;
+import static org.simpleframework.http.Protocol.SERVER;
+import static org.simpleframework.resource.ResourceEvent.ERROR;
+
 class ServerContainer implements Container {
 
    private final ExceptionHandler handler;
    private final SessionManager manager;
    private final RequestRouter router;
+   private final Logger logger;
    private final String name;
    
-   public ServerContainer(ResourceMatcher matcher, String name, String session) {
+   public ServerContainer(ResourceMatcher matcher, Logger logger, String name, String session) {
       this.router = new RequestRouter(matcher);
       this.manager = new SessionManager(session);
       this.handler = new ExceptionHandler();
+      this.logger = logger;
       this.name = name;
    }
 
@@ -36,6 +38,7 @@ class ServerContainer implements Container {
       Trace trace = channel.getTrace();
       
       try {
+         logger.log(request);
          manager.resolve(request, response);
          response.setDate(DATE, time);
          response.setValue(SERVER, name);

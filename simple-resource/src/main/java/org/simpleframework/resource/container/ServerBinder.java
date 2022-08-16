@@ -1,7 +1,8 @@
 package org.simpleframework.resource.container;
 
 abstract class ServerBinder implements Server {
-   
+
+   private Logger logger;
    private String name;
    private String cookie;
    private int threads;  
@@ -16,6 +17,7 @@ abstract class ServerBinder implements Server {
    
    protected ServerBinder(String cookie, int threads) {
       this.name = Server.class.getSimpleName();
+      this.logger = (request) -> {};
       this.threads = threads;
       this.cookie = cookie;
    }
@@ -37,6 +39,11 @@ abstract class ServerBinder implements Server {
       this.threads = threads;
       return this;
    }
+
+   public Server log(Logger logger) {
+      this.logger = logger;
+      return this;
+   }
    
    @Override
    public Acceptor start() {
@@ -46,8 +53,11 @@ abstract class ServerBinder implements Server {
       if(threads <= 0) {
          throw new IllegalArgumentException("Server must have at least one thread");
       }
-      return start(name, cookie, threads);
+      if(logger == null) {
+         throw new IllegalArgumentException("Server must have a logger");
+      }
+      return start(logger, name, cookie, threads);
    }
    
-   protected abstract Acceptor start(String name, String cookie, int threads);
+   protected abstract Acceptor start(Logger logger, String name, String cookie, int threads);
 }

@@ -49,14 +49,16 @@ public class AbsolutePathScanner implements ResourceScanner {
          for (String extension : extensions) {
             Path file = resolve(source, extension);
 
-            if (Files.isRegularFile(file) && done.add(source)) {
-               try {
-                  URI target = file.toUri();
-                  URL resource = target.toURL();
+            if (file != null) {
+               if (Files.isRegularFile(file) && done.add(source)) {
+                  try {
+                     URI target = file.toUri();
+                     URL resource = target.toURL();
 
-                  resources.add(resource);
-               } catch (Exception e) {
-                  throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
+                     resources.add(resource);
+                  } catch (Exception e) {
+                     throw new IllegalArgumentException("Could not resolve '" + file + "'", e);
+                  }
                }
             }
          }

@@ -43,7 +43,7 @@ class ServerBuilder {
       binder.register(resolver);
 
       return new ServerBinder() {
-         
+
          @Override
          public Object resolve(Class type) {
             return manager.resolve(type);
@@ -61,8 +61,8 @@ class ServerBuilder {
          }
          
          @Override
-         public Acceptor start(String name, String cookie, int threads) {
-            Acceptor acceptor = server.start(name, cookie, threads);
+         public Acceptor start(Logger logger, String name, String cookie, int threads) {
+            Acceptor acceptor = server.start(logger, name, cookie, threads);
             
             binder.register(acceptor);
             binder.start(context);

@@ -30,18 +30,18 @@ public class AttributeCombiner {
       Map<String, String> overrides = parser.parse(arguments);
       List<URL> resources = finder.find(sources, extensions);
 
-      if(!sources.isEmpty() && resources.isEmpty()) {
-         throw new IllegalStateException("No resources found");
-      }
-      Map<String, String> attributes = new LinkedHashMap<>();
+      if(!resources.isEmpty()) {
+         Map<String, String> attributes = new LinkedHashMap<>();
 
-      for(URL resource : resources) {
-         AttributeReader reader = AttributeSource.reader(resource);
-         Map<String, String> map = reader.read(resource);
+         for (URL resource : resources) {
+            AttributeReader reader = AttributeSource.reader(resource);
+            Map<String, String> map = reader.read(resource);
 
-         attributes.putAll(map);
+            attributes.putAll(map);
+         }
+         attributes.putAll(overrides);
+         return Collections.unmodifiableMap(attributes);
       }
-      attributes.putAll(overrides);
-      return Collections.unmodifiableMap(attributes);
+      return Collections.unmodifiableMap(overrides);
    }
 }

@@ -17,11 +17,11 @@ class ContainerServer {
       this.router = router;
    }
 
-   public Acceptor start(String name, String cookie, int threads) {
+   public Acceptor start(Logger logger, String name, String cookie, int threads) {
       ResourceMatcher matcher = assembler.create();
 
       try {
-         return new ConnectionAcceptor(matcher, router, binder::stop, name, cookie, threads);
+         return new ConnectionAcceptor(matcher, router, binder::stop, logger, name, cookie, threads);
       } catch(Exception e) {
          throw new IllegalStateException("Could not start server", e);
       }
